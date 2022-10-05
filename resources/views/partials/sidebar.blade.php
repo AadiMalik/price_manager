@@ -247,6 +247,9 @@
                         <li>
                             <a href="{{route('indexUserPackage')}}">User Package</a>
                         </li>
+                        <li>
+                            <a href="{{route('indexUserPackage')}}">Feature Package</a>
+                        </li>
                     </ul>
                 </li>
 

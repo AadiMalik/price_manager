@@ -72,7 +72,9 @@
 
                                             <td>@if($user->status == 1) <span class="badge badge-success" style="background:green"> Active </span> @elseif($user->status == 2) <span class="badge badge-danger" style="background:red"> Block </span> @endif</td>
                                             <td>{{$user->view}}</td>
-                                            <td><a href="{{route('userEdit',$user->id)}}" class="btn btn-warning" style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span class="fa fa-edit"> Edit</span></a>
+                                            <td><a href="{{route('userEdit',$user->id)}}" class="btn btn-warning" style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span class="fa fa-edit"> Edit</span>
+                                                <a href="{{route('userVerify',$user->id)}}" class="btn btn-info" style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span class="fa fa-checked">@if($user->verify==0) Verify @else Normal @endif</span>
+                                            </a>
                                             {{--<a href="javascript:void(0)" onclick="deleteUser({{$user->id}})" class="btn btn-danger" style="font-weight:bold;margin-bottom:5px;"><span class="fa fa-remove"> Delete</span></a>--}}
                                             </td>
                                         </tr>

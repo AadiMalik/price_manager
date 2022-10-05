@@ -339,7 +339,20 @@ class UserController extends Controller
             'message' => 'User deleted successfully'
         ]);
     }
-    
+    public function verify($id)
+    {
+        
+        $user = User::find($id);
+        if($user->verify==0){
+            $user->verify=1;
+            $user->update();
+            return back();
+        }else{
+            $user->verify=0;
+            $user->update();
+            return back();
+        }
+    }
                                                                                         // Update User Package by Admin
     public function userPackageindex(){
         $users = User::all();

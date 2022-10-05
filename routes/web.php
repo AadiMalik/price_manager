@@ -25,7 +25,6 @@ Route::get('/term', function () {
 Route::get('/chat', function () {
     return view('Backend/user/chat');
 });
-Route::view('f_package', 'Frontend/f_package');
 Route::get('/make', function () {
 //    return view('welcome');
     Artisan::call('config:cache');
@@ -240,6 +239,7 @@ Route::group(['prefix' => 'term'], function() {
             Route::get('edit','UserController@edit')->name('userEdit');
             Route::post('update','UserController@update')->name('userUpdate');
             Route::get('delete','UserController@destroy')->name('userDelete');
+            Route::get('verify','UserController@verify')->name('userVerify');
         });
     });
     
@@ -471,6 +471,8 @@ Route::group(['prefix' => 'term'], function() {
     });
 
 
+        // Fetaure package
+        Route::resource('f-package', 'FpackageController');
     /*Other User*/
 
     Route::group(['prefix' => 'website-image'], function() {
@@ -541,5 +543,6 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('subcribe','HomeController@subscribe')->name('storeSubscribe');
     Route::get('/help','FaqController@index')->name('help');
     Route::get('/fterm','TermController@index')->name('fterm');
+    Route::get('/f_package','FpackageController@index');
 });
 //Route::get('/home', 'HomeController@index')->name('home');

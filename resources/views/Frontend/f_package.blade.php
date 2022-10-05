@@ -173,90 +173,31 @@
             <div class="container-fluid">
                 <div class="container">
                     <div class="row">
+                        @foreach ($f_package as $item)
                         <div class="col-sm-3 f_price-table">
                             <div class="card text-center">
                                 <div class="title">
-                                    <i class="fa fa-paper-plane"></i>
-                                    <h2>Basic</h2>
+                                    <i class="{{$item->icon??''}}"></i>
+                                    <h2>{{$item->name??''}}</h2>
                                 </div>
                                 <div class="f_price">
-                                    <h4><sup>$</sup>25</h4>
+                                    <h4><sup>Rs</sup>{{$item->price??''}}</h4>
                                 </div>
                                 <div class="option">
-                                    <ul>
+                                    <p>
+                                        {{$item->description??''}}
+                                    </p>
+                                    {{-- <ul>
                                         <li><i class="fa fa-check"></i> 10 GB Space</li>
                                         <li><i class="fa fa-check"></i> 3 Domain Names</li>
                                         <li><i class="fa fa-check"></i> 20 Email address</li>
                                         <li><i class="fa fa-times"></i> Live Support</li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
-                                <a href="#">Order Now</a>
+                                <a href="#">Select</a>
                             </div>
                         </div>
-                        <!-- (1) ===================================-->
-                        <div class="col-sm-3 f_price-table">
-                            <div class="card text-center">
-                                <div class="title">
-                                    <i class="fa fa-plane"></i>
-                                    <h2>Standard</h2>
-                                </div>
-                                <div class="f_price">
-                                    <h4><sup>$</sup>35</h4>
-                                </div>
-                                <div class="option">
-                                    <ul>
-                                        <li><i class="fa fa-check"></i> 10 GB Space</li>
-                                        <li><i class="fa fa-check"></i> 10 Domain Names</li>
-                                        <li><i class="fa fa-check"></i> 20 Email address</li>
-                                        <li><i class="fa fa-times"></i> Live Support</li>
-                                    </ul>
-                                </div>
-                                <a href="#">Order Now</a>
-                            </div>
-                        </div>
-                        <!-- (2) ===================================-->
-                        <div class="col-sm-3 f_price-table">
-                            <div class="card text-center">
-                                <div class="title">
-                                    <i class="fa fa-rocket"></i>
-                                    <h2>Premium</h2>
-                                </div>
-                                <div class="f_price">
-                                    <h4><sup>$</sup>100</h4>
-                                </div>
-                                <div class="option">
-                                    <ul>
-                                        <li><i class="fa fa-check"></i> 10 GB Space</li>
-                                        <li><i class="fa fa-check"></i> 60 Domain Names</li>
-                                        <li><i class="fa fa-check"></i> 20 Email address</li>
-                                        <li><i class="fa fa-times"></i> Live Support</li>
-                                    </ul>
-                                </div>
-                                <a href="#">Order Now</a>
-                            </div>
-                        </div>
-                        <!-- (3) ===================================-->
-                        <div class="col-sm-3 f_price-table">
-                            <div class="card text-center">
-                                <div class="title">
-                                    <i class="fa fa-paper-plane"></i>
-                                    <h2>Basic</h2>
-                                </div>
-                                <div class="f_price">
-                                    <h4><sup>$</sup>25</h4>
-                                </div>
-                                <div class="option">
-                                    <ul>
-                                        <li><i class="fa fa-check"></i> 10 GB Space</li>
-                                        <li><i class="fa fa-check"></i> 3 Domain Names</li>
-                                        <li><i class="fa fa-check"></i> 20 Email address</li>
-                                        <li><i class="fa fa-times"></i> Live Support</li>
-                                    </ul>
-                                </div>
-                                <a href="#">Order Now</a>
-                            </div>
-                        </div>
-                        <!-- (4) ===================================-->
+                        @endforeach
                         
                     </div>
                 </div>
