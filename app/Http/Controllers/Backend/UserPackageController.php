@@ -187,7 +187,6 @@ class UserPackageController extends Controller
             }
             $buyPackage->save();
             \LogActivity::addToLog("Add Package NO is {$buyPackage->package_id}");
-            
             return redirect()->route('generateInvoice',[$package->id,$discount]);
         }
     }

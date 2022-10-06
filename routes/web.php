@@ -510,6 +510,11 @@ Route::group(['prefix' => 'term'], function() {
         Route::post('/','UserPackageController@storeBuyPackage')->name('storeBuyPackage');
 
     });
+    Route::group(['prefix' => '{package}/f_buyPackage'], function() {
+        Route::get('/','FbuypackageController@buyPackage')->name('f_buyPackage');
+        Route::post('/','FbuypackageController@storeBuyPackage')->name('f_storeBuyPackage');
+
+    });
 
     Route::group(['prefix' => 'customeDiscount'], function() {
         Route::get('/','DiscountController@userDiscount')->name('userInvoiceDetail');
@@ -519,6 +524,7 @@ Route::post('emailsubscribe','SubscribeController@store');
 
 
     Route::get('/generate/invoice/{package}/{discount?}', 'InvoiceController@create')->name('generateInvoice');
+    Route::get('/f-generate/invoice/{package}/{discount?}', 'InvoiceController@f_create')->name('f_generateInvoice');
 
 });
 

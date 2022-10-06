@@ -17,4 +17,7 @@ class Invoice extends Model
     public function package() {
         return $this->belongsTo(UserPackage::class,'package_id','id');
     }
+    public function f_package() {
+        return $this->belongsTo(Fpackage::class,'package_id','id');
+    }
 }

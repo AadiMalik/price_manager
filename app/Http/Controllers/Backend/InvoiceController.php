@@ -8,6 +8,7 @@ use App\Invoice;
 use App\User;
 use App\UserPackage;
 use App\BuyPackage;
+use App\Fpackage;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -29,7 +30,7 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(UserPackage $package, Discount $discount  = null)
+    public function create(UserPackage $package, Discount $discount  = null,$status)
     {
         $discountPrice = 0;
         if ($discount) {
@@ -41,6 +42,23 @@ class InvoiceController extends Controller
         $invoice->package_id = $package->id;
         $invoice->price = round($package->price - $discountPrice);
         $invoice->status = 0;
+        $invoice->save();
+        $user = auth()->user();
+        return view('Backend.invoice.invoice',compact('package','discount','invoice','user'));
+    }
+    public function f_create(Fpackage $package, Discount $discount  = null,$status)
+    {
+        $discountPrice = 0;
+        if ($discount) {
+            $changeIntoFloat =  $discount->percentage / 100;
+            $discountPrice = $package->price * $changeIntoFloat;
+        }
+        $invoice = new Invoice;
+        $invoice->user_id = auth()->user()->id;
+        $invoice->package_id = $package->id;
+        $invoice->price = round($package->price - $discountPrice);
+        $invoice->status = 0;
+        $invoice->type =1;
         $invoice->save();
         $user = auth()->user();
         return view('Backend.invoice.invoice',compact('package','discount','invoice','user'));
@@ -109,10 +127,23 @@ class InvoiceController extends Controller
     }
 
     public function statusChange(Invoice $invoice) {
+        if($invoice->type==0){
         $newDate = date('Y-m-d', strtotime($invoice->user->expiry_date. ' + '.$invoice->package->validity_day.' days'));
         $invoice->user->update(['expiry_date'=>$newDate,'user_package'=>$invoice->package->id]);
         $invoice->status = 1;
         $invoice->save();
+        }else{
+            
+            $newDate = date('Y-m-d', strtotime($invoice->user->f_expiry. ' + '.$invoice->f_package->days.' days'));
+            $user = User::find($invoice->user->id);
+            $user->f_expiry = $newDate;
+            $user->f_package_id = $invoice->package_id;
+            $user->f_days = $invoice->f_package->days;
+            $user->update();
+        // $invoice->user->update(['f_expiry'=>$newDate,'f_package_id'=>$invoice->f_package->id,'f_days'=>$invoice->f_package->days]);
+        $invoice->status = 1;
+        $invoice->save();
+        }
                                                                                         // Data Store in By Package Table on Paid Status
         // $buyPackage = new BuyPackage;
         // $buyPackage->package_id = $invoice->package->id;

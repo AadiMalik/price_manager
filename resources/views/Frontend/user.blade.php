@@ -1,3 +1,6 @@
+@php
+    use Carbon\Carbon;
+@endphp
 @extends('layouts.frontend')
 
 @section('content')
@@ -153,9 +156,17 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">{{$user->name}}</h3>
+                                                    <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
+                                                        @if($user->verify==1) <span style="
+                                                        color: blue;
+                                                        font-size: 20px;" class="fa fa-check-circle"></span> @endif {{$user->name}}</h3>
                                                     <span class="fa fa-map-marker-alt"
-                                                          style=" float:left; margin-left:15px;"><b> {{$user->city ? $user->city->name : ''}}</b></span><br/>
+                                                          style=" float:left; margin-left:15px;"><b> {{$user->city ? $user->city->name : ''}}</b></span>
+                                                          @if ($user->f_expiry != null && $user->f_expiry >= Carbon::now()->format('Y-m-d'))
+                                                            <span class="badge badge-success"
+                                                                style="font-size: 14px; font-wieght:bold; float:right; margin-right:7px; border-radius:0px;">Featured</span>
+                                                        @endif
+                                                        <br/>
                                                     <div class="row" style="margin:0px;">
                                                         <div class="col-md-12 col-sm-12" style="padding:0px;">
                                                             <table class="table table-bordered"

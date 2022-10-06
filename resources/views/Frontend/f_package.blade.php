@@ -194,7 +194,7 @@
                                         <li><i class="fa fa-times"></i> Live Support</li>
                                     </ul> --}}
                                 </div>
-                                <a href="#">Select</a>
+                                <a href="{{route('f_buyPackage',$item->id)}}">Select</a>
                             </div>
                         </div>
                         @endforeach

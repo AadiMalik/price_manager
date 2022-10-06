@@ -38,7 +38,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::with('city', 'products','reviews')->where('user_type', '!=', 1)->where('user_type', '!=', 2)->whereHas('products', function($q)
+        $users = User::with('city', 'products','reviews')->where('user_type', '!=', 1)->where('user_type', '!=', 2)->orderBy('f_expiry', 'DESC')->whereHas('products', function($q)
         {
             $q->where('price','>', 0);
 
@@ -198,7 +198,7 @@ class HomeController extends Controller
     }
     
     public function allUser(){
-        $users = User::with('reviews')->where('email', '!=', 'admin@gmail.com')->withCount(['reviews as average' => function ($query) {
+        $users = User::with('reviews')->where('email', '!=', 'admin@gmail.com')->orderBy('f_expiry', 'DESC')->withCount(['reviews as average' => function ($query) {
             $query->select(\DB::raw('coalesce(avg(rating), 0)'));
         }])->orderByDesc('average')->get();
         return view('Frontend.user', compact('users')); 
