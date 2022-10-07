@@ -574,9 +574,14 @@ use Carbon\Carbon;
                                                         </div>
                                                         <h3
                                                             style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            @if($user->verify==1) <span style="
+                                                            @if ($user->verify == 1)
+                                                                <span
+                                                                    style="
                                                             color: blue;
-                                                            font-size: 20px;" class="fa fa-check-circle"></span> @endif {{ $user->name }}</h3>
+                                                            font-size: 20px;"
+                                                                    class="fa fa-check-circle"></span>
+                                                            @endif {{ $user->name }}
+                                                        </h3>
                                                         <span class="fa fa-map-marker-alt"
                                                             style=" float:left; margin-left:15px;"><b>
                                                                 {{ $user->city ? $user->city->name : '' }}</b></span>
@@ -681,7 +686,7 @@ use Carbon\Carbon;
 
                             </div>
                             <div class="row" id="userData">
-                                @if ($user->count() > 0)
+                                @if ($users->count() > 0)
                                     @foreach ($users->take(8) as $user)
                                         @if ($user->products->where('price', '>', 0)->count() > 0)
                                             <div class="col-lg-3 col-md-6 col-sm-12">
@@ -805,9 +810,14 @@ use Carbon\Carbon;
                                                         </div>
                                                         <h3
                                                             style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            @if($user->verify==1) <span style="
+                                                            @if ($user->verify == 1)
+                                                                <span
+                                                                    style="
                                                             color: blue;
-                                                            font-size: 20px;" class="fa fa-check-circle"></span> @endif {{ $user->name }}</h3>
+                                                            font-size: 20px;"
+                                                                    class="fa fa-check-circle"></span>
+                                                            @endif {{ $user->name }}
+                                                        </h3>
                                                         <span class="fa fa-map-marker-alt"
                                                             style=" float:left; margin-left:15px;"><b>
                                                                 {{ $user->city ? $user->city->name : '' }}</b></span>
@@ -899,7 +909,165 @@ use Carbon\Carbon;
         </div>
     </div>
     {{-- End featured company --}}
+    <!-- Popular Brand Start -->
+    <div class="container" style="margin-top:20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header">
+                    <h2>Our Products</h2>
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="row">
+                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"
+                        data-interval="1000">
+                        <div class="MultiCarousel-inner">
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="pad15">
+                                    <a href="#">
+                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                            style="width:100%; height:200px;" />
+                                        <div>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
+                                                product is for demo product</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary leftLst">
+                            < </button>
+                                <button class="btn btn-primary rightLst">></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Popular Brand Start -->
     <div class="container" style="margin-top:20px;">
         <div class="row">
@@ -937,7 +1105,7 @@ use Carbon\Carbon;
 
                         </div>
                         <button class="btn btn-primary leftLst">
-                            << /button>
+                            < </button>
                                 <button class="btn btn-primary rightLst">></button>
                     </div>
                 </div>
