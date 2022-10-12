@@ -276,6 +276,40 @@ Route::group(['prefix' => 'term'], function() {
             Route::get('delete','CategoryController@destroy')->name('categoryDelete');
         });
     });
+
+    Route::group(['prefix' => 'product-category'], function() {
+        Route::get('/','ProductCategoryController@index')->name('productCategory');
+        Route::get('/create','ProductCategoryController@create')->name('productCategoryCreate');
+        Route::post('/store','ProductCategoryController@store')->name('productCategoryStore');
+
+        Route::group(['prefix' => '{category}'], function (){
+            Route::get('edit','ProductCategoryController@edit')->name('productCategoryEdit');
+            Route::post('update','ProductCategoryController@update')->name('productCategoryUpdate');
+            Route::get('delete','ProductCategoryController@destroy')->name('productCategoryDelete');
+        });
+    });
+    Route::group(['prefix' => 'product-brand'], function() {
+        Route::get('/','ProductBrandController@index')->name('productBrand');
+        Route::get('/create','ProductBrandController@create')->name('productBrandCreate');
+        Route::post('/store','ProductBrandController@store')->name('productBrandStore');
+
+        Route::group(['prefix' => '{brand}'], function (){
+            Route::get('edit','ProductBrandController@edit')->name('productBrandEdit');
+            Route::post('update','ProductBrandController@update')->name('productBrandUpdate');
+            Route::get('delete','ProductBrandController@destroy')->name('productBrandDelete');
+        });
+    });
+    Route::group(['prefix' => 'e-product'], function() {
+        Route::get('/','EProductController@index')->name('e_product');
+        Route::get('/create','EProductController@create')->name('e_productCreate');
+        Route::post('/store','EProductController@store')->name('e_productStore');
+
+        Route::group(['prefix' => '{product}'], function (){
+            Route::get('edit','EProductController@edit')->name('e_productEdit');
+            Route::post('update','EProductController@update')->name('e_productUpdate');
+            Route::get('delete','EProductController@destroy')->name('e_productBrandDelete');
+        });
+    });
                                                                                                                     // Industries
     Route::group(['prefix' => 'industry'], function() {
         Route::get('/','IndustryController@index')->name('indexIndustry');

@@ -13,6 +13,7 @@ use App\UserType;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Conversation;
+use App\EProduct;
 use App\Message;
 use App\Subscribe;
 use App\Product;
@@ -61,8 +62,9 @@ class HomeController extends Controller
         $industries = Industry::orderBy('name','ASC')->get();
         $category = Category::orderBy('name','ASC')->get();
         $reviews = ClientReview::all();
+        $e_product = EProduct::orderBy('name','ASC')->get();
         $constructorVideos = ConstructionVideo::orderBy('order_by','ASC')->take(3)->get();
-        return view('Frontend.home', compact('users','new', 'brands', 'constructorVideos', 'cities', 'category','industries','reviews'));
+        return view('Frontend.home', compact('users','new', 'brands', 'constructorVideos', 'cities', 'category','industries','reviews','e_product'));
     }
     /**
      * Show the form for creating a new resource.

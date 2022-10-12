@@ -927,138 +927,25 @@ use Carbon\Carbon;
                     <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"
                         data-interval="1000">
                         <div class="MultiCarousel-inner">
+                            @foreach ($e_product as $item)
                             <div class="item">
                                 <div class="pad15">
                                     <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
+                                        <img src="{{ asset($item->image1??'asset/img/portfolio-1.jpg') }}" title=""
                                             style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
+                                        <div style="text-align: left;">
+                                            <b style="text-align:center; display: inline-block; font-size:14px;">
+                                                {{$item->name??''}}</b><br>
+                                                <hr style="margin: 0;">
+                                                <span style="text-align:left; display: inline-block; font-size:14px;">
+                                                    <b>Price:</b>{{$item->price??''}}</span><br>
+                                                    <span style="text-align:left; display: inline-block; font-size:14px;">
+                                                        <b>Category:</b>{{$item->category_name->name??''}}</span>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="#">
-                                        <img src="{{ asset('asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <span style="text-align:left; display: inline-block; font-size:14px;">This
-                                                product is for demo product</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <button class="btn btn-primary leftLst">
                             < </button>

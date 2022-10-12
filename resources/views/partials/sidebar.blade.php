@@ -387,6 +387,30 @@
                     </a>
                     
                 </li>
+                <li class="{{$segment1 == 'product-category' ? 'active' : ''}}">
+                    <a href="{{route('productCategory')}}">
+
+                        <i class="material-icons">grade</i>
+                        <span>Product Categories</span>
+                    </a>
+                    
+                </li>
+                <li class="{{$segment1 == 'product-brand' ? 'active' : ''}}">
+                    <a href="{{route('productBrand')}}">
+
+                        <i class="material-icons">grade</i>
+                        <span>Product Brands</span>
+                    </a>
+                    
+                </li>
+                <li class="{{$segment1 == 'e-product' ? 'active' : ''}}">
+                    <a href="{{route('e_product')}}">
+
+                        <i class="material-icons">grade</i>
+                        <span>Products</span>
+                    </a>
+                    
+                </li>
                 <li class="{{$segment1 == 'client-review' ? 'active' : ''}}">
                     <a href="{{route('indexReviews')}}">
 
