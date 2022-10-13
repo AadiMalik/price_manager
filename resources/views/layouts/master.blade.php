@@ -7,6 +7,7 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('partials.style')
+    @yield('style')
     <style>
             label{
                 font-weight: normal;

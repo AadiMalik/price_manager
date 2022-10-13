@@ -28,7 +28,9 @@
                                             <a href="{{route('frontendUserPackageDetail',$user)}}">
                                                 <div class="service-item">
                                                     <div class="service-icon item">
-                                                        <span class="notify-badge" style="color:#fff; text-transform:capitalize;">{{$user->city ? $user->city->name : ''}}</span>
+                                                        @if($user->verify==1)
+                                                        <span class="notify-badge" style="color:#fff; text-transform:capitalize;">Verified</span>
+                                                        @endif
                                                         <img src="{{$user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}"/>
                                                     </div>
                                                     <div class="row">
@@ -157,9 +159,7 @@
                                                         </div>
                                                     </div>
                                                     <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                        @if($user->verify==1) <span style="
-                                                        color: blue;
-                                                        font-size: 20px;" class="fa fa-check-circle"></span> @endif {{$user->name}}</h3>
+                                                          {{$user->name}}</h3>
                                                     <span class="fa fa-map-marker-alt"
                                                           style=" float:left; margin-left:15px;"><b> {{$user->city ? $user->city->name : ''}}</b></span>
                                                           @if ($user->f_expiry != null && $user->f_expiry >= Carbon::now()->format('Y-m-d'))

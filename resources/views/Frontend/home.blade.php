@@ -204,7 +204,7 @@ use Carbon\Carbon;
     <div class="service">
         <div class="container">
             <div class="section-header">
-                <h2>Verify Supplier & Manufacturer</h2>
+                <h2>Verified Supplier & Manufacturer</h2>
             </div>
         </div>
         <div class="container-fluid">
@@ -223,8 +223,10 @@ use Carbon\Carbon;
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
                                                     <div class="service-item">
                                                         <div class="service-icon item">
-                                                            <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span>
+                                                            {{-- <span class="notify-badge"
+                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
+                                                                <span class="notify-badge"
+                                                                style="color:#fff; text-transform:capitalize;">Verified</span>
                                                             <img
                                                                 src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
                                                         </div>
@@ -340,13 +342,7 @@ use Carbon\Carbon;
                                                         </div>
                                                         <h3
                                                             style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            @if ($user->verify == 1)
-                                                                <span
-                                                                    style="
-                                                        color: blue;
-                                                        font-size: 20px;"
-                                                                    class="fa fa-check-circle"></span>
-                                                            @endif {{ $user->name }}
+                                                            {{ $user->name }}
                                                         </h3>
                                                         <span class="fa fa-map-marker-alt"
                                                             style=" float:left; margin-left:15px;"><b>
@@ -457,8 +453,8 @@ use Carbon\Carbon;
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
                                                     <div class="service-item">
                                                         <div class="service-icon item">
-                                                            <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span>
+                                                            {{-- <span class="notify-badge"
+                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
                                                             <img
                                                                 src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
                                                         </div>
@@ -574,13 +570,7 @@ use Carbon\Carbon;
                                                         </div>
                                                         <h3
                                                             style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            @if ($user->verify == 1)
-                                                                <span
-                                                                    style="
-                                                            color: blue;
-                                                            font-size: 20px;"
-                                                                    class="fa fa-check-circle"></span>
-                                                            @endif {{ $user->name }}
+                                                            {{ $user->name }}
                                                         </h3>
                                                         <span class="fa fa-map-marker-alt"
                                                             style=" float:left; margin-left:15px;"><b>
@@ -674,7 +664,7 @@ use Carbon\Carbon;
     <div class="service">
         <div class="container">
             <div class="section-header">
-                <h2>Supplier & Manufacturer</h2>
+                <h2>New Arrival</h2>
             </div>
         </div>
         <div class="container-fluid">
@@ -686,15 +676,15 @@ use Carbon\Carbon;
 
                             </div>
                             <div class="row" id="userData">
-                                @if ($users->count() > 0)
-                                    @foreach ($users->take(8) as $user)
+                                @if ($users->where('verify',null)->where('f_expiry','<',Carbon::now()->format('Y-m-d'))->count() > 0)
+                                    @foreach ($users->where('verify',null)->where('f_expiry','<',Carbon::now()->format('Y-m-d'))->take(8) as $user)
                                         @if ($user->products->where('price', '>', 0)->count() > 0)
                                             <div class="col-lg-3 col-md-6 col-sm-12">
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
                                                     <div class="service-item">
                                                         <div class="service-icon item">
-                                                            <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span>
+                                                            {{-- <span class="notify-badge"
+                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
                                                             <img
                                                                 src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
                                                         </div>
@@ -810,13 +800,7 @@ use Carbon\Carbon;
                                                         </div>
                                                         <h3
                                                             style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            @if ($user->verify == 1)
-                                                                <span
-                                                                    style="
-                                                            color: blue;
-                                                            font-size: 20px;"
-                                                                    class="fa fa-check-circle"></span>
-                                                            @endif {{ $user->name }}
+                                                            {{ $user->name }}
                                                         </h3>
                                                         <span class="fa fa-map-marker-alt"
                                                             style=" float:left; margin-left:15px;"><b>
@@ -895,7 +879,7 @@ use Carbon\Carbon;
                         </div>
 
                     </div>
-                    @if ($users->count() > 8)
+                    @if ($users->where('verify',null)->where('f_expiry','<',Carbon::now()->format('Y-m-d'))->count() > 8)
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-2 col-lg-offset-5">
@@ -933,14 +917,14 @@ use Carbon\Carbon;
                                     <a href="#">
                                         <img src="{{ asset($item->image1??'asset/img/portfolio-1.jpg') }}" title=""
                                             style="width:100%; height:200px;" />
-                                        <div style="text-align: left;">
+                                        <div>
                                             <b style="text-align:center; display: inline-block; font-size:14px;">
                                                 {{$item->name??''}}</b><br>
                                                 <hr style="margin: 0;">
-                                                <span style="text-align:left; display: inline-block; font-size:14px;">
-                                                    <b>Price:</b>{{$item->price??''}}</span><br>
-                                                    <span style="text-align:left; display: inline-block; font-size:14px;">
-                                                        <b>Category:</b>{{$item->category_name->name??''}}</span>
+                                                <span style="display: inline-block; font-size:14px;">
+                                                    <b> {{$item->price??''}}</b> Rs</span><br>
+                                                    {{-- <span style="text-align:left; display: inline-block; font-size:14px;">
+                                                        <b>Category:</b>{{$item->category_name->name??''}}</span> --}}
                                         </div>
                                     </a>
                                 </div>

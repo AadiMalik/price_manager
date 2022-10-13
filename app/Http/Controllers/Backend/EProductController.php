@@ -106,7 +106,7 @@ class EProductController extends Controller
     {
         $category = ProductCategory::orderBy('name', 'ASC')->get();
         $brand = ProductBrand::orderBy('name', 'ASC')->get();
-        return view('Backend.e_product.edit', compact('product', 'category'));
+        return view('Backend.e_product.edit', compact('product', 'category','brand'));
     }
 
     /**
