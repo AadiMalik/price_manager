@@ -585,5 +585,6 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/fterm','TermController@index')->name('fterm');
     Route::get('/f_package','FpackageController@index');
     Route::get('/product-detail/{id}','ProductController@show');
+    Route::get('/products','ProductController@index');
 });
 //Route::get('/home', 'HomeController@index')->name('home');

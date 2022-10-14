@@ -13,4 +13,8 @@ class ProductController extends Controller
         $new = EProduct::orderBy('created_at','DESC')->get();
         return view('Frontend/product_detail',compact('product','new'));
     }
+    public function index(){
+        $product = EProduct::all();
+        return view('Frontend/products',compact('product'));
+    }
 }

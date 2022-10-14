@@ -914,7 +914,7 @@ use Carbon\Carbon;
                             @foreach ($e_product as $item)
                             <div class="item">
                                 <div class="pad15">
-                                    <a href="#">
+                                    <a href="{{url('product-detail/'.$item->id)}}">
                                         <img src="{{ asset($item->image1??'asset/img/portfolio-1.jpg') }}" title=""
                                             style="width:100%; height:200px;" />
                                         <div>

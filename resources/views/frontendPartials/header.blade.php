@@ -18,6 +18,7 @@
                     <a href="{{route('frontendHome')}}" class="nav-item nav-link {{$segment1 == 'fhome' ? 'active' : ''}}">Home</a>
                     <a href="{{route('frontendBrand')}}" class="nav-item nav-link {{$segment1 == 'fbrand' ? 'active' : ''}}">Brand</a>
                     <a href="{{route('frontendConstruction')}}" class="nav-item nav-link {{$segment1 == 'construction' ? 'active' : ''}}">Construction</a>
+                    <a href="{{url('products')}}" class="nav-item nav-link {{$segment1 == 'products' ? 'active' : ''}}">Products</a>
                     <a href="{{route('frontendRemarks')}}" class="nav-item nav-link {{$segment1 == 'remarks' ? 'active' : ''}}">Remarks</a>
                     <div class="dropdown">
                     <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-item nav-link dropdown-toggle {{$segment1 == 'fpackage' ? 'active' : ''}}">Packages
