@@ -676,8 +676,8 @@ use Carbon\Carbon;
 
                             </div>
                             <div class="row" id="userData">
-                                @if ($users->where('verify',null)->where('f_expiry','<',Carbon::now()->format('Y-m-d'))->count() > 0)
-                                    @foreach ($users->where('verify',null)->where('f_expiry','<',Carbon::now()->format('Y-m-d'))->take(8) as $user)
+                                @if ($users->where('verify',0)->where('f_expiry','<',Carbon::now()->format('Y-m-d') || 'f_expiry','=',null)->count() > 0)
+                                    @foreach ($users->where('verify',0)->where('f_expiry','<',Carbon::now()->format('Y-m-d') || 'f_expiry','=',null)->take(8) as $user)
                                         @if ($user->products->where('price', '>', 0)->count() > 0)
                                             <div class="col-lg-3 col-md-6 col-sm-12">
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
@@ -879,7 +879,7 @@ use Carbon\Carbon;
                         </div>
 
                     </div>
-                    @if ($users->where('verify',null)->where('f_expiry','<',Carbon::now()->format('Y-m-d'))->count() > 8)
+                    @if ($users->where('verify',0)->where('f_expiry','<',Carbon::now()->format('Y-m-d') || 'f_expiry','=',null)->count() > 8)
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-2 col-lg-offset-5">
