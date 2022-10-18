@@ -173,7 +173,7 @@
                         transition: all 0.3s;">
                         <span class="discount">15% off</span>
                             <ul>
-                                <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+                                <li><a style="cursor: pointer;" onclick="Cart({{$item->id}})"><i class="fas fa-shopping-cart"></i></a></li>
                                 <li><a href="#"><i class="fas fa-heart"></i></a></li>
                                 {{-- <li><a href="#"><i class="fas fa-plus"></i></a></li> --}}
                                 <li><a href="{{url('product-detail/'.$item->id)}}"><i class="fas fa-expand"></i></a></li>
@@ -182,7 +182,7 @@
                         <div class="part-2">
                             <h3 class="product-title"><a href="{{url('product-detail/'.$item->id)}}">{{$item->name??''}}</a></h3>
                             {{-- <h4 class="product-old-price">R79.99</h4> --}}
-                            <h4 class="product-price">Rs. {{$item->price??''}}</h4>
+                            <h4 class="product-price" style="margin-top:0px;">Rs. {{$item->price??''}}</h4>
                         </div>
                     </div>
                 </div>
@@ -190,4 +190,32 @@
             </div>
         </div>
     </section>
+@endsection
+@section('after-script')
+<script>
+    function Cart(id) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            <?php if (auth()->user() != null) { ?>
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('cart.store') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    product_id: id,
+                },
+
+                success: function(data) {
+                    location.reload();
+                }
+            });
+            <?php } else { ?>
+            alert('Please Login First!');
+            <?php } ?>
+        }
+</script>
 @endsection

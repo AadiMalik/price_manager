@@ -33,14 +33,6 @@ Route::get('/make', function () {
     // $exitCode = Artisan::call('storage:link');
     //return redirect()->route('frontendHome');
 });
-Route::get('/migrate', function () {
-//    return view('welcome');
-    Artisan::call('migrate --path=database/migrations/2021_10_27_074914_create_debits_table.php');
-    return 'done';
-    //Artisan::call('route:clear');
-    // $exitCode = Artisan::call('storage:link');
-    //return redirect()->route('frontendHome');
-});
 Route::get('/cache', function () {
 //    return view('welcome');
     Artisan::call('optimize:clear');
@@ -586,5 +578,8 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/f_package','FpackageController@index');
     Route::get('/product-detail/{id}','ProductController@show');
     Route::get('/products','ProductController@index');
+    Route::post('/add-to-cart','HomeController@cart')->name('cart.store');
+    Route::get('cart','CartController@index');
+    Route::get('cart-remove/{id}','CartController@remove');
 });
 //Route::get('/home', 'HomeController@index')->name('home');

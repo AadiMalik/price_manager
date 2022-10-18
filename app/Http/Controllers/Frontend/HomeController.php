@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Brand;
+use App\Cart;
 use App\City;
 use App\ConstructionVideo;
 use App\Http\Controllers\Controller;
@@ -71,6 +72,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function Cart(Request $request){
+        $check = Cart::where('user_id',Auth()->user()->id)->where('product_id',$request->product_id)->first();
+        if($check!=null){
+            $check->qty = $check->qty+1;
+            $check->update();
+            return back();
+        }else{
+            $cart = new Cart;
+            $cart->user_id = Auth()->user()->id;
+            $cart->product_id = $request->product_id;
+            $cart->save();
+            return back();
+        }
+    }
     public function create()
     {
         //
