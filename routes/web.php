@@ -579,7 +579,9 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/product-detail/{id}','ProductController@show');
     Route::get('/products','ProductController@index');
     Route::post('/add-to-cart','HomeController@cart')->name('cart.store');
+    Route::post('add-to-cart','HomeController@detailCart');
     Route::get('cart','CartController@index');
     Route::get('cart-remove/{id}','CartController@remove');
+    Route::get('checkout','CartController@checkout')->middleware('auth');
 });
 //Route::get('/home', 'HomeController@index')->name('home');

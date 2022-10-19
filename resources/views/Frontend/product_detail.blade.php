@@ -4,7 +4,7 @@
         .picZoomer {
             position: relative;
             /*margin-left: 40px;
-        padding: 15px;*/
+            padding: 15px;*/
         }
 
         .picZoomer-pic-wp {
@@ -25,7 +25,7 @@
 
         .picZoomer-pic {
             /*width: 100%;
-     height: 100%;*/
+         height: 100%;*/
         }
 
         .picZoomer-zoom-wp {
@@ -417,61 +417,70 @@
                         <div class="col-md-6 _boxzoom">
                             <div class="zoom-thumb">
                                 <ul class="piclist">
-                                    <li><img src="{{asset($product->image1)??'https://s.fotorama.io/1.jpg'}}" alt=""></li>
-                                    @if(isset($product->image2))
-                                    <li><img src="{{asset($product->image2)??'https://s.fotorama.io/1.jpg'}}" alt=""></li>
+                                    <li><img src="{{ asset($product->image1) ?? 'https://s.fotorama.io/1.jpg' }}"
+                                            alt=""></li>
+                                    @if (isset($product->image2))
+                                        <li><img src="{{ asset($product->image2) ?? 'https://s.fotorama.io/1.jpg' }}"
+                                                alt=""></li>
                                     @endif
-                                    @if(isset($product->image3))
-                                    <li><img src="{{asset($product->image3)??'https://s.fotorama.io/1.jpg'}}" alt=""></li>
+                                    @if (isset($product->image3))
+                                        <li><img src="{{ asset($product->image3) ?? 'https://s.fotorama.io/1.jpg' }}"
+                                                alt=""></li>
                                     @endif
-                                    @if(isset($product->image4))
-                                    <li><img src="{{asset($product->image4)??'https://s.fotorama.io/1.jpg'}}" alt=""></li>
+                                    @if (isset($product->image4))
+                                        <li><img src="{{ asset($product->image4) ?? 'https://s.fotorama.io/1.jpg' }}"
+                                                alt=""></li>
                                     @endif
                                 </ul>
                             </div>
                             <div class="_product-images">
                                 <div class="picZoomer">
-                                    <img class="my_img" src="{{asset($product->image1)??'https://s.fotorama.io/1.jpg'}}" alt="">
+                                    <img class="my_img" src="{{ asset($product->image1) ?? 'https://s.fotorama.io/1.jpg' }}"
+                                        alt="">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="_product-detail-content">
-                                <p class="_p-name"> {{$product->name??''}} </p>
+                                <p class="_p-name"> {{ $product->name ?? '' }} </p>
                                 <div class="_p-price-box">
                                     <div class="p-list">
                                         {{-- <span> M.R.P. : <i class="fa fa-inr"></i> <del> 1399 </del> </span> --}}
-                                        <h3 class="p_price" style="font-weight: bold; font-family: fantasy;"> Rs. {{number_format($product->price??'0',2)}} </h3>
-                                        <b>Category:</b><span> {{$product->category_name->name??''}}</span>
-                                        <b>Brand:</b><span> {{$product->brand_name->name??''}}</span>
+                                        <h3 class="p_price" style="font-weight: bold; font-family: fantasy;"> Rs.
+                                            {{ number_format($product->price ?? '0', 2) }} </h3>
+                                        <b>Category:</b><span> {{ $product->category_name->name ?? '' }}</span>
+                                        <b>Brand:</b><span> {{ $product->brand_name->name ?? '' }}</span>
                                     </div>
-                                    <div class="_p-add-cart">
-                                        <div class="_p-qty">
-                                            <b>Add Quantity</b>
-                                            <div class="value-button decrease_" id="" value="Decrease Value">-
-                                            </div>
-                                            <input type="number" name="qty" id="number" value="1" />
-                                            <div class="value-button increase_" id="" value="Increase Value">+
+
+                                    <form action="{{ url('add-to-cart') }}" method="post" accept-charset="utf-8">
+                                        @csrf
+                                        <div class="_p-add-cart">
+                                            <div class="_p-qty">
+                                                <b>Add Quantity</b>
+                                                <div class="value-button decrease_" id="" value="Decrease Value">-
+                                                </div>
+                                                <input type="number" name="qty" id="number" value="1" />
+                                                <div class="value-button increase_" id="" value="Increase Value">+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="_p-features">
-                                        <b> Description About this Product:- </b>
-                                        {{$product->description??''}}
-                                    </div>
-                                    <form action="" method="post" accept-charset="utf-8">
+                                        <div class="_p-features">
+                                            <b> Description About this Product:- </b>
+                                            {{ $product->description ?? '' }}
+                                        </div>
                                         <ul class="spe_ul"></ul>
                                         <div class="_p-qty-and-cart">
                                             <div class="_p-add-cart">
-                                                <button class="btn-theme btn buy-btn" tabindex="0">
+                                                <button type="submit" name="add" value="buy"
+                                                    class="btn-theme btn buy-btn" tabindex="0">
                                                     <i class="fa fa-shopping-cart"></i> Buy Now
                                                 </button>
-                                                <button class="btn-theme btn btn-success" tabindex="0">
+                                                <button type="submit" name="add" value="add"
+                                                    class="btn-theme btn btn-success" tabindex="0">
                                                     <i class="fa fa-shopping-cart"></i> Add to Cart
                                                 </button>
-                                                <input type="hidden" name="pid" value="18" />
-                                                <input type="hidden" name="price" value="850" />
-                                                <input type="hidden" name="url" value="" />
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                                                <input type="hidden" name="price" value="{{ $product->price }}" />
                                             </div>
                                         </div>
                                     </form>
@@ -496,28 +505,31 @@
                         <div class="col-md-12 list-slider mt-4">
                             <div class="owl-carousel common_wd  owl-theme" id="recent_post">
                                 @foreach ($new as $item)
-                                <div class="item">
-                                    <div class="sq_box shadow">
-                                        <div class="pdis_img">
-                                            {{-- <span class="wishlist">
+                                    <div class="item">
+                                        <div class="sq_box shadow">
+                                            <div class="pdis_img">
+                                                {{-- <span class="wishlist">
                                                 <a alt="Add to Wish List" title="Add to Wish List"
                                                     href="javascript:void(0);"> <i class="fa fa-heart"></i></a>
                                             </span> --}}
-                                            <a href="{{url('product-detail/'.$item->id)}}">
-                                                <img src="{{asset($item->image1??'https://ucarecdn.com/05f649bf-b70b-4cf8-90f7-2588ce404a08/-/resize/680x/')}}">
-                                            </a>
-                                        </div>
-                                        <h4 class="mb-1"> <a href="{{url('product-detail/'.$item->id)}}"> {{$item->name??''}} </a> </h4>
-                                        <div class="price-box mb-2">
-                                            {{-- <span class="price"> Price <i class="fa fa-inr"></i> 200 </span> --}}
-                                            <span class="offer-price"><i class="fa fa-inr"></i>Rs. {{number_format($item->price??'0',2)}} </span>
-                                        </div>
-                                        {{-- <div class="btn-box text-center">
+                                                <a href="{{ url('product-detail/' . $item->id) }}">
+                                                    <img
+                                                        src="{{ asset($item->image1 ?? 'https://ucarecdn.com/05f649bf-b70b-4cf8-90f7-2588ce404a08/-/resize/680x/') }}">
+                                                </a>
+                                            </div>
+                                            <h4 class="mb-1"> <a href="{{ url('product-detail/' . $item->id) }}">
+                                                    {{ $item->name ?? '' }} </a> </h4>
+                                            <div class="price-box mb-2">
+                                                {{-- <span class="price"> Price <i class="fa fa-inr"></i> 200 </span> --}}
+                                                <span class="offer-price"><i class="fa fa-inr"></i>Rs.
+                                                    {{ number_format($item->price ?? '0', 2) }} </span>
+                                            </div>
+                                            {{-- <div class="btn-box text-center">
                                             <a class="btn btn-sm" href="javascript:void(0);"> <i
                                                     class="fa fa-shopping-cart"></i> Add to Cart </a>
                                         </div> --}}
+                                        </div>
                                     </div>
-                                </div>
                                 @endforeach
                                 {{-- <div class="item">
                                     <div class="sq_box shadow">

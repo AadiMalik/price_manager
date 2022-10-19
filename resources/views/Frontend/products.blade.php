@@ -174,7 +174,7 @@
                         <span class="discount">15% off</span>
                             <ul>
                                 <li><a style="cursor: pointer;" onclick="Cart({{$item->id}})"><i class="fas fa-shopping-cart"></i></a></li>
-                                <li><a href="#"><i class="fas fa-heart"></i></a></li>
+                                {{-- <li><a href="#"><i class="fas fa-heart"></i></a></li> --}}
                                 {{-- <li><a href="#"><i class="fas fa-plus"></i></a></li> --}}
                                 <li><a href="{{url('product-detail/'.$item->id)}}"><i class="fas fa-expand"></i></a></li>
                             </ul>
@@ -210,6 +210,7 @@
                 },
 
                 success: function(data) {
+                    alert('Product add to cart!');
                     location.reload();
                 }
             });

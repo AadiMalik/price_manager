@@ -18,4 +18,9 @@ class CartController extends Controller
         $cart->delete();
         return back();
     }
+
+    public function checkout(){
+        $cart = Cart::where('user_id',Auth()->user()->id)->get();
+        return view('frontend/checkout',compact('cart'));
+    }
 }

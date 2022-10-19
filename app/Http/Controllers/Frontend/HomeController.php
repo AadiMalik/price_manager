@@ -86,6 +86,25 @@ class HomeController extends Controller
             return back();
         }
     }
+    public function detailCart(Request $request){
+        dd($request->all());
+        $check = Cart::where('user_id',Auth()->user()->id)->where('product_id',$request->product_id)->first();
+        if($check!=null){
+            $check->qty = $check->qty+$request->qty;
+            $check->update();
+        }else{
+            $cart = new Cart;
+            $cart->user_id = Auth()->user()->id;
+            $cart->product_id = $request->product_id;
+            $cart->qty = $request->qty;
+            $cart->save();
+        }
+        if($request->add=='buy'){
+            return redirect('checkout');
+        }else{
+            return back()->with('success','Product add to cart!');
+        }
+    }
     public function create()
     {
         //
