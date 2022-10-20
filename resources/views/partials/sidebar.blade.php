@@ -69,6 +69,12 @@
                         <span>Update Password</span>
                     </a>
                 </li>
+                <li class="{{$segment1 == 'order' ? 'active' : ''}}">
+                    <a href="{{url('order')}}" class="">
+                        <i class="material-icons">payment</i>
+                        <span>Orders</span>
+                    </a>
+                </li>
                 @if(auth()->user()->user_type != 1 && (auth()->user()->expiry_date > now()))
                 
                 <li style="display:{{(auth()->user()->user_package || auth()->id() == 1 ) ? 'block' : 'none'}}" class="{{Request::is('product/default') || Request::is('product') ? 'active' : ''}}">

@@ -255,10 +255,19 @@
     </div>
     <section id="services" class="services section-bg">
         <div class="container-fluid">
-            <form action="#" method="#">
+            <form action="{{url('checkout/store')}}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-8">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="card">
                             <div class="card-header">
                                 <h4>Shipping Detail</h4>
@@ -267,21 +276,21 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="">Full Name</label>
+                                            <label for="">Full Name*</label>
                                             <input type="text" name="name" value="{{ Auth()->user()->name ?? '' }}"
                                                 class="form-control" id="" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="">Email</label>
+                                            <label for="">Email*</label>
                                             <input type="email" name="email" value="{{ Auth()->user()->email ?? '' }}"
                                                 class="form-control" id="" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="">Phone</label>
+                                            <label for="">Phone*</label>
                                             <input type="number" step="any"
                                                 value="{{ Auth()->user()->phone_no ?? '' }}" name="phone"
                                                 class="form-control" id="" required>
@@ -289,26 +298,26 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="">Address</label>
+                                            <label for="">Address*</label>
                                             <input type="text" name="address" value="{{ Auth()->user()->address ?? '' }}"
                                                 class="form-control" id="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">City</label>
+                                            <label for="">City*</label>
                                             <input type="text" name="city" class="form-control" id="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="">State</label>
+                                            <label for="">State*</label>
                                             <input type="text" name="state" class="form-control" id="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="">Payment Method</label>
+                                            <label for="">Payment Method*</label>
                                             <select name="payment_method" class="form-control" id="">
                                                 <option value="Cash on Delivery">Cash on Delivery</option>
                                                 <option value="Jazz Cash">Jazz Cash</option>

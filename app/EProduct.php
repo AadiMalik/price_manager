@@ -12,4 +12,7 @@ class EProduct extends Model
     public function brand_name() {
         return $this->belongsTo(ProductBrand::class,'brand_id','id');
     }
+    public function OrderDetail() {
+        return $this->belongsToMany(OrderDetail::class);
+    }
 }

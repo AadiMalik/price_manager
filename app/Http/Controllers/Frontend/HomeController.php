@@ -87,7 +87,6 @@ class HomeController extends Controller
         }
     }
     public function detailCart(Request $request){
-        dd($request->all());
         $check = Cart::where('user_id',Auth()->user()->id)->where('product_id',$request->product_id)->first();
         if($check!=null){
             $check->qty = $check->qty+$request->qty;

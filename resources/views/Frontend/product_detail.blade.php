@@ -452,7 +452,7 @@
                                         <b>Brand:</b><span> {{ $product->brand_name->name ?? '' }}</span>
                                     </div>
 
-                                    <form action="{{ url('add-to-cart') }}" method="post" accept-charset="utf-8">
+                                    <form action="{{ url('detail-to-cart') }}" method="post" accept-charset="utf-8">
                                         @csrf
                                         <div class="_p-add-cart">
                                             <div class="_p-qty">

@@ -81,7 +81,7 @@ class EProductController extends Controller
                 $product->image3 =  $upload . $filename;
             }
             $product->save();
-            return redirect()->route('e_roduct')->with('success', 'Product added Successfully');
+            return redirect()->route('e_product')->with('success', 'Product added Successfully');
         }
     }
 
