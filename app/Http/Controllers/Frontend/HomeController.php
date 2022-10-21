@@ -99,9 +99,9 @@ class HomeController extends Controller
             $cart->save();
         }
         if($request->add=='buy'){
-            return redirect('checkout');
+            return redirect('cart');
         }else{
-            return back()->with('success','Product add to cart!');
+            return redirect('cart');
         }
     }
     public function create()

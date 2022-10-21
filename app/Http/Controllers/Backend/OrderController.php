@@ -9,13 +9,21 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $order_detail = OrderDetail::all();
-        if(Auth()->user()->id == 1){
+        if (Auth()->user()->id == 1) {
             $order = Order::all();
-        }else{
-            $order = Order::where('user_id',Auth()->user()->id)->get();
+        } else {
+            $order = Order::where('user_id', Auth()->user()->id)->get();
         }
-        return view('Backend/order.index',compact('order','order_detail'));
+        return view('Backend/order.index', compact('order', 'order_detail'));
+    }
+    public function Status_Change(Request $request)
+    {
+        $check = Order::find($request->id);
+        $check->status = $request->change;
+        $check->update();
+        return response()->json();
     }
 }

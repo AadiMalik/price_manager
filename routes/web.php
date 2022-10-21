@@ -578,10 +578,10 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/f_package','FpackageController@index');
     Route::get('/product-detail/{id}','ProductController@show');
     Route::get('/products','ProductController@index');
-    Route::post('/add-to-cart','HomeController@cart')->name('cart.store');
-    Route::post('detail-to-cart','HomeController@detailCart');
-    Route::get('cart','CartController@index');
-    Route::get('cart-remove/{id}','CartController@remove');
+    Route::post('/add-to-cart','HomeController@cart')->name('cart.store')->middleware('auth');
+    Route::post('detail-to-cart','HomeController@detailCart')->middleware('auth');
+    Route::get('cart','CartController@index')->middleware('auth');
+    Route::get('cart-remove/{id}','CartController@remove')->middleware('auth');
     Route::get('checkout','CartController@checkout')->middleware('auth');
     Route::post('checkout/store','CartController@store')->middleware('auth');
 
@@ -589,4 +589,5 @@ Route::group(['namespace' => 'Frontend'], function () {
 });
 
 Route::get('order','Backend\OrderController@index')->middleware('auth');
+Route::get('change-status','Backend\OrderController@Status_Change')->middleware('auth');
 //Route::get('/home', 'HomeController@index')->name('home');

@@ -37,6 +37,9 @@
                                             <th>Total</th>
                                             <th>Method</th>
                                             <th>Status</th>
+                                            @if(Auth()->user()->id==1)
+                                            <th>Change</th>
+                                            @endif
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -55,18 +58,30 @@
                                                 <td>{{ $item->total ?? '0' }}</td>
                                                 <td>{{ $item->payment_method ?? '' }}</td>
                                                 <td>{{ $item->status ?? '' }}</td>
+                                                @if(Auth()->user()->id==1)
+                                                <td>
+                                                    <input type="hidden" id="v_id" value="{{ $item->id }}">
+                                                    <select  id="status-dropdown" class="form-control">
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Processing">Processing</option>
+                                                        <option value="Packing">Packing</option>
+                                                        <option value="On the Way">On the Way</option>
+                                                        <option value="Delivered">Delivered</option>
+                                                        <option value="Cancel">Cancel</option>
+                                                    </select>
+                                                </td>
+                                                @endif
                                                 <td>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#Order{{ $item->id }}"
                                                         style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span
                                                             class="fa fa-eye"> Show</span></button>
-                                                    <a href="javascript:void(0)" class="btn btn-warning"
+                                                    {{-- <a href="javascript:void(0)" class="btn btn-warning"
                                                         onclick="statusChange(1,{{ $item->id }})"
                                                         style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span
-                                                            class="fa fa-check"> Paid</span></a>
+                                                            class="fa fa-check"> Paid</span></a> --}}
                                                 </td>
                                             </tr>
-                                            
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -80,15 +95,14 @@
     </section>
     @foreach ($order as $item)
         <!-- Modal -->
-        <div class="modal fade" id="Order{{$item->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" id="Order{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document"  style="padding-left:17px;">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="padding-left:17px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Order Detail
                         </h5>
-                        <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -101,21 +115,20 @@
                                 <th>Total</th>
                             </thead>
                             <tbody>
-                                
-                                @foreach ($order_detail->where('order_id',$item->id) as $item1)
-                                <tr>
-                                    <td>{{$item1->product_name->name??''}}</td>
-                                    <td>{{$item1->price??''}}</td>
-                                    <td>{{$item1->qty??''}}</td>
-                                    <td>{{$item1->total??''}}</td>
-                                </tr>
+
+                                @foreach ($order_detail->where('order_id', $item->id) as $item1)
+                                    <tr>
+                                        <td>{{ $item1->product_name->name ?? '' }}</td>
+                                        <td>{{ $item1->price ?? '' }}</td>
+                                        <td>{{ $item1->qty ?? '' }}</td>
+                                        <td>{{ $item1->total ?? '' }}</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -125,33 +138,24 @@
 
 
 @section('after-script')
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        function statusChange(ele, invoice) {
-            // alert(invoice)
-            console.log(invoice)
+    
+    <script type="text/javascript">
+        $('#status-dropdown').on('change', function() {
+            var status = this.value;
+            var id = document.getElementById("v_id").value;
             $.ajax({
-                type: 'get',
-                url: 'invoice/' + invoice + '/statusChange',
-                success: function(response) {
-                    if (response.status == 1) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: response.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        setTimeout('window.location.reload()', 1500);
-                    }
-                    console.log(response);
+                url: "{{ url('change-status') }}",
+                type: "GET",
+                data: {
+                    id:id,
+                    change: status,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    window.location.reload();
                 }
             });
-        }
+        });
     </script>
 @endsection

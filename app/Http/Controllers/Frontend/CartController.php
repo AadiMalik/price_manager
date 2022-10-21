@@ -28,7 +28,7 @@ class CartController extends Controller
             $cart_update->update();
         }
         $cart = Cart::where('user_id',Auth()->user()->id)->get();
-        return view('frontend/checkout',compact('cart'));
+        return view('Frontend/checkout',compact('cart'));
     }
 
     public function store(Request $request){
