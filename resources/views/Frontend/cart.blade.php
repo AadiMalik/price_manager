@@ -244,68 +244,71 @@
     </style>
 @endsection
 @section('content')
-    <div class="page-header" style="margin-bottom: 0px;">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <h2 style="color:#fff;">Shopping Cart</h2>
-                </div>
+    @if ($cart->count() > 0)
+        <div class="page-header" style="margin-bottom: 0px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 style="color:#fff;">Shopping Cart</h2>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
-    <form action="{{ url('checkout') }}" method="GET">
-        @csrf
-        <section id="services" class="services section-bg">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-lg-11">
-                        <div class="shopping-cart" style="margin-top:30px;">
-                            <div class="column-labels" style="font-weight: bold;">
-                                <label class="product-image">Image</label>
-                                <label class="product-details">Product</label>
-                                <label class="product-price">Price</label>
-                                <label class="product-quantity">Quantity</label>
-                                <label class="product-removal">Remove</label>
-                                <label class="product-line-price">Total</label>
-                            </div>
-                            @php
-                                $sub_total = 0;
-                                $total = 0;
-                            @endphp
-                            @foreach ($cart as $item)
-                                <div class="product">
-                                    <div class="product-image">
-                                        <img
-                                            src="{{ $item->product_name->image1 ?? 'https://s.cdpn.io/3/dingo-dog-bones.jpg' }}">
-                                    </div>
-                                    <div class="product-details">
-                                        <div class="product-title" style="font-weight: bold;">
-                                            {{ $item->product_name->name ?? '' }}</div>
-                                        <input type="hidden" name="product_id[]" value="{{ $item->product_id ?? '' }}">
-                                        <p class="product-description">{{ $item->product_name->category_name->name ?? '' }}
-                                        </p>
-                                    </div>
-                                    <div class="product-price">{{ $item->product_name->price ?? '' }}</div>
-                                    <div class="product-quantity">
-                                        <input type="number" name="qty[]" value="{{ $item->qty ?? '' }}" min="1">
-                                    </div>
-                                    <div class="product-removal">
-                                        <a href="{{ url('cart-remove/' . $item->id) }}">
-                                            <i class="fa fa-trash text-danger"></i>
-                                        </a>
-                                    </div>
-                                    <div class="product-line-price">{{ $item->product_name->price * $item->qty ?? '1' }}
-                                    </div>
+        <form action="{{ url('checkout') }}" method="GET">
+            @csrf
+            <section id="services" class="services section-bg">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-11">
+                            <div class="shopping-cart" style="margin-top:30px;">
+                                <div class="column-labels" style="font-weight: bold;">
+                                    <label class="product-image">Image</label>
+                                    <label class="product-details">Product</label>
+                                    <label class="product-price">Price</label>
+                                    <label class="product-quantity">Quantity</label>
+                                    <label class="product-removal">Remove</label>
+                                    <label class="product-line-price">Total</label>
                                 </div>
                                 @php
-                                    
-                                    $sub_total += $item->product_name->price * $item->qty;
-                                    $total += $sub_total * 0.17 + $sub_total * 1;
-                                    
+                                    $sub_total = 0;
+                                    $total = 0;
                                 @endphp
-                            @endforeach
-                            {{-- <div class="product">
+                                @foreach ($cart as $item)
+                                    <div class="product">
+                                        <div class="product-image">
+                                            <img
+                                                src="{{ $item->product_name->image1 ?? 'https://s.cdpn.io/3/dingo-dog-bones.jpg' }}">
+                                        </div>
+                                        <div class="product-details">
+                                            <div class="product-title" style="font-weight: bold;">
+                                                {{ $item->product_name->name ?? '' }}</div>
+                                            <input type="hidden" name="product_id[]" value="{{ $item->product_id ?? '' }}">
+                                            <p class="product-description">
+                                                {{ $item->product_name->category_name->name ?? '' }}
+                                            </p>
+                                        </div>
+                                        <div class="product-price">{{ $item->product_name->price ?? '' }}</div>
+                                        <div class="product-quantity">
+                                            <input type="number" name="qty[]" value="{{ $item->qty ?? '' }}"
+                                                min="1">
+                                        </div>
+                                        <div class="product-removal">
+                                            <a href="{{ url('cart-remove/' . $item->id) }}">
+                                                <i class="fa fa-trash text-danger"></i>
+                                            </a>
+                                        </div>
+                                        <div class="product-line-price">{{ $item->product_name->price * $item->qty ?? '1' }}
+                                        </div>
+                                    </div>
+                                    @php
+                                        
+                                        $sub_total += $item->product_name->price * $item->qty;
+                                        $total += $sub_total * 0.17 + $sub_total * 1;
+                                        
+                                    @endphp
+                                @endforeach
+                                {{-- <div class="product">
                             <div class="product-image">
                                 <img src="https://s.cdpn.io/3/large-NutroNaturalChoiceAdultLambMealandRiceDryDogFood.png">
                             </div>
@@ -328,33 +331,43 @@
                             <div class="product-line-price">45.99</div>
                         </div> --}}
 
-                            <div class="totals">
-                                <div class="totals-item">
-                                    <label>Subtotal</label>
-                                    <div class="totals-value" id="cart-subtotal">{{ $sub_total }}</div>
-                                </div>
-                                <div class="totals-item">
-                                    <label>Tax (17%)</label>
-                                    <div class="totals-value" id="cart-tax">{{ $sub_total * 0.17 }}</div>
-                                </div>
-                                {{-- <div class="totals-item">
+                                <div class="totals">
+                                    <div class="totals-item">
+                                        <label>Subtotal</label>
+                                        <div class="totals-value" id="cart-subtotal">{{ $sub_total }}</div>
+                                    </div>
+                                    <div class="totals-item">
+                                        <label>Tax (17%)</label>
+                                        <div class="totals-value" id="cart-tax">{{ $sub_total * 0.17 }}</div>
+                                    </div>
+                                    {{-- <div class="totals-item">
                                 <label>Shipping</label>
                                 <div class="totals-value" id="cart-shipping">15.00</div>
                             </div> --}}
-                                <div class="totals-item totals-item-total">
-                                    <label style="font-weight: bold;">Grand Total</label>
-                                    <div class="totals-value" style="font-weight: bold;" id="cart-total">
-                                        {{ $total }}</div>
+                                    <div class="totals-item totals-item-total">
+                                        <label style="font-weight: bold;">Grand Total</label>
+                                        <div class="totals-value" style="font-weight: bold;" id="cart-total">
+                                            {{ $total }}</div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <button class="checkout" type="submit">Checkout</button>
+                                <button class="checkout" type="submit">Checkout</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </section>
+        </form>
+    @else
+        <div class="container">
+            <div class="row justify-content-center" style="text-align: center; margin-top: 30px;">
+                <div class="col-lg-11">
+                    <p style="font-size: 14px;">There are no items in this cart.</p>
+                    <a href="{{ url('products') }}" class="btn btn-primary">Continue Shopping</a>
+                </div>
             </div>
-        </section>
-    </form>
+        </div>
+    @endif
 @endsection
 @section('after-script')
     <script>

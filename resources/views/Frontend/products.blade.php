@@ -153,47 +153,55 @@
 @endsection
 @section('content')
     <section class="section-products">
-        <div class="container">
-            {{-- <div class="row justify-content-center text-center">
-                <div class="col-md-8 col-lg-6">
-                    <div class="header">
-                        <h3>Featured Product</h3>
-                        <h2>Popular Products</h2>
-                    </div>
-                </div>
-            </div> --}}
+        <div class="container-fluid justify-content-center">
             <div class="row">
-                <!-- Single Product -->
-                @foreach ($product as $item)
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    
-                    <div id="product-1" class="single-product">
-                        <div class="part-1" style="background: url({{asset($item->image1??'https://i.ibb.co/L8Nrb7p/1.jpg')}}) no-repeat center;
-                        background-size: cover;
-                        transition: all 0.3s;">
-                        <span class="discount">15% off</span>
-                            <ul>
-                                <li><a style="cursor: pointer;" onclick="Cart({{$item->id}})"><i class="fas fa-shopping-cart"></i></a></li>
-                                {{-- <li><a href="#"><i class="fas fa-heart"></i></a></li> --}}
-                                {{-- <li><a href="#"><i class="fas fa-plus"></i></a></li> --}}
-                                <li><a href="{{url('product-detail/'.$item->id)}}"><i class="fas fa-expand"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="part-2">
-                            <h3 class="product-title"><a href="{{url('product-detail/'.$item->id)}}">{{$item->name??''}}</a></h3>
-                            {{-- <h4 class="product-old-price">R79.99</h4> --}}
-                            <h4 class="product-price" style="margin-top:0px;">Rs. {{$item->price??''}}</h4>
-                        </div>
+                <div class="col-md-3">
+                    <ul class="list-group">
+                        <li class="list-group-item active">Categories</li>
+                        @foreach ($category as $item)
+                        <li class="list-group-item"><a href="{{url('products/'.$item->id)}}">{{$item->name??''}}</a></li>
+                        @endforeach
+                      </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <!-- Single Product -->
+                        @foreach ($product as $item)
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+
+                                <div id="product-1" class="single-product">
+                                    <div class="part-1"
+                                        style="background: url({{ asset($item->image1 ?? 'https://i.ibb.co/L8Nrb7p/1.jpg') }}) no-repeat center;
+                                background-size: cover;
+                                transition: all 0.3s;">
+                                        {{-- <span class="discount">15% off</span> --}}
+                                        <ul>
+                                            <li><a style="cursor: pointer;" onclick="Cart({{ $item->id }})"><i
+                                                        class="fas fa-shopping-cart"></i></a></li>
+                                            {{-- <li><a href="#"><i class="fas fa-heart"></i></a></li> --}}
+                                            {{-- <li><a href="#"><i class="fas fa-plus"></i></a></li> --}}
+                                            <li><a href="{{ url('product-detail/' . $item->id) }}"><i
+                                                        class="fas fa-expand"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="part-2">
+                                        <h3 class="product-title"><a
+                                                href="{{ url('product-detail/' . $item->id) }}">{{ $item->name ?? '' }}</a></h3>
+                                        {{-- <h4 class="product-old-price">R79.99</h4> --}}
+                                        <h4 class="product-price" style="margin-top:0px;">Rs. {{ $item->price ?? '' }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
     </section>
 @endsection
 @section('after-script')
-<script>
-    function Cart(id) {
+    <script>
+        function Cart(id) {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -218,5 +226,5 @@
             alert('Please Login First!');
             <?php } ?>
         }
-</script>
+    </script>
 @endsection

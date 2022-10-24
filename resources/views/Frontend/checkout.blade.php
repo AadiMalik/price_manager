@@ -277,14 +277,14 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="">Full Name*</label>
-                                            <input type="text" name="name" value="{{ Auth()->user()->name ?? '' }}"
+                                            <input type="text" name="name" value="{{ $shipping->name ?? '' }}"
                                                 class="form-control" id="" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="">Email*</label>
-                                            <input type="email" name="email" value="{{ Auth()->user()->email ?? '' }}"
+                                            <input type="email" name="email" value="{{ $shipping->email ?? '' }}"
                                                 class="form-control" id="" required>
                                         </div>
                                     </div>
@@ -292,27 +292,41 @@
                                         <div class="form-group">
                                             <label for="">Phone*</label>
                                             <input type="number" step="any"
-                                                value="{{ Auth()->user()->phone_no ?? '' }}" name="phone"
+                                                value="{{ $shipping->phone1 ?? '' }}" name="phone1"
                                                 class="form-control" id="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="">2nd Phone (optional)</label>
+                                            <input type="number" step="any"
+                                                value="{{ $shipping->phone2 ?? '' }}" name="phone2"
+                                                class="form-control" id="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="">3rd Phone (optional)</label>
+                                            <input type="number" step="any"
+                                                value="{{ $shipping->phone3 ?? '' }}" name="phone3"
+                                                class="form-control" id="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="">City*</label>
+                                            <select name="city" class="form-control" id="">
+                                                @foreach ($city as $item)
+                                                <option value="{{$item->id}}" {{($shipping->city_id == $item->id)?'selected':''}}>{{$item->name??''}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="">Address*</label>
-                                            <input type="text" name="address" value="{{ Auth()->user()->address ?? '' }}"
+                                            <input type="text" name="address" value="{{ $shipping->address ?? '' }}"
                                                 class="form-control" id="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="">City*</label>
-                                            <input type="text" name="city" class="form-control" id="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="">State*</label>
-                                            <input type="text" name="state" class="form-control" id="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">

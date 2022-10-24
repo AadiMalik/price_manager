@@ -578,6 +578,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/f_package','FpackageController@index');
     Route::get('/product-detail/{id}','ProductController@show');
     Route::get('/products','ProductController@index');
+    Route::get('/products/{id}','ProductController@category');
     Route::post('/add-to-cart','HomeController@cart')->name('cart.store')->middleware('auth');
     Route::post('detail-to-cart','HomeController@detailCart')->middleware('auth');
     Route::get('cart','CartController@index')->middleware('auth');

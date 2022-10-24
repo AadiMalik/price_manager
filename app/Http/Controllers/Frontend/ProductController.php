@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Category;
 use App\EProduct;
 use App\Http\Controllers\Controller;
+use App\ProductCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,6 +17,12 @@ class ProductController extends Controller
     }
     public function index(){
         $product = EProduct::all();
-        return view('Frontend/products',compact('product'));
+        $category = ProductCategory::orderBy('name','ASC')->get();
+        return view('Frontend/products',compact('product','category'));
+    }
+    public function category($id){
+        $product = EProduct::where('category_id',$id)->get();
+        $category = ProductCategory::orderBy('name','ASC')->get();
+        return view('Frontend/products',compact('product','category'));
     }
 }
