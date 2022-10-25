@@ -7,6 +7,7 @@ use App\City;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\OrderDetail;
+use App\PaymentMethod;
 use App\ShippingAddress;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,8 @@ class CartController extends Controller
         $cart = Cart::where('user_id',Auth()->user()->id)->get();
         $shipping = ShippingAddress::where('user_id',Auth()->user()->id)->first();
         $city = City::orderBy('name','ASC')->get();
-        return view('Frontend/checkout',compact('cart','shipping','city'));
+        $payment = PaymentMethod::all();
+        return view('Frontend/checkout',compact('cart','shipping','city','payment'));
     }
 
     public function store(Request $request){

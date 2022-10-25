@@ -149,6 +149,12 @@
                         <span>User Product</span>
                     </a>
                 </li>
+                <li class="{{$segment1 == 'payment' ? 'active' : ''}}">
+                    <a href="{{url('payment')}}" class="">
+                        <i class="material-icons">view_list</i>
+                        <span>Payment Methods</span>
+                    </a>
+                </li>
                 <li class="{{$segment1 == 'location' ? 'active' : ''}}">
                     <a href="{{route('indexLocation')}}" class="">
                         <i class="material-icons">place</i>

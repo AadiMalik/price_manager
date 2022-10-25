@@ -317,7 +317,7 @@
                                             <label for="">City*</label>
                                             <select name="city" class="form-control" id="">
                                                 @foreach ($city as $item)
-                                                <option value="{{$item->id}}" {{($shipping->city_id == $item->id)?'selected':''}}>{{$item->name??''}}</option>
+                                                <option value="{{$item->id}}" @if(isset($shipping->city_id)){{($shipping->city_id == $item->id)?'selected':''}} @endif>{{$item->name??''}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -348,26 +348,18 @@
                                             <thead>
                                                 <tr>
                                                     <th>Bank</th>
-                                                    <th>Account Name</th>
+                                                    <th>Holder Name</th>
                                                     <th>Account No</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($payment as $item)
                                                 <tr>
-                                                    <td>JazzCash</td>
-                                                    <td>Waseem Butt</td>
-                                                    <td>12345678</td>
+                                                    <td>{{$item->bank??''}}</td>
+                                                    <td>{{$item->name??''}}</td>
+                                                    <td>{{$item->account_no??''}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Easypaisa</td>
-                                                    <td>Waseem Butt</td>
-                                                    <td>12345678</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Bank</td>
-                                                    <td>Waseem Butt</td>
-                                                    <td>12345678</td>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

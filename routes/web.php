@@ -499,6 +499,8 @@ Route::group(['prefix' => 'term'], function() {
 
         // Fetaure package
         Route::resource('f-package', 'FpackageController');
+        // Payment
+        Route::resource('payment', 'PaymentMethodController');
     /*Other User*/
 
     Route::group(['prefix' => 'website-image'], function() {

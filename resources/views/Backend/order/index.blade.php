@@ -49,8 +49,8 @@
                                             <tr>
                                                 <td>{{ $item->name ?? '' }}</td>
                                                 <td>{{ $item->email ?? '' }}</td>
-                                                <td>{{ $item->phone ?? '' }}</td>
-                                                <td>{{ $item->address ?? '' }},{{ $item->city ?? '' }},{{ $item->state ?? '' }}
+                                                <td>{{ $item->phone1 ?? '' }},{{ $item->phone2 ?? '' }},{{ $item->phone3 ?? '' }}</td>
+                                                <td>{{ $item->address ?? '' }},{{ $item->city_name->name ?? '' }}
                                                 </td>
                                                 <td>{{ $item->qty ?? '0' }}</td>
                                                 <td>{{ $item->tax ?? '0' }}</td>

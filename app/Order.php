@@ -12,4 +12,7 @@ class Order extends Model
     public function detail_name () {
         return $this->belongsTo(OrderDetail::class,'order_id','id');
     }
+    public function city_name () {
+        return $this->belongsTo(City::class,'city','id');
+    }
 }
