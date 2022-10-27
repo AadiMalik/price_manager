@@ -4,7 +4,7 @@
         .picZoomer {
             position: relative;
             /*margin-left: 40px;
-            padding: 15px;*/
+                    padding: 15px;*/
         }
 
         .picZoomer-pic-wp {
@@ -25,7 +25,7 @@
 
         .picZoomer-pic {
             /*width: 100%;
-         height: 100%;*/
+                 height: 100%;*/
         }
 
         .picZoomer-zoom-wp {
@@ -396,6 +396,44 @@
         .sq_box span.wishlist i:hover {
             color: #da5c22;
         }
+
+        /* Rating */
+        .rating {
+            margin-top: 20px;
+            margin-left: -110px;
+            border: none;
+            float: left;
+        }
+
+        .rating>label {
+            color: #90A0A3;
+            float: right;
+        }
+
+        .rating>label:before {
+            margin: 5px;
+            font-size: 2em;
+            font-family: FontAwesome;
+            content: "\f005";
+            display: inline-block;
+        }
+
+        .rating>input {
+            display: none;
+        }
+
+        .rating>input:checked~label,
+        .rating:not(:checked)>label:hover,
+        .rating:not(:checked)>label:hover~label {
+            color: #F79426;
+        }
+
+        .rating>input:checked+label:hover,
+        .rating>input:checked~label:hover,
+        .rating>label:hover~input:checked~label,
+        .rating>input:checked~label:hover~label {
+            color: #FECE31;
+        }
     </style>
 @endsection
 @section('content')
@@ -448,7 +486,7 @@
                                         {{-- <span> M.R.P. : <i class="fa fa-inr"></i> <del> 1399 </del> </span> --}}
                                         <h3 class="p_price" style="font-weight: bold; font-family: fantasy;"> Rs.
                                             {{ number_format($product->price ?? '0', 2) }} </h3>
-                                        <b>Category:</b><span> {{ $product->category_name->name ?? '' }}</span>
+                                        <b>Category:</b><span> {{ $product->category_name->name ?? '' }}</span><br>
                                         <b>Brand:</b><span> {{ $product->brand_name->name ?? '' }}</span>
                                     </div>
 
@@ -464,10 +502,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="_p-features">
+                                        {{-- <div class="_p-features">
                                             <b> Description About this Product:- </b>
                                             {{ $product->description ?? '' }}
-                                        </div>
+                                        </div> --}}
                                         <ul class="spe_ul"></ul>
                                         <div class="_p-qty-and-cart">
                                             <div class="_p-add-cart">
@@ -486,6 +524,65 @@
                                     </form>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr>
+                            <b>Description:</b>
+                            <p>{!! $product->description ?? '' !!}</p>
+                        </div>
+                        <div class="col-md-12">
+                            @if (Session('success'))
+                                <div class="alert alert-info alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <strong>Success:</strong>&nbsp; {{ Session('success') }}
+                                </div>
+                            @endif
+                            <hr>
+                            <form action="{{ route('comment.post') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{$product->id}}">
+                                <b style="float: left;">Post Comment:</b>
+                                <div class="rating">
+                                    <input type="radio" id="star5" name="rate" value="5" checked />
+                                    <label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+                                    <input type="radio" id="star4" name="rate" value="4" />
+                                    <label class="star" for="star4" title="Great" aria-hidden="true"></label>
+                                    <input type="radio" id="star3" name="rate" value="3" />
+                                    <label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+                                    <input type="radio" id="star2" name="rate" value="2" />
+                                    <label class="star" for="star2" title="Good" aria-hidden="true"></label>
+                                    <input type="radio" id="star1" name="rate" value="1" required />
+                                    <label class="star" for="star1" title="Bad" aria-hidden="true"></label>
+                                </div>
+                                <input type="text" name="description" placeholder="Write here.." class="form-control"
+                                    id="" required>
+                                <br>
+                                <button class="btn btn-primary" type="submit">Post</button>
+                            </form>
+                            <hr>
+
+                        </div>
+                        <div class="col-md-12">
+                            @foreach ($comment as $item)
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img src="{{ asset($item->user_name->image_url ?? 'userProfile/miDYaOzIIYrVsTTlnDek42Xp3VrLy5tfsQAulyXk.png') }}"
+                                            style="height: 85px; width:85px;
+                                    border-radius: 50%;
+                                    border: 2px solid #000;"
+                                            alt="">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <b>{{ $item->user_name->name ?? '' }}</b><br>
+                                        <span>{{ $item->created_at->format('d M Y h:i A') }}</span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        {{ $item->description ?? '' }}
+                                    </div>
+                                </div>
+                                <hr>
+                            @endforeach
                         </div>
                     </div>
                 </div>

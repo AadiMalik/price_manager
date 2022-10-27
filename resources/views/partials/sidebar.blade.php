@@ -179,6 +179,12 @@
                         <span>Debit & Credit</span>
                     </a>
                 </li>
+                <li class="{{$segment1 == 'comment' ? 'active' : ''}}">
+                    <a href="{{url('comment')}}" class="">
+                        <i class="material-icons">view_list</i>
+                        <span>Product Review</span>
+                    </a>
+                </li>
                 @endif
                 <?php
 

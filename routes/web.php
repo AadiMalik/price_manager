@@ -501,6 +501,9 @@ Route::group(['prefix' => 'term'], function() {
         Route::resource('f-package', 'FpackageController');
         // Payment
         Route::resource('payment', 'PaymentMethodController');
+        // Comment
+        Route::resource('comment', 'CommentController');
+        Route::get('comment-change-status','CommentController@Status_Change')->middleware('auth');
     /*Other User*/
 
     Route::group(['prefix' => 'website-image'], function() {
@@ -581,6 +584,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/product-detail/{id}','ProductController@show');
     Route::get('/products','ProductController@index');
     Route::get('/products/{id}','ProductController@category');
+    Route::post('/post-comment','ProductController@comment')->name('comment.post')->middleware('auth');
     Route::post('/add-to-cart','HomeController@cart')->name('cart.store')->middleware('auth');
     Route::post('detail-to-cart','HomeController@detailCart')->middleware('auth');
     Route::get('cart','CartController@index')->middleware('auth');
