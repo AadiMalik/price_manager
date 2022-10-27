@@ -486,8 +486,20 @@
                                         {{-- <span> M.R.P. : <i class="fa fa-inr"></i> <del> 1399 </del> </span> --}}
                                         <h3 class="p_price" style="font-weight: bold; font-family: fantasy;"> Rs.
                                             {{ number_format($product->price ?? '0', 2) }} </h3>
+                                            <?php if(count($comment) != 0){
+                                                $rating = $comment->sum('rate')/count($comment);
+                                             } ?>
+                                            @for ($i=0; $i< round($rating); $i++)
+                                            <span class="fa fa-star" style="color:#F79426; margin-right:0px;"></span>
+                                            @endfor
+                                            @for ($i=0; $i< 5-round($rating); $i++)
+                                            <span class="fa fa-star" style="color:#b1a7a7; margin-right:0px;"></span>
+                                            @endfor
+                                            ({{round($rating??'0')}})
+                                            <br>
                                         <b>Category:</b><span> {{ $product->category_name->name ?? '' }}</span><br>
                                         <b>Brand:</b><span> {{ $product->brand_name->name ?? '' }}</span>
+                                            
                                     </div>
 
                                     <form action="{{ url('detail-to-cart') }}" method="post" accept-charset="utf-8">
@@ -575,7 +587,10 @@
                                     </div>
                                     <div class="col-md-7">
                                         <b>{{ $item->user_name->name ?? '' }}</b><br>
-                                        <span>{{ $item->created_at->format('d M Y h:i A') }}</span>
+                                        <span>{{ $item->created_at->format('d M Y h:i A') }}</span> <br>
+                                        @for($i=0; $i<$item->rate; $i++)
+                                            <span class="fa fa-star" style="color:#F79426;"></span>
+                                        @endfor
                                     </div>
                                     <div class="col-md-12">
                                         {{ $item->description ?? '' }}
