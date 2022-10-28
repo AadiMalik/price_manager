@@ -88,14 +88,16 @@ class SettingController extends Controller
     public function update(Request $request, Setting $setting)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'value' => 'required|numeric|gt:0',
+            'tax' => 'required|numeric',
+            'shipping_limit' => 'required|numeric',
+            'shipping_charge' => 'required|numeric',
         ]);
         if ($validator->fails()) {
             return back()->withInput()->withErrors($validator);
         } else {
-            $setting->name = $request->name;
-            $setting->value = $request->value;
+            $setting->tax = $request->tax;
+            $setting->shipping_limit = $request->shipping_limit;
+            $setting->shipping_charge = $request->shipping_charge;
             $setting->save();
 
             return redirect()->route('indexSetting')->with('success', 'Setting update successfully');

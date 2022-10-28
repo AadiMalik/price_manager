@@ -18,9 +18,9 @@
                             <h2>
                                 <i class="fa fa-tasks"></i><span> Setting</span>
                             </h2>
-                            <ul class="header-dropdown m-r--5">
+                            {{-- <ul class="header-dropdown m-r--5">
                                 <a href="{{route('settingCreate')}}" class="btn btn-primary fa fa-plus"> Create setting</a>
-                            </ul>
+                            </ul> --}}
                         </div>
                         <div class="body">
                             <div class="table-responsive">
@@ -28,8 +28,9 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Value</th>
+                                        <th>Tax (%)</th>
+                                        <th>Charge Limit</th>
+                                        <th>Shipping Charges</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -38,10 +39,11 @@
                                     @foreach($settings as $index => $setting)
                                     <tr>
                                         <td>{{$index+1}}</td>
-                                        <td>{{$setting->name}}</td>
-                                        <td>{{$setting->value}}</td>
+                                        <td>{{$setting->tax??'0'}}</td>
+                                        <td>{{$setting->shipping_limit??'0'}}</td>
+                                        <td>{{$setting->shipping_charge	??'0'}}</td>
                                         <td><a href="{{route('settingEdit',$setting->id)}}" class="btn btn-warning" style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span class="fa fa-edit"> Edit</span></a>
-                                        <a href="javascript:void(0)" onclick="deleteSetting({{$setting->id}})" class="btn btn-danger" style="font-weight:bold;margin-bottom:5px;"><span class="fa fa-remove"> Delete</span></a>
+                                        {{-- <a href="javascript:void(0)" onclick="deleteSetting({{$setting->id}})" class="btn btn-danger" style="font-weight:bold;margin-bottom:5px;"><span class="fa fa-remove"> Delete</span></a> --}}
                                         </td>
                                     </tr>
                                     @endforeach

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Order;
 use App\OrderDetail;
 use App\PaymentMethod;
+use App\Setting;
 use App\ShippingAddress;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class CartController extends Controller
 {
     public function index(){
         $cart = Cart::where('user_id',Auth()->user()->id)->get();
-        return view('Frontend/cart',compact('cart'));
+        $setting = Setting::first();
+        return view('Frontend/cart',compact('cart','setting'));
     }
 
     public function remove($id){
@@ -34,7 +36,8 @@ class CartController extends Controller
         $shipping = ShippingAddress::where('user_id',Auth()->user()->id)->first();
         $city = City::orderBy('name','ASC')->get();
         $payment = PaymentMethod::all();
-        return view('Frontend/checkout',compact('cart','shipping','city','payment'));
+        $setting = Setting::first();
+        return view('Frontend/checkout',compact('cart','shipping','city','payment','setting'));
     }
 
     public function store(Request $request){
@@ -54,6 +57,7 @@ class CartController extends Controller
         $qty = 0;
         $cart = Cart::where('user_id',Auth()->user()->id)->get();
         $shipping = ShippingAddress::where('user_id',Auth()->user()->id)->first();
+        $setting = Setting::first();
         if($shipping!=null){
             $shipping->name = $request->name;
             $shipping->email = $request->email;
@@ -78,9 +82,10 @@ class CartController extends Controller
         foreach($cart as $item){
             $qty += $item->qty;
             $sub_total += $item->qty * $item->product_name->price;
-            $tax += $sub_total * 0.17;
-            $total += $sub_total + $tax + 200;
+            $tax += $sub_total * ($setting->tax/100);
+            $total += $sub_total + $tax;
         }
+        $shipping = ($sub_total < $setting->shipping_limit)?$setting->shipping_charge:'0';
         if($cart->count()>0){
             $order = new Order;
             $order->name = $request->name;
@@ -92,11 +97,11 @@ class CartController extends Controller
             $order->city = $request->city;
             $order->payment_method = $request->payment_method;
             $order->order_no = 'Order'.random_int(1,99999);
-            $order->shipping_charge = 200;
+            $order->shipping_charge = $shipping;
             $order->qty = $qty;
             $order->sub_total = $sub_total;
             $order->tax = $tax;
-            $order->total = $total;
+            $order->total = $total + $shipping;
             $order->user_id = Auth()->user()->id;
             $order->save();
             foreach($cart as $item){

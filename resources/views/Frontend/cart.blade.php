@@ -304,50 +304,36 @@
                                     @php
                                         
                                         $sub_total += $item->product_name->price * $item->qty;
-                                        $total += $sub_total * 0.17 + $sub_total * 1;
+                                        $total += $sub_total * ($setting->tax/100) + $sub_total * 1;
                                         
                                     @endphp
                                 @endforeach
-                                {{-- <div class="product">
-                            <div class="product-image">
-                                <img src="https://s.cdpn.io/3/large-NutroNaturalChoiceAdultLambMealandRiceDryDogFood.png">
-                            </div>
-                            <div class="product-details">
-                                <div class="product-title">Nutro™ Adult Lamb and Rice Dog Food</div>
-                                <p class="product-description">Who doesn't like lamb and rice? We've all hit the halal cart
-                                    at 3am while
-                                    quasi-blackout after a night of binge drinking in Manhattan. Now it's your dog's turn!
-                                </p>
-                            </div>
-                            <div class="product-price">45.99</div>
-                            <div class="product-quantity">
-                                <input type="number" value="1" min="1">
-                            </div>
-                            <div class="product-removal">
-                                <button class="remove-product">
-                                    Remove
-                                </button>
-                            </div>
-                            <div class="product-line-price">45.99</div>
-                        </div> --}}
-
                                 <div class="totals">
                                     <div class="totals-item">
                                         <label>Subtotal</label>
-                                        <div class="totals-value" id="cart-subtotal">{{ $sub_total }}</div>
+                                        <div class="totals-value" id="cart-subtotal">{{ $sub_total??'0' }}</div>
+                                    </div>
+                                    <?php
+                                        if($sub_total < $setting->shipping_limit){
+                                            $shipping = $setting->shipping_charge;
+                                        }else{
+                                            $shipping = 0 ;
+                                        }
+                                    ?>
+                                    <div class="totals-item">
+                                        <label>Shipping Charges</label>
+                                        <div class="totals-value" id="cart-shipping">{{ $shipping??'0' }}</div>
                                     </div>
                                     <div class="totals-item">
-                                        <label>Tax (17%)</label>
-                                        <div class="totals-value" id="cart-tax">{{ $sub_total * 0.17 }}</div>
+                                        <label>Tax ({{$setting->tax??'0'}}%)</label>
+                                        <div class="totals-value" id="cart-tax">{{ $sub_total * ($setting->tax/100) }}</div>
                                     </div>
-                                    {{-- <div class="totals-item">
-                                <label>Shipping</label>
-                                <div class="totals-value" id="cart-shipping">15.00</div>
-                            </div> --}}
+                                    
                                     <div class="totals-item totals-item-total">
                                         <label style="font-weight: bold;">Grand Total</label>
                                         <div class="totals-value" style="font-weight: bold;" id="cart-total">
-                                            {{ $total }}</div>
+                                            {{$total + $shipping}}
+                                            </div>
                                     </div>
                                 </div>
 
@@ -372,8 +358,10 @@
 @section('after-script')
     <script>
         /* Set rates + misc */
-        var taxRate = 0.17;
-        var shippingRate = 15.00;
+        var taxRate = 0.{{$setting->tax??'0'}};
+        var shippingRate = {{$setting->shipping_charge??'0'}};
+        var shippingLimit = {{$setting->shipping_limit??'0'}};
+        var shipping = 0;
         var fadeTime = 300;
 
 
@@ -389,7 +377,7 @@
 
         /* Recalculate cart */
         function recalculateCart() {
-            var subtotal = 0;
+        var subtotal = 0;
 
             /* Sum up row totals */
             $('.product').each(function() {
@@ -398,14 +386,14 @@
 
             /* Calculate totals */
             var tax = subtotal * taxRate;
-            var shipping = (subtotal > 0 ? shippingRate : 0);
+            var shipping = (subtotal < shippingLimit ? shippingRate : 0);
             var total = subtotal + tax + shipping;
 
             /* Update totals display */
             $('.totals-value').fadeOut(fadeTime, function() {
                 $('#cart-subtotal').html(subtotal.toFixed(2));
                 $('#cart-tax').html(tax.toFixed(2));
-                $('#cart-shipping').html(shipping.toFixed(2));
+            $('#cart-shipping').html(shipping.toFixed(2));
                 $('#cart-total').html(total.toFixed(2));
                 if (total == 0) {
                     $('.checkout').fadeOut(fadeTime);
@@ -414,6 +402,7 @@
                 }
                 $('.totals-value').fadeIn(fadeTime);
             });
+            
         }
 
 

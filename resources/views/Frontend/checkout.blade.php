@@ -401,8 +401,8 @@
                                             @php
                                                 
                                                 $sub_total += $item->product_name->price * $item->qty;
-                                                $total += $sub_total * 0.17 + $sub_total * 1;
-                                                $tax += $sub_total * 0.17;
+                                                $tax += $sub_total * $setting->tax/100;
+                                                $total += $sub_total * 1 + $tax * 1;
                                             @endphp
                                         @endforeach
                                     </tbody>
@@ -417,15 +417,15 @@
                                     </tr>
                                     <tr>
                                         <th>Shipping Charge</th>
-                                        <td>Rs 200</td>
+                                        <td>Rs {{($sub_total < $setting->shipping_limit)?$shipping_charge:'0'}} </td>
                                     </tr>
                                     <tr>
-                                        <th>Tax(17%)</th>
+                                        <th>Tax({{$setting->tax??'0'}}%)</th>
                                         <td>Rs {{ $tax ?? '0' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Total</th>
-                                        <td>Rs {{ $total + 200 }}</td>
+                                        <td>Rs {{$total}}</td>
                                     </tr>
                                     <tr>
 
@@ -445,8 +445,8 @@
 @section('after-script')
     <script>
         /* Set rates + misc */
-        var taxRate = 0.17;
-        var shippingRate = 15.00;
+        var taxRate = 0.{{$setting->tax??'0'}};
+        var shippingRate = {{$setting->shipping_charge??'0'}};
         var fadeTime = 300;
 
 
@@ -471,7 +471,7 @@
 
             /* Calculate totals */
             var tax = subtotal * taxRate;
-            var shipping = (subtotal > 0 ? shippingRate : 0);
+            var shipping = (subtotal > {{$setting->shipping_limit}} ? shippingRate : 0);
             var total = subtotal + tax + shipping;
 
             /* Update totals display */

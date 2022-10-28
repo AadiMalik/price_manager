@@ -486,6 +486,7 @@
                                         {{-- <span> M.R.P. : <i class="fa fa-inr"></i> <del> 1399 </del> </span> --}}
                                         <h3 class="p_price" style="font-weight: bold; font-family: fantasy;"> Rs.
                                             {{ number_format($product->price ?? '0', 2) }} </h3>
+                                            <?php $rating=0; ?>
                                             <?php if(count($comment) != 0){
                                                 $rating = $comment->sum('rate')/count($comment);
                                              } ?>
