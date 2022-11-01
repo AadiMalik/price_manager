@@ -185,6 +185,12 @@
                         <span>Product Review</span>
                     </a>
                 </li>
+                <li class="{{$segment1 == 'currier' ? 'active' : ''}}">
+                    <a href="{{url('currier')}}" class="">
+                        <i class="material-icons">view_list</i>
+                        <span>Currier</span>
+                    </a>
+                </li>
                 @endif
                 <?php
 

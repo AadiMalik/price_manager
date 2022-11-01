@@ -15,4 +15,7 @@ class Order extends Model
     public function city_name () {
         return $this->belongsTo(City::class,'city','id');
     }
+    public function currier_name() {
+        return $this->belongsTo(Currier::class,'currier_id','id');
+    }
 }

@@ -302,7 +302,17 @@ Route::group(['prefix' => 'term'], function() {
             Route::get('delete','EProductController@destroy')->name('e_productBrandDelete');
         });
     });
-                                                                                                                    // Industries
+    Route::group(['prefix' => 'currier'], function() {
+        Route::get('/','CurrierController@index')->name('currier');
+        Route::get('/create','CurrierController@create')->name('currier.create');
+        Route::post('/store','CurrierController@store')->name('currier.store');
+
+        Route::group(['prefix' => '{currier}'], function (){
+            Route::get('edit','CurrierController@edit')->name('currier.edit');
+            Route::post('update','CurrierController@update')->name('currier.update');
+            Route::get('delete','CurrierController@destroy')->name('currier.delete');
+        });
+    });                                                                                                            // Industries
     Route::group(['prefix' => 'industry'], function() {
         Route::get('/','IndustryController@index')->name('indexIndustry');
         Route::get('/create','IndustryController@create')->name('industryCreate');
@@ -597,4 +607,5 @@ Route::group(['namespace' => 'Frontend'], function () {
 
 Route::get('order','Backend\OrderController@index')->middleware('auth');
 Route::get('change-status','Backend\OrderController@Status_Change')->middleware('auth');
+Route::post('change-currier','Backend\OrderController@Currier')->name('order.currier')->middleware('auth');
 //Route::get('/home', 'HomeController@index')->name('home');
