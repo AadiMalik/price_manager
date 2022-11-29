@@ -30,6 +30,7 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Price</th>
+                                        <th>Old Price</th>
                                         <th>Category</th>
                                         <th>Brand</th>
                                         <th>Image</th>
@@ -43,6 +44,7 @@
                                         <td>{{$index+1}}</td>
                                         <td>{{$product->name??''}}</td>
                                         <td>{{$product->price??'0'}}</td>
+                                        <td>{{$product->old_price??''}}</td>
                                         <td>{{$product->category_name->name??''}}</td>
                                         <td>{{$product->brand_name->name??''}}</td>
                                         <td><img class="img-thumbnail img-responsive" height="50" width="150" src="{{asset($product->image1)}}"></td>

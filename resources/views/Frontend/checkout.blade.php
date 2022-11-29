@@ -410,14 +410,28 @@
                                 <hr>
                                 <h5>Checkout</h5>
                                 <hr>
+                                <b>Apply Coupon</b>
+                                <table style="width: 100%;">
+                                    {{-- <form action="{{url('coupon/discount')}}" method="post">
+                                        @csrf --}}
+                                    <tr>
+                                        <td><input type="text" id="code" name="code" class="form-control" id=""></td>
+                                        <td><a onclick="CouponApply()" class="btn btn-primary form-control">Apply</a></td>
+                                    </tr>
+                                {{-- </form> --}}
+                                </table>
                                 <table class="table table-bordered">
                                     <tr>
                                         <th>Sub Total</th>
                                         <td>Rs {{ $sub_total ?? '0' }}</td>
                                     </tr>
                                     <tr>
+                                        <th>Discount</th>
+                                        <td>Rs {{$cart[0]->coupon_name->amount??'0'}} </td>
+                                    </tr>
+                                    <tr>
                                         <th>Shipping Charge</th>
-                                        <td>Rs {{($sub_total < $setting->shipping_limit)?$shipping_charge:'0'}} </td>
+                                        <td>Rs {{($sub_total < $setting->shipping_limit)?$setting->shipping_charge:'0'}} </td>
                                     </tr>
                                     <tr>
                                         <th>Tax({{$setting->tax??'0'}}%)</th>
@@ -425,12 +439,12 @@
                                     </tr>
                                     <tr>
                                         <th>Total</th>
-                                        <td>Rs {{$total}}</td>
+                                        <td>Rs {{($total + (($sub_total < $setting->shipping_limit)?$setting->shipping_charge:'0')) - (($cart[0]->coupon_id)?$cart[0]->coupon_name->amount:'0')}}</td>
                                     </tr>
                                     <tr>
 
                                         <td colspan="2">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="form-control btn btn-primary" style="border-radius: 0px;">Order Place</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -518,5 +532,27 @@
                 recalculateCart();
             });
         }
+    </script>
+    <script>
+        function CouponApply() {
+            var code = $('#code').val();
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('coupon/discount') }}",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    code: code,
+                },
+
+                success: function(response) {
+                    if (response == 'error') {
+                        alert('Coupon code invalid!');
+                    }else {
+                        window.location.reload();
+                    }
+                }
+                
+            });
+        };
     </script>
 @endsection

@@ -56,6 +56,7 @@ class EProductController extends Controller
             $product = new EProduct;
             $product->name = ucwords($request->name);
             $product->price = $request->price;
+            $product->old_price = $request->old_price;
             $product->category_id = $request->category;
             $product->brand_id = $request->brand;
             $product->description = $request->description;
@@ -132,6 +133,7 @@ class EProductController extends Controller
         } else {
             $product->name = ucwords($request->name);
             $product->price = $request->price;
+            $product->old_price = $request->old_price;
             $product->category_id = $request->category;
             $product->brand_id = $request->brand;
             $product->description = $request->description;

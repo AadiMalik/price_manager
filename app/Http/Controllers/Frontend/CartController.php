@@ -4,43 +4,69 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Cart;
 use App\City;
+use App\Coupon;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\OrderDetail;
 use App\PaymentMethod;
 use App\Setting;
 use App\ShippingAddress;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index(){
-        $cart = Cart::where('user_id',Auth()->user()->id)->get();
+    public function index()
+    {
+        $cart = Cart::where('user_id', Auth()->user()->id)->get();
         $setting = Setting::first();
-        return view('Frontend/cart',compact('cart','setting'));
+        return view('Frontend/cart', compact('cart', 'setting'));
     }
 
-    public function remove($id){
+    public function remove($id)
+    {
         $cart = Cart::find($id);
         $cart->delete();
         return back();
     }
-
-    public function checkout(Request $request){
-        foreach($request->product_id as $index=>$item){
-            $cart_update = Cart::where('user_id',Auth()->user()->id)->where('product_id',$item)->first();
+    public function coupon(Request $request)
+    {
+        $validation = $request->validate(
+            [
+                'code' => 'required|max:255'
+            ]
+        );
+        $cart = Cart::where('user_id', Auth()->user()->id)->get();
+        $coupon = Coupon::where('code', $request->code)->where('status', 0)->where('expiry', '>', Carbon::now()->format('Y-m-d H:i:s'))->first();
+        if (isset($coupon)) {
+            foreach ($cart as $item) {
+                $item->coupon_id = $coupon->id;
+                $item->update();
+            }
+            $msg = 'success';
+            return $msg;
+        } else {
+            $msg = 'error';
+            return $msg;
+        }
+    }
+    public function checkout(Request $request)
+    {
+        foreach ($request->product_id as $index => $item) {
+            $cart_update = Cart::where('user_id', Auth()->user()->id)->where('product_id', $item)->first();
             $cart_update->qty = $request->qty[$index];
             $cart_update->update();
         }
-        $cart = Cart::where('user_id',Auth()->user()->id)->get();
-        $shipping = ShippingAddress::where('user_id',Auth()->user()->id)->first();
-        $city = City::orderBy('name','ASC')->get();
+        $cart = Cart::where('user_id', Auth()->user()->id)->get();
+        $shipping = ShippingAddress::where('user_id', Auth()->user()->id)->first();
+        $city = City::orderBy('name', 'ASC')->get();
         $payment = PaymentMethod::all();
         $setting = Setting::first();
-        return view('Frontend/checkout',compact('cart','shipping','city','payment','setting'));
+        return view('Frontend/checkout', compact('cart', 'shipping', 'city', 'payment', 'setting'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validation = $request->validate(
             [
                 'name' => 'required|max:255',
@@ -52,13 +78,13 @@ class CartController extends Controller
             ]
         );
         $sub_total = 0;
-        $tax =0 ;
+        $tax = 0;
         $total = 0;
         $qty = 0;
-        $cart = Cart::where('user_id',Auth()->user()->id)->get();
-        $shipping = ShippingAddress::where('user_id',Auth()->user()->id)->first();
+        $cart = Cart::where('user_id', Auth()->user()->id)->get();
+        $shipping = ShippingAddress::where('user_id', Auth()->user()->id)->first();
         $setting = Setting::first();
-        if($shipping!=null){
+        if ($shipping != null) {
             $shipping->name = $request->name;
             $shipping->email = $request->email;
             $shipping->phone1 = $request->phone1;
@@ -67,7 +93,7 @@ class CartController extends Controller
             $shipping->address = $request->address;
             $shipping->city_id = $request->city;
             $shipping->update();
-        }else{
+        } else {
             $save_shipping = new ShippingAddress;
             $save_shipping->name = $request->name;
             $save_shipping->email = $request->email;
@@ -79,14 +105,16 @@ class CartController extends Controller
             $save_shipping->user_id = Auth()->user()->id;
             $save_shipping->save();
         }
-        foreach($cart as $item){
+        foreach ($cart as $item) {
             $qty += $item->qty;
             $sub_total += $item->qty * $item->product_name->price;
-            $tax += $sub_total * ($setting->tax/100);
+            $tax += $sub_total * ($setting->tax / 100);
             $total += $sub_total + $tax;
+            $coupon_id = $item->coupon_name->id;
+            $discount = $item->coupon_name->amount;
         }
-        $shipping = ($sub_total < $setting->shipping_limit)?$setting->shipping_charge:'0';
-        if($cart->count()>0){
+        $shipping = ($sub_total < $setting->shipping_limit) ? $setting->shipping_charge : '0';
+        if ($cart->count() > 0) {
             $order = new Order;
             $order->name = $request->name;
             $order->email = $request->email;
@@ -96,15 +124,17 @@ class CartController extends Controller
             $order->address = $request->address;
             $order->city = $request->city;
             $order->payment_method = $request->payment_method;
-            $order->order_no = 'Order'.random_int(1,99999);
+            $order->order_no = 'Order' . random_int(1, 99999);
             $order->shipping_charge = $shipping;
             $order->qty = $qty;
+            $order->coupon_id = $coupon_id;
+            $order->discount = $discount??'0';
             $order->sub_total = $sub_total;
             $order->tax = $tax;
-            $order->total = $total + $shipping;
+            $order->total = ($total + $shipping)-$discount;
             $order->user_id = Auth()->user()->id;
             $order->save();
-            foreach($cart as $item){
+            foreach ($cart as $item) {
                 $order_detail = new OrderDetail;
                 $order_detail->order_id = $order->id;
                 $order_detail->product_id = $item->product_id;
@@ -114,10 +144,10 @@ class CartController extends Controller
                 $order_detail->total = $item->qty * $item->product_name->price;
                 $order_detail->save();
             }
-            Cart::where('user_id',Auth()->user()->id)->delete();
+            Cart::where('user_id', Auth()->user()->id)->delete();
             return redirect('/fhome');
-        }else{
-            return back()->with('error','Please select product first!');
+        } else {
+            return back()->with('error', 'Please select product first!');
         }
     }
 }

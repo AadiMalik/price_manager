@@ -908,10 +908,11 @@ use Carbon\Carbon;
         <div class="row justify-content-center">
             <div class="col-lg-11">
                 @foreach ($category as $item1)
+                @if($e_product->where('category_id',$item1->id)->count()>0)
                 <h4>{{ucwords($item1->name??'')}}</h4>
                 <hr>
                 <div class="row">
-                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"
+                    <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1" id="MultiCarousel"
                         data-interval="1000">
                         <div class="MultiCarousel-inner">
                             @foreach ($e_product->where('category_id',$item1->id) as $item)
@@ -939,6 +940,7 @@ use Carbon\Carbon;
                                 <button class="btn btn-primary rightLst">></button>
                     </div>
                 </div>
+                @endif
                 @endforeach
             </div>
         </div>

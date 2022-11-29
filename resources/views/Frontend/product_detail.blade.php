@@ -1,10 +1,11 @@
 @extends('layouts.frontend')
 @section('style')
+    <link rel="stylesheet" href="{{ asset('asset\css\tabs.css') }}">
     <style>
         .picZoomer {
             position: relative;
             /*margin-left: 40px;
-                    padding: 15px;*/
+                                    padding: 15px;*/
         }
 
         .picZoomer-pic-wp {
@@ -25,7 +26,7 @@
 
         .picZoomer-pic {
             /*width: 100%;
-                 height: 100%;*/
+                                 height: 100%;*/
         }
 
         .picZoomer-zoom-wp {
@@ -93,9 +94,9 @@
             background-color: #fff1e0;
         }
 
-        section {
-            padding: 60px 0;
-        }
+        /* section {
+                padding: 60px 0;
+            } */
 
         .row-sm .col-md-6 {
             padding-left: 5px;
@@ -437,7 +438,7 @@
     </style>
 @endsection
 @section('content')
-    <div class="page-header" style="margin-bottom: 0px;">
+    {{-- <div class="page-header" style="margin-bottom: 0px;">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -446,11 +447,14 @@
 
             </div>
         </div>
-    </div>
-    <section id="services" class="services section-bg">
+    </div> --}}
+
+    <section id="services" class="services">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-lg-11">
+                <div class="col-lg-11" style="margin-top:20px;">
+                    <h3>Product Detail</h3>
+                    <hr>
                     <div class="row row-sm">
                         <div class="col-md-6 _boxzoom">
                             <div class="zoom-thumb">
@@ -485,29 +489,39 @@
                                     <div class="p-list">
                                         {{-- <span> M.R.P. : <i class="fa fa-inr"></i> <del> 1399 </del> </span> --}}
                                         <h3 class="p_price" style="font-weight: bold; font-family: fantasy;"> Rs.
-                                            {{ number_format($product->price ?? '0', 2) }} </h3>
-                                            <?php $rating=0; ?>
-                                            <?php if(count($comment) != 0){
-                                                $rating = $comment->sum('rate')/count($comment);
-                                             } ?>
-                                            @for ($i=0; $i< round($rating); $i++)
+                                            {{ number_format($product->price ?? '0', 2) }} @if(isset($product->old_price)) &nbsp;&nbsp;&nbsp;<small><del style="color: #444444;">{{ number_format($product->old_price ?? '0', 2) }}</del></small> @endif </h3> 
+                                        <?php $rating = 0; ?>
+                                        <?php if (count($comment) != 0) {
+                                            $rating = $comment->sum('rate') / count($comment);
+                                        } ?>
+                                        @for ($i = 0; $i < round($rating); $i++)
                                             <span class="fa fa-star" style="color:#F79426; margin-right:0px;"></span>
-                                            @endfor
-                                            @for ($i=0; $i< 5-round($rating); $i++)
+                                        @endfor
+                                        @for ($i = 0; $i < 5 - round($rating); $i++)
                                             <span class="fa fa-star" style="color:#b1a7a7; margin-right:0px;"></span>
-                                            @endfor
-                                            ({{round($rating??'0')}})
-                                            <br>
-                                        <b>Category:</b><span> {{ $product->category_name->name ?? '' }}</span><br>
-                                        <b>Brand:</b><span> {{ $product->brand_name->name ?? '' }}</span>
-                                            
+                                        @endfor
+                                        ({{ round($rating ?? '0') }})
+                                        <br>
+                                        <table>
+                                            <tr>
+                                                <td><b>Category:</b></td>
+                                                <td>{{ $product->category_name->name ?? '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Brand:</b></td>
+                                                <td>{{ $product->brand_name->name ?? '' }}</td>
+                                            </tr>
+                                        </table>
+                                        {{-- <b>Category:</b><span> </span><br>
+                                        <b>Brand:</b><span> {{ $product->brand_name->name ?? '' }}</span> --}}
+
                                     </div>
 
                                     <form action="{{ url('detail-to-cart') }}" method="post" accept-charset="utf-8">
                                         @csrf
                                         <div class="_p-add-cart">
                                             <div class="_p-qty">
-                                                <b>Add Quantity</b>
+                                                <b>Quantity</b>
                                                 <div class="value-button decrease_" id="" value="Decrease Value">-
                                                 </div>
                                                 <input type="number" name="qty" id="number" value="1" />
@@ -539,11 +553,116 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <hr>
-                            <b>Description:</b>
-                            <p>{!! $product->description ?? '' !!}</p>
+                            <hr style="margin-bottom: 0px;">
+                            @if (Session('success'))
+                                <div class="alert alert-info alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <strong>Success:</strong>&nbsp; {{ Session('success') }}
+                                </div>
+                            @endif
+                            <div class="tabs effect-3">
+                                <!-- tab-title -->
+                                <input type="radio" id="tab-1" name="tab-effect-3" checked="checked">
+                                <span>Description</span>
+
+                                <input type="radio" id="tab-2" name="tab-effect-3">
+                                <span>Review</span>
+
+                                {{-- <input type="radio" id="tab-3" name="tab-effect-3">
+                                <span>Book Mark</span>
+
+                                <input type="radio" id="tab-4" name="tab-effect-3">
+                                <span>Upload</span>
+
+                                <input type="radio" id="tab-5" name="tab-effect-3">
+                                <span>Settings</span> --}}
+
+                                <div class="line ease"></div>
+
+                                <!-- tab-content -->
+                                <div class="tab-content">
+                                    <section id="tab-item-1" style="padding: 0px;">
+                                        <p>{!! $product->description ?? '' !!}</p>
+                                    </section>
+                                    <section id="tab-item-2" style="padding: 0px;">
+                                        <div class="col-md-12">
+
+                                            <form action="{{ route('comment.post') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                <b style="float: left;">Post Comment:</b>
+                                                <div class="rating">
+                                                    <input type="radio" id="star5" name="rate" value="5"
+                                                        checked />
+                                                    <label class="star" for="star5" title="Awesome"
+                                                        aria-hidden="true"></label>
+                                                    <input type="radio" id="star4" name="rate"
+                                                        value="4" />
+                                                    <label class="star" for="star4" title="Great"
+                                                        aria-hidden="true"></label>
+                                                    <input type="radio" id="star3" name="rate"
+                                                        value="3" />
+                                                    <label class="star" for="star3" title="Very good"
+                                                        aria-hidden="true"></label>
+                                                    <input type="radio" id="star2" name="rate"
+                                                        value="2" />
+                                                    <label class="star" for="star2" title="Good"
+                                                        aria-hidden="true"></label>
+                                                    <input type="radio" id="star1" name="rate" value="1"
+                                                        required />
+                                                    <label class="star" for="star1" title="Bad"
+                                                        aria-hidden="true"></label>
+                                                </div>
+                                                <input type="text" name="description" placeholder="Write here.."
+                                                    class="form-control" id="" required>
+                                                <br>
+                                                <button class="btn btn-primary" type="submit">Post</button>
+                                            </form>
+                                            <hr>
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            @foreach ($comment as $item)
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <img src="{{ asset($item->user_name->image_url ?? 'userProfile/miDYaOzIIYrVsTTlnDek42Xp3VrLy5tfsQAulyXk.png') }}"
+                                                            style="height: 85px; width:85px;
+                                                    border-radius: 50%;
+                                                    border: 2px solid #000;"
+                                                            alt="">
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <b>{{ $item->user_name->name ?? '' }}</b><br>
+                                                        <span>{{ $item->created_at->format('d M Y h:i A') }}</span> <br>
+                                                        @for ($i = 0; $i < $item->rate; $i++)
+                                                            <span class="fa fa-star" style="color:#F79426;"></span>
+                                                        @endfor
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        {{ $item->description ?? '' }}
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            @endforeach
+                                        </div>
+                                    </section>
+                                    {{-- <section id="tab-item-3">
+                                        <h1>Three</h1>
+                                    </section>
+                                    <section id="tab-item-4">
+                                        <h1>Four</h1>
+                                    </section>
+                                    <section id="tab-item-5">
+                                        <h1>Five</h1>
+                                    </section> --}}
+                                </div>
+                            </div>
+
+                            {{-- <b>Description:</b>
+                            <p>{!! $product->description ?? '' !!}</p> --}}
                         </div>
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             @if (Session('success'))
                                 <div class="alert alert-info alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -554,7 +673,7 @@
                             <hr>
                             <form action="{{ route('comment.post') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="product_id" value="{{$product->id}}">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <b style="float: left;">Post Comment:</b>
                                 <div class="rating">
                                     <input type="radio" id="star5" name="rate" value="5" checked />
@@ -589,7 +708,7 @@
                                     <div class="col-md-7">
                                         <b>{{ $item->user_name->name ?? '' }}</b><br>
                                         <span>{{ $item->created_at->format('d M Y h:i A') }}</span> <br>
-                                        @for($i=0; $i<$item->rate; $i++)
+                                        @for ($i = 0; $i < $item->rate; $i++)
                                             <span class="fa fa-star" style="color:#F79426;"></span>
                                         @endfor
                                     </div>
@@ -599,7 +718,7 @@
                                 </div>
                                 <hr>
                             @endforeach
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -610,7 +729,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-11">
                     <div class="row">
-                        <div class="col-sm-12 title_bx">
+                        <div class="col-sm-12 title_bx" style="margin-top:10px;">
                             <h3 class="title"> Recent Products </h3>
                         </div>
                     </div>

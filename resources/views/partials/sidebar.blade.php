@@ -470,6 +470,13 @@
                         <span>Discount</span>
                     </a>
                 </li>
+                <li class="{{$segment1 == 'coupon' ? 'active' : ''}}">
+                    <a href="{{url('coupon')}}">
+
+                        <i class="material-icons">iso</i>
+                        <span>Coupons</span>
+                    </a>
+                </li>
                 <li class="{{$segment1 == 'construction-video' ? 'active' : ''}}">
                     <a href="{{route('indexConstructionVideo')}}">
 

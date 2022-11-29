@@ -32,6 +32,7 @@
                                             <th>Phone</th>
                                             <th>Address</th>
                                             <th>QTY</th>
+                                            <th>Discount</th>
                                             <th>Tax</th>
                                             <th>Sub Total</th>
                                             <th>Total</th>
@@ -55,6 +56,7 @@
                                                 <td>{{ $item->address ?? '' }},{{ $item->city_name->name ?? '' }}
                                                 </td>
                                                 <td>{{ $item->qty ?? '0' }}</td>
+                                                <td>{{ $item->discount ?? '0' }}</td>
                                                 <td>{{ $item->tax ?? '0' }}</td>
                                                 <td>{{ $item->sub_total ?? '0' }}</td>
                                                 <td>{{ $item->total ?? '0' }}</td>

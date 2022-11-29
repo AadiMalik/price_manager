@@ -509,6 +509,8 @@ Route::group(['prefix' => 'term'], function() {
 
         // Fetaure package
         Route::resource('f-package', 'FpackageController');
+        // Coupon
+        Route::resource('coupon', 'CouponController');
         // Payment
         Route::resource('payment', 'PaymentMethodController');
         // Comment
@@ -601,6 +603,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('cart-remove/{id}','CartController@remove')->middleware('auth');
     Route::get('checkout','CartController@checkout')->middleware('auth');
     Route::post('checkout/store','CartController@store')->middleware('auth');
+    Route::post('coupon/discount','CartController@coupon')->middleware('auth');
 
     
 });
