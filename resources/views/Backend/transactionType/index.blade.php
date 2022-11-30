@@ -29,9 +29,9 @@
                                     @foreach($phoneview as  $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
-                                        <td>{{$item->userdetail->name}}</td>
-                                        <td>{{$item->user_detail_id}}</td>
-                                        <td>{{$item->user->name}}</td>
+                                        <td>{{$item->userdetail->name??''}}</td>
+                                        <td>{{$item->user_detail_id??''}}</td>
+                                        <td>{{$item->user->name??''}}</td>
                                     </tr>
                                     @endforeach
                                     </tbody>

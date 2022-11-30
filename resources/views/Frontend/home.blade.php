@@ -1,5 +1,5 @@
 @php
-use Carbon\Carbon;
+    use Carbon\Carbon;
 @endphp
 @extends('layouts.frontend')
 
@@ -225,7 +225,7 @@ use Carbon\Carbon;
                                                         <div class="service-icon item">
                                                             {{-- <span class="notify-badge"
                                                                 style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
-                                                                <span class="notify-badge"
+                                                            <span class="notify-badge"
                                                                 style="color:#fff; text-transform:capitalize;">Verified</span>
                                                             <img
                                                                 src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
@@ -676,8 +676,8 @@ use Carbon\Carbon;
 
                             </div>
                             <div class="row" id="userData">
-                                @if ($users->where('verify',0)->where('f_expiry','<',Carbon::now()->format('Y-m-d') || 'f_expiry','=',null)->count() > 0)
-                                    @foreach ($users->where('verify',0)->where('f_expiry','<',Carbon::now()->format('Y-m-d') || 'f_expiry','=',null)->take(8) as $user)
+                                @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
+                                    @foreach ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->take(8) as $user)
                                         @if ($user->products->where('price', '>', 0)->count() > 0)
                                             <div class="col-lg-3 col-md-6 col-sm-12">
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
@@ -879,7 +879,7 @@ use Carbon\Carbon;
                         </div>
 
                     </div>
-                    @if ($users->where('verify',0)->where('f_expiry','<',Carbon::now()->format('Y-m-d') || 'f_expiry','=',null)->count() > 8)
+                    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 8)
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-2 col-lg-offset-5">
@@ -908,39 +908,59 @@ use Carbon\Carbon;
         <div class="row justify-content-center">
             <div class="col-lg-11">
                 @foreach ($category as $item1)
-                @if($e_product->where('category_id',$item1->id)->count()>0)
-                <h4>{{ucwords($item1->name??'')}}</h4>
-                <hr>
-                <div class="row">
-                    <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1" id="MultiCarousel"
-                        data-interval="1000">
-                        <div class="MultiCarousel-inner">
-                            @foreach ($e_product->where('category_id',$item1->id) as $item)
-                            <div class="item">
-                                <div class="pad15">
-                                    <a href="{{url('product-detail/'.$item->id)}}">
-                                        <img src="{{ asset($item->image1??'asset/img/portfolio-1.jpg') }}" title=""
-                                            style="width:100%; height:200px;" />
-                                        <div>
-                                            <b style="text-align:center; display: inline-block; font-size:14px;">
-                                                {{$item->name??''}}</b><br>
-                                                <hr style="margin: 0;">
-                                                <span style="display: inline-block; font-size:14px;">
-                                                    <b> {{$item->price??''}}</b> Rs</span><br>
-                                                    {{-- <span style="text-align:left; display: inline-block; font-size:14px;">
-                                                        <b>Category:</b>{{$item->category_name->name??''}}</span> --}}
+                    @if ($e_product->where('category_id', $item1->id)->count() > 0)
+                        <h4>{{ ucwords($item1->name ?? '') }}</h4>
+                        <hr>
+                        <div class="row">
+                            <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1" id="MultiCarousel"
+                                data-interval="1000">
+                                <div class="MultiCarousel-inner">
+                                    @foreach ($e_product->where('category_id', $item1->id) as $item)
+                                        <div class="item">
+                                            <div class="pad15">
+                                                <a href="{{ url('product-detail/' . $item->id) }}">
+                                                    <img src="{{ asset($item->image1 ?? 'asset/img/portfolio-1.jpg') }}"
+                                                        title="" style="width:100%; height:250px;" />
+                                                    <div>
+                                                        <b
+                                                            style="text-align:center; display: inline-block; font-size:14px;">
+                                                            {{ $item->name ?? '' }}</b><br>
+                                                        <hr style="margin: 0;">
+                                                        <span style="display: inline-block; font-size:14px;">
+                                                            Rs<b style="font-size:14px;"> {{ $item->price ?? '' }}</b>
+                                                            @if (isset($item->old_price))
+                                                                <del
+                                                                    style="font-size:12px;">{{ $item->old_price ?? '' }}</del>
+                                                            @endif
+                                                        </span><br>
+                                                        <span
+                                                            style="text-align:left; display: inline-block; font-size:14px;">
+                                                            <?php $rating = 0; ?>
+                                                            <?php if (count($comment->where('product_id',$item->id)) != 0) {
+                                                                $rating = $comment->where('product_id',$item->id)->sum('rate') / count($comment->where('product_id',$item->id));
+                                                            } ?>
+                                                            @for ($i = 0; $i < round($rating); $i++)
+                                                                <span class="fa fa-star"
+                                                                    style="color:#F79426; margin-right:0px;"></span>
+                                                            @endfor
+                                                            @for ($i = 0; $i < 5 - round($rating); $i++)
+                                                                <span class="fa fa-star"
+                                                                    style="color:#b1a7a7; margin-right:0px;"></span>
+                                                            @endfor
+                                                            ({{ round($rating ?? '0') }})
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </a>
+                                    @endforeach
                                 </div>
+                                <button class="btn btn-primary leftLst">
+                                    < </button>
+                                        <button class="btn btn-primary rightLst">></button>
                             </div>
-                            @endforeach
                         </div>
-                        <button class="btn btn-primary leftLst">
-                            < </button>
-                                <button class="btn btn-primary rightLst">></button>
-                    </div>
-                </div>
-                @endif
+                    @endif
                 @endforeach
             </div>
         </div>
