@@ -42,7 +42,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::with('city', 'products', 'reviews')->where('user_type', '!=', 1)->where('user_type', '!=', 2)->orderBy('f_expiry', 'DESC')->whereHas('products', function ($q) {
+        $users = User::with('city', 'products', 'reviews')->where('user_type', '!=', 1)->where('user_type', '!=', 2)->where('status', '=', 1)->orderBy('f_expiry', 'DESC')->whereHas('products', function ($q) {
             $q->where('price', '>', 0);
         })->withCount(['reviews as average' => function ($query) {
             $query->select(\DB::raw('coalesce(avg(rating), 0)'));
@@ -50,7 +50,7 @@ class HomeController extends Controller
             $query->select(\DB::raw('coalesce(count(rating))'));
         }])->orderByDesc('plus')->orderByDesc('average')->get();
 
-        $new = User::orderBy('created_at', 'DESC')->with('city', 'products', 'reviews')->where('user_type', '!=', 1)->where('user_type', '!=', 2)->whereHas('products', function ($q) {
+        $new = User::orderBy('created_at', 'DESC')->with('city', 'products', 'reviews')->where('user_type', '!=', 1)->where('status', '=', 1)->where('user_type', '!=', 2)->whereHas('products', function ($q) {
             $q->where('price', '>', 0);
         })->withCount(['reviews as average' => function ($query) {
             $query->select(\DB::raw('coalesce(avg(rating), 0)'));
@@ -169,7 +169,7 @@ class HomeController extends Controller
 
     public function userSearch(Request $request)
     {
-        $users = User::with('city', 'userRating', 'userType', 'products', 'userPackage', 'reviews')->where('email', '!=', 'admin@gmail.com')->whereHas('products', function ($q) {
+        $users = User::with('city', 'userRating', 'userType', 'products', 'userPackage', 'reviews')->where('email', '!=', 'admin@gmail.com')->where('status', '=', 1)->whereHas('products', function ($q) {
             $q->where('price', '>', 1);
         });
         $product = DB::table('products')->select('user_id')->distinct()->where('category_id', $request->user_type)->get();
@@ -217,7 +217,7 @@ class HomeController extends Controller
 
     public function allUser()
     {
-        $users = User::with('reviews')->where('email', '!=', 'admin@gmail.com')->orderBy('f_expiry', 'DESC')->withCount(['reviews as average' => function ($query) {
+        $users = User::with('reviews')->where('email', '!=', 'admin@gmail.com')->where('status', '=', 1)->orderBy('f_expiry', 'DESC')->withCount(['reviews as average' => function ($query) {
             $query->select(\DB::raw('coalesce(avg(rating), 0)'));
         }])->orderByDesc('average')->get();
         return view('Frontend.user', compact('users'));

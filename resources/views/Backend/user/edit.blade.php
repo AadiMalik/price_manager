@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" value="{{$user->email}}" name="email" disabled>
+                                        <input type="text" class="form-control" value="{{$user->email}}" name="email" required>
                                         <label class="form-label">Email</label>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                 <div class="form-group form-float">
                                         <label class="form-label">Package</label>
                                     <div class="form-line">
-                                        <select class="form-control" name="package" required>
+                                        <select class="form-control" name="package">
                                             <option value="">-- Please select Package --</option>
                                             @foreach($userPackages as $userPackage)
                                                 <option value="{{$userPackage->id}}" {{ $user->user_package == $userPackage->id ? 'selected' : ''}}>{{$userPackage->name}}</option>

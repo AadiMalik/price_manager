@@ -227,7 +227,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
 //            'name' => 'required|unique:users,name',
-//            'email' => 'required|email|unique:users,email',
+            'email' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'address' => 'required',
@@ -235,7 +235,7 @@ class UserController extends Controller
 //            'phone_no' => 'required|digits:11',
             'user_type' => 'required',
 //            'user_rating' => 'required',
-            'package' => 'required',
+            // 'package' => 'required',
             'description' => 'required',
             'city' => 'required',
         ]);
@@ -252,7 +252,7 @@ class UserController extends Controller
             $package = UserPackage::findOrFail($request->package);
 
 //            $user->name = $request->name;
-//            $user->email = $request->email;
+            $user->email = $request->email;
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->address = $request->address;
@@ -307,7 +307,7 @@ class UserController extends Controller
             }
             $user->brand_id = isset($request->brand_id);
             \LogActivity::addToLog("Update Account of {$user->name}");
-            $user->save();
+            $user->update();
 
             return redirect()->route('indexUser')->with('success', 'User update successfully');
         }

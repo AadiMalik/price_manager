@@ -110,8 +110,8 @@ class CartController extends Controller
             $sub_total += $item->qty * $item->product_name->price;
             $tax += $sub_total * ($setting->tax / 100);
             $total += $sub_total + $tax;
-            $coupon_id = $item->coupon_name->id;
-            $discount = $item->coupon_name->amount;
+            $coupon_id = $item->coupon_id;
+            $discount = $item->coupon_name->amount??'0';
         }
         $shipping = ($sub_total < $setting->shipping_limit) ? $setting->shipping_charge : '0';
         if ($cart->count() > 0) {
