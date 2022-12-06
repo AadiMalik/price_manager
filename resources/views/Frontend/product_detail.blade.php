@@ -5,7 +5,7 @@
         .picZoomer {
             position: relative;
             /*margin-left: 40px;
-                                        padding: 15px;*/
+                                                padding: 15px;*/
         }
 
         .picZoomer-pic-wp {
@@ -26,7 +26,7 @@
 
         .picZoomer-pic {
             /*width: 100%;
-                                     height: 100%;*/
+                                             height: 100%;*/
         }
 
         .picZoomer-zoom-wp {
@@ -95,8 +95,8 @@
         }
 
         /* section {
-                    padding: 60px 0;
-                } */
+                            padding: 60px 0;
+                        } */
 
         .row-sm .col-md-6 {
             padding-left: 5px;
@@ -484,7 +484,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="_product-detail-content">
-                                <p class="_p-name"> {{ $product->name ?? '' }} </p>
+                                <h3 class="_p-name"> {{ $product->name ?? '' }} </h3>
+                                <hr>
                                 <div class="_p-price-box">
                                     <div class="p-list">
                                         {{-- <span> M.R.P. : <i class="fa fa-inr"></i> <del> 1399 </del> </span> --}}
@@ -528,7 +529,8 @@
                                                 <b>Quantity</b>
                                                 <div class="value-button decrease_" id="" value="Decrease Value">-
                                                 </div>
-                                                <input type="number" min="1" name="qty" id="number" value="1" />
+                                                <input type="number" min="1" name="qty" id="number"
+                                                    value="1" />
                                                 <div class="value-button increase_" id="" value="Increase Value">+
                                                 </div>
                                             </div>
@@ -744,26 +746,56 @@
                                     <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1" id="MultiCarousel"
                                         data-interval="1000">
                                         <div class="MultiCarousel-inner">
-                                            @foreach ($new as $item)
-                                                <div class="item">
-                                                    <div class="pad15">
-                                                        <a href="{{ url('product-detail/' . $item->id) }}">
-                                                            <img src="{{ asset($item->image1 ?? 'asset/img/portfolio-1.jpg') }}"
-                                                                title="" style="width:100%; height:250px;" />
-                                                            <div>
-                                                                <b
-                                                                    style="text-align:center; display: inline-block; font-size:14px;">
-                                                                    {{ $item->name ?? '' }}</b><br>
-                                                                <hr style="margin: 0;">
-                                                                <span style="display: inline-block; font-size:14px;">
-                                                                    <b> {{ $item->price ?? '' }}</b> Rs</span><br>
-                                                                {{-- <span style="text-align:left; display: inline-block; font-size:14px;">
-                                                                        <b>Category:</b>{{$item->category_name->name??''}}</span> --}}
+                                            <div class="row">
+                                                <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1"
+                                                    id="MultiCarousel" data-interval="1000">
+                                                    <div class="MultiCarousel-inner">
+                                                        @foreach ($new as $item)
+                                                            <div class="item">
+                                                                <div class="pad15"
+                                                                    style="padding: 0px; background:none;">
+                                                                    <a href="{{ url('product-detail/' . $item->id) }}">
+                                                                        <img src="{{ asset($item->image1 ?? 'asset/img/portfolio-1.jpg') }}"
+                                                                            title=""
+                                                                            style="width:100%; height:250px;" />
+                                                                        <div style="margin-top:10px; text-align: left;">
+                                                                            <b
+                                                                                style="text-align:center; display: inline-block; font-size:14px;">
+                                                                                {{ $item->name ?? '' }}</b><br>
+                                                                            <hr style="margin: 0;">
+                                                                            <span
+                                                                                style="display: inline-block; font-size:14px;">
+                                                                                Rs<b style="font-size:14px;">
+                                                                                    {{ $item->price ?? '' }}</b>
+                                                                                @if (isset($item->old_price))
+                                                                                    <del
+                                                                                        style="font-size:12px;">{{ $item->old_price ?? '' }}</del>
+                                                                                @endif
+                                                                            </span><br>
+                                                                            <span
+                                                                                style="text-align:left; display: inline-block; font-size:14px;">
+                                                                                <?php $rating = 0; ?>
+                                                                                <?php if (count($new_comment->where('product_id', $item->id)) != 0) {
+                                                                                    $rating = $new_comment->where('product_id', $item->id)->sum('rate') / count($new_comment->where('product_id', $item->id));
+                                                                                } ?>
+                                                                                @for ($i = 0; $i < round($rating); $i++)
+                                                                                    <span class="fa fa-star"
+                                                                                        style="color:#F79426; margin-right:0px;"></span>
+                                                                                @endfor
+                                                                                @for ($i = 0; $i < 5 - round($rating); $i++)
+                                                                                    <span class="fa fa-star"
+                                                                                        style="color:#b1a7a7; margin-right:0px;"></span>
+                                                                                @endfor
+                                                                                ({{ round($rating ?? '0') }})
+                                                                            </span>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
                                                             </div>
-                                                        </a>
+                                                        @endforeach
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            </div>
                                         </div>
                                         <button class="btn btn-primary leftLst">
                                             < </button>

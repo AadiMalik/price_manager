@@ -67,7 +67,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
+        $details = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone_no' => $data['phone'],
+            'validity_day' => 60,
+            'expiry_date' => now()->addDays(60),
+            'activation_date' => now(),
+        ];
+        \Mail::to($data['email'])->send(new \App\Mail\Register($details));
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -81,5 +89,6 @@ class RegisterController extends Controller
             'user_package' => 7,
             'activation_date' => now(),
         ]);
+        
     }
 }

@@ -224,6 +224,7 @@ Route::group(['prefix' => 'term'], function() {
                                                                                                                     // User
     Route::group(['prefix' => 'user'], function() {
         Route::get('/','UserController@index')->name('indexUser');
+        Route::get('/block','UserController@block')->name('blockUser');
         Route::get('/create','UserController@create')->name('userCreate');
         Route::post('/store','UserController@store')->name('userStore');
 
@@ -232,6 +233,7 @@ Route::group(['prefix' => 'term'], function() {
             Route::post('update','UserController@update')->name('userUpdate');
             Route::get('delete','UserController@destroy')->name('userDelete');
             Route::get('verify','UserController@verify')->name('userVerify');
+            Route::get('active','UserController@Active')->name('userActive');
         });
     });
     
@@ -596,6 +598,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/product-detail/{id}','ProductController@show');
     Route::get('/products','ProductController@index');
     Route::get('/products/{id}','ProductController@category');
+    Route::get('product-search','ProductController@search');
     Route::post('/post-comment','ProductController@comment')->name('comment.post')->middleware('auth');
     Route::post('/add-to-cart','HomeController@cart')->name('cart.store')->middleware('auth');
     Route::post('detail-to-cart','HomeController@detailCart')->middleware('auth');

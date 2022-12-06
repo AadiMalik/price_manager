@@ -145,6 +145,24 @@ class CartController extends Controller
                 $order_detail->save();
             }
             Cart::where('user_id', Auth()->user()->id)->delete();
+            // Email order
+            $details = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone1' => $request->phone1,
+                'phone2' => $request->phone2,
+                'phone3' => $request->phone3,
+                'address' => $request->address,
+                'city' => $request->city,
+                'order_no' => 'Order' . random_int(1, 99999),
+                'shipping_charge' => $shipping,
+                'qty' => $qty,
+                'discount' => $discount??'0',
+                'sub_total' => $sub_total,
+                'tax' => $tax,
+                'total' => ($total + $shipping)-$discount
+            ];
+            \Mail::to(Auth()->user()->email)->send(new \App\Mail\Order($details));
             return redirect('/fhome');
         } else {
             return back()->with('error', 'Please select product first!');

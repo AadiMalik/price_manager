@@ -44,7 +44,7 @@ class PackageController extends Controller
             // dd($productcategory);
         // $productcategory = DB::table('products')->select('category_id')->orderBy('category_id','ASC')->where('user_id',$user->id)->distinct()->get();
                
-        $users = User::inRandomOrder()->with('city', 'products','reviews')->where('id', '!=', $user->id)->where('user_type', '!=', 1)->where('user_type', '!=', 2)->whereHas('products', function($q)
+        $users = User::inRandomOrder()->with('city', 'products','reviews')->where('id', '!=', $user->id)->where('user_type', '!=', 1)->where('status', '=', 1)->where('user_type', '!=', 2)->whereHas('products', function($q)
         {
             $q->where('price','>', 0);
 
@@ -72,7 +72,7 @@ class PackageController extends Controller
         $productcategory = DB::table('products')->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->select('categories.id', 'categories.name')->orderBy('categories.name','ASC')->where('user_id',$user->id)->distinct()->get();
                
-        $users = User::inRandomOrder()->with('city', 'products','reviews')->where('id', '!=', $id)->where('user_type', '!=', 1)->where('user_type', '!=', 2)->whereHas('products', function($q)
+        $users = User::inRandomOrder()->with('city', 'products','reviews')->where('id', '!=', $id)->where('user_type', '!=', 1)->where('status', '=', 1)->where('user_type', '!=', 2)->whereHas('products', function($q)
         {
             $q->where('price','>', 0);
 

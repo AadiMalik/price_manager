@@ -31,6 +31,15 @@
             max-height: 290px;
             margin-bottom: 20px;
             overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .section-products .single-product .part-1:hover {
+            -webkit-transform: scale(1.06);
+            -moz-transform: scale(1.06);
+            -ms-transform: scale(1.06);
+            -o-transform: scale(1.06);
+            transform: scale(1.06);
         }
 
         .section-products .single-product .part-1::before {
@@ -44,30 +53,9 @@
             transition: all 0.3s;
         }
 
-        .section-products .single-product:hover .part-1::before {
-            transform: scale(1.2, 1.2) rotate(5deg);
-        }
-
-        .section-products #product-1 .part-1::before {
-            background: url("https://i.ibb.co/L8Nrb7p/1.jpg") no-repeat center;
-            background-size: cover;
-            transition: all 0.3s;
-        }
-
-        .section-products #product-2 .part-1::before {
-            background: url("https://i.ibb.co/cLnZjnS/2.jpg") no-repeat center;
-            background-size: cover;
-        }
-
-        .section-products #product-3 .part-1::before {
-            background: url("https://i.ibb.co/L8Nrb7p/1.jpg") no-repeat center;
-            background-size: cover;
-        }
-
-        .section-products #product-4 .part-1::before {
-            background: url("https://i.ibb.co/cLnZjnS/2.jpg") no-repeat center;
-            background-size: cover;
-        }
+        /* .section-products .single-product:hover .part-1::before {
+                transform: scale(1.2, 1.2) rotate(5deg);
+            } */
 
         .section-products .single-product .part-1 .discount,
         .section-products .single-product .part-1 .new {
@@ -157,42 +145,87 @@
             <div class="row">
                 <div class="col-md-3">
                     <ul class="list-group">
-                        <li class="list-group-item active">Categories</li>
+                        <li class="list-group-item active">
+                            <h5>Categories</h5>
+                        </li>
                         @foreach ($category as $item)
-                        <li class="list-group-item"><a href="{{url('products/'.$item->id)}}">{{$item->name??''}}</a></li>
+                            <li class="list-group-item">
+                                <a href="{{ url('products/' . $item->id) }}"><b
+                                        style="color:#000;">{{ $item->name ?? '' }}</b></a>
+                            </li>
                         @endforeach
-                      </ul>
+                    </ul>
                 </div>
                 <div class="col-md-9">
+                    <form action="{{ url('product-search') }}" method="get">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input type="text" name="search" class="form-control" id="">
+                            </div>
+                            <div class="col-md-2">
+                                <button style="submit" class="btn btn-primary form-control">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
                     <div class="row">
                         <!-- Single Product -->
-                        @foreach ($product as $item)
-                            <div class="col-md-6 col-lg-4 col-xl-3">
+                        @if (count($product) > 0)
+                            @foreach ($product as $item)
+                                <div class="col-md-6 col-lg-4 col-xl-3">
 
-                                <div id="product-1" class="single-product">
-                                    <div class="part-1"
-                                        style="background: url({{ asset($item->image1 ?? 'https://i.ibb.co/L8Nrb7p/1.jpg') }}) no-repeat center;
-                                background-size: cover;
-                                transition: all 0.3s;">
-                                        {{-- <span class="discount">15% off</span> --}}
-                                        <ul>
-                                            <li><a style="cursor: pointer;" onclick="Cart({{ $item->id }})"><i
-                                                        class="fas fa-shopping-cart"></i></a></li>
-                                            {{-- <li><a href="#"><i class="fas fa-heart"></i></a></li> --}}
-                                            {{-- <li><a href="#"><i class="fas fa-plus"></i></a></li> --}}
-                                            <li><a href="{{ url('product-detail/' . $item->id) }}"><i
-                                                        class="fas fa-expand"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="part-2">
-                                        <h3 class="product-title"><a
-                                                href="{{ url('product-detail/' . $item->id) }}">{{ $item->name ?? '' }}</a></h3>
-                                        {{-- <h4 class="product-old-price">R79.99</h4> --}}
-                                        <h4 class="product-price" style="margin-top:0px;">Rs. {{ $item->price ?? '' }}</h4>
+                                    <div id="product-1" class="single-product">
+                                        <a href="{{ url('product-detail/' . $item->id) }}"`style="over-flow:hidden;">
+                                            <div class="part-1"
+                                                style="background: url({{ asset($item->image1 ?? 'https://i.ibb.co/L8Nrb7p/1.jpg') }}) no-repeat center; background-size: cover; transition: all 0.3s;">
+                                                {{-- <span class="discount">15% off</span> --}}
+                                                {{-- <ul>
+                                                    <li><a style="cursor: pointer;" onclick="Cart({{ $item->id }})"><i
+                                                                class="fas fa-shopping-cart"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-heart"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-plus"></i></a></li>
+                                                    <li><a href="{{ url('product-detail/' . $item->id) }}"><i
+                                                                class="fas fa-expand"></i></a></li>
+                                                </ul> --}}
+                                            </div>
+                                        </a>
+                                        <div class="part-2">
+                                            <h3 class="product-title" style="font-family:'Roboto', sans-serif;"><a
+                                                    href="{{ url('product-detail/' . $item->id) }}">{{ $item->name ?? '' }}</a>
+                                            </h3>
+                                            {{-- <h4 class="product-old-price">R79.99</h4> --}}
+                                            <h4 class="product-price"
+                                                style="margin-top:0px;font-family:'Roboto', sans-serif;">Rs.
+                                                {{ $item->price ?? '' }}
+                                                &nbsp;&nbsp; @if (isset($item->old_price))
+                                                    <small><del>{{ $item->old_price ?? '0' }}</del></small>
+                                                @endif
+                                            </h4><br>
+                                            <span style="text-align:left; display: inline-block; font-size:14px;">
+                                                <?php $rating = 0; ?>
+                                                <?php if (count($comment->where('product_id', $item->id)) != 0) {
+                                                    $rating = $comment->where('product_id', $item->id)->sum('rate') / count($comment->where('product_id', $item->id));
+                                                } ?>
+                                                @for ($i = 0; $i < round($rating); $i++)
+                                                    <span class="fa fa-star"
+                                                        style="color:#F79426; margin-right:0px;"></span>
+                                                @endfor
+                                                @for ($i = 0; $i < 5 - round($rating); $i++)
+                                                    <span class="fa fa-star"
+                                                        style="color:#b1a7a7; margin-right:0px;"></span>
+                                                @endfor
+                                                ({{ round($rating ?? '0') }})
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        @else
+                            <div class="col-md-12" style="text-align: center;">
+                                <p>No Product Found!</p>
                             </div>
-                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

@@ -31,8 +31,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::where('email', '!=', 'admin@gmail.com')->get();
+        $users = User::where('email', '!=', 'admin@gmail.com')->where('status','!=',2)->get();
         return view('Backend.user.index', compact('users'));
+    }
+    public function block()
+    {
+        $users = User::where('email', '!=', 'admin@gmail.com')->where('status','=',2)->get();
+        return view('Backend.user.block', compact('users'));
     }
     
     public function indexAPI(Request $request)
@@ -353,7 +358,20 @@ class UserController extends Controller
             return back();
         }
     }
-                                                                                        // Update User Package by Admin
+    public function Active($id)
+    {
+        
+        $user = User::find($id);
+        if($user->status==1 || $user->status==null){
+            $user->status=2;
+            $user->update();
+            return back();
+        }else{
+            $user->status=1;
+            $user->update();
+            return back();
+        }
+    }                                                                                 // Update User Package by Admin
     public function userPackageindex(){
         $users = User::all();
 

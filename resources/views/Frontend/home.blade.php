@@ -38,7 +38,7 @@
 
 
     <!-- Top Feature Start-->
-    <div class="feature-top">
+    {{-- <div class="feature-top">
         <div class="container-fluid">
             <div class="row" style="height:100%;">
                 <div class="col-md-2 col-sm-6">
@@ -96,7 +96,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Top Feature End-->
 
 
@@ -121,7 +121,7 @@
                                 <p>
                                     {!! nl2br(e($siteContents[0]->where('id', 41)->first()->content)) !!}
                                 </p>
-                                <a class="btn" href="{{ route('frontendAbout') }}">Load More</a>
+                                {{-- <a class="btn" href="{{ route('frontendAbout') }}">Load More</a> --}}
                             </div>
                         </div>
                     </div>
@@ -158,9 +158,9 @@
                     <input class="form-control" style="width:100%;border-bottom: 2px solid #da5c22; border-top: none; border-left: none; border-right: none; border-radius: 0px;" name="user_type" placeholder="Enter Product Name.." id="user_type">
                         
                     </td> --}}
-                <td style="width:25%;">
+                <td style="width:33%;">
                     <select class="js-example-basic-single form-control" style="width:100%;" name="user_type"
-                        id="user_type">
+                        id="user_type" onchange="SearchUser()">
                         <option value="all">All</option>
                         @foreach ($category as $index => $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -168,18 +168,18 @@
                     </select>
                 </td>
 
-                <td style="width:25%;">
+                <td style="width:33%;">
                     <select class="js-example-basic-single form-control" style="width:100%;" name="industry"
-                        id="industry">
+                        id="industry" onchange="SearchUser()">
                         <option value="all">All</option>
                         @foreach ($industries as $index => $industry)
                             <option value="{{ $industry->id }}">{{ $industry->name }}</option>
                         @endforeach
                     </select>
                 </td>
-                <td style="width:25%;">
+                <td style="width:33%;">
                     <select class="js-example-basic-single form-control" style="width:100%;" name="city"
-                        id="city">
+                        id="city" onchange="SearchUser()">
                         <option value="all">All</option>
                         @foreach ($cities as $city)
                             <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -188,17 +188,40 @@
                 </td>
 
 
-                <td style="width:25%;">
+                {{-- <td style="width:25%;">
                     <button type="submit" onclick="SearchUser()" class="remarks-btn form-control"><span
                             class="fa fa-search"></span> Search
                     </button>
-                </td>
+                </td> --}}
                 </tr>
 
             </table>
         </div>
 
     </div>
+    <!-- end Search section-->
+    <!-- Service Start -->
+    <div class="service" style="display:none;" id="users_search">
+        <div class="container">
+            <div class="section-header">
+                <h2>Search Companies</h2>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-11">
+                            <div class="row" id="userSearch">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
     <!-- end Search section-->
     <!-- Service Start -->
     <div class="service">
@@ -212,9 +235,6 @@
                 <div class="col-lg-12">
                     <div class="row justify-content-center">
                         <div class="col-lg-11">
-                            <div class="row" id="userSearch">
-
-                            </div>
                             <div class="row" id="userData">
                                 @if ($users->count() > 0)
                                     @foreach ($users->where('verify', 1)->take(8) as $user)
@@ -664,7 +684,7 @@
     <div class="service">
         <div class="container">
             <div class="section-header">
-                <h2>New Arrival</h2>
+                <h2>Companies</h2>
             </div>
         </div>
         <div class="container-fluid">
@@ -909,7 +929,10 @@
             <div class="col-lg-11">
                 @foreach ($category as $item1)
                     @if ($e_product->where('category_id', $item1->id)->count() > 0)
-                        <h4>{{ ucwords($item1->name ?? '') }}</h4>
+                        <div>
+                            <h4>{{ ucwords($item1->name ?? '') }}</h4>
+                        <a href="{{url('products/'.$item1->id)}}" style="float: right; margin-top:-20px; color:#da5c22; font-weight:bold;">View All</a>
+                        </div>
                         <hr>
                         <div class="row">
                             <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1" id="MultiCarousel"
@@ -917,11 +940,11 @@
                                 <div class="MultiCarousel-inner">
                                     @foreach ($e_product->where('category_id', $item1->id) as $item)
                                         <div class="item">
-                                            <div class="pad15">
+                                            <div class="pad15" style="padding: 0px; background:none;">
                                                 <a href="{{ url('product-detail/' . $item->id) }}">
                                                     <img src="{{ asset($item->image1 ?? 'asset/img/portfolio-1.jpg') }}"
                                                         title="" style="width:100%; height:250px;" />
-                                                    <div>
+                                                    <div style="margin-top:10px;text-align: left;">
                                                         <b
                                                             style="text-align:center; display: inline-block; font-size:14px;">
                                                             {{ $item->name ?? '' }}</b><br>
@@ -986,7 +1009,7 @@
                             @foreach ($users as $user)
                                 @if ($user->products->where('price', '>', 0)->count() > 0 && $user->brand_id)
                                     <div class="item">
-                                        <div class="pad15">
+                                        <div class="pad15" style="background: none;">
                                             <a href="{{ route('frontendUserPackageDetail', $user->id) }}">
                                                 <img src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}"
                                                     title="{{ $user->image_title }}" style="width:100%; height:200px;" />
@@ -1339,6 +1362,7 @@
         });
 
         function SearchUser(e) {
+            document.getElementById("users_search").style.display = "block";
 
             let data = {
                 city: jQuery('#city').val(),

@@ -15,18 +15,27 @@ class ProductController extends Controller
     public function show($id){
         $product = EProduct::find($id);
         $new = EProduct::orderBy('created_at','DESC')->get();
+        $new_comment = Comment::orderBy('created_at','DESC')->where('status',0)->get();
         $comment = Comment::orderBy('created_at','DESC')->where('product_id',$id)->where('status',0)->get();
-        return view('Frontend/product_detail',compact('product','new','comment'));
+        return view('Frontend/product_detail',compact('product','new','comment','new_comment'));
     }
     public function index(){
         $product = EProduct::all();
+        $comment = Comment::orderBy('created_at','DESC')->where('status',0)->get();
         $category = ProductCategory::orderBy('name','ASC')->get();
-        return view('Frontend/products',compact('product','category'));
+        return view('Frontend/products',compact('product','category','comment'));
     }
     public function category($id){
         $product = EProduct::where('category_id',$id)->get();
         $category = ProductCategory::orderBy('name','ASC')->get();
-        return view('Frontend/products',compact('product','category'));
+        $comment = Comment::orderBy('created_at','DESC')->where('status',0)->get();
+        return view('Frontend/products',compact('product','category','comment'));
+    }
+    public function search(Request $request){
+        $product = EProduct::where('name','LIKE','%'.$request->search.'%')->orWhere('price','LIKE','%'.$request->search.'%')->get();
+        $category = ProductCategory::orderBy('name','ASC')->get();
+        $comment = Comment::orderBy('created_at','DESC')->where('status',0)->get();
+        return view('Frontend/products',compact('product','category','comment'));
     }
     public function comment(Request $request){
         $validator = Validator::make($request->all(), [
