@@ -224,6 +224,7 @@
     <!-- Service End -->
     <!-- end Search section-->
     <!-- Service Start -->
+    @if($users->where('verify', 1)->count()>0)
     <div class="service">
         <div class="container">
             <div class="section-header">
@@ -449,8 +450,10 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- Service End -->
     {{-- featured companies --}}
+    @if (count($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))) > 0)
     <div class="service">
         <div class="container">
             <div class="section-header">
@@ -679,8 +682,10 @@
             </div>
         </div>
     </div>
+    @endif
     {{-- End featured company --}}
     {{-- featured companies --}}
+    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
     <div class="service">
         <div class="container">
             <div class="section-header">
@@ -912,6 +917,7 @@
             </div>
         </div>
     </div>
+    @endif
     {{-- End featured company --}}
     <!-- Popular Brand Start -->
     <div class="container" style="margin-top:20px;">
@@ -1033,6 +1039,7 @@
         </div>
     </div>
     <!-- Feature End -->
+    @if($user->created_at->addDays(6) >= now())
     <div class="service">
         <div class="container">
             <div class="section-header">
@@ -1264,6 +1271,7 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- Service End -->
     <!-- Review Section Start -->
     <div class="testimonial">

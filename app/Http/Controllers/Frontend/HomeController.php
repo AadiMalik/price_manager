@@ -173,18 +173,26 @@ class HomeController extends Controller
             $q->where('price', '>', 1);
         });
         $product = DB::table('products')->select('user_id')->distinct()->where('category_id', $request->user_type)->get();
-
+        if(isset($product)){
         foreach ($product as $item) {
             if ($request->user_type != 'all') {
                 $users->where('id', $item->user_id);
             }
             if ($request->industry != 'all') {
-                $users->where('id', $item->user_id)->where('industry_id', $request->industry);
+                $users->where('industry_id', $request->industry);
             }
             if ($request->city != 'all') {
-                $users->where('id', $item->user_id)->where('city_id', $request->city);
+                $users->where('city_id', $request->city);
             }
         }
+    }else{
+        if ($request->industry != 'all') {
+            $users->where('industry_id', $request->industry);
+        }
+        if ($request->city != 'all') {
+            $users->where('city_id', $request->city);
+        }
+    }
         //  dd($users);
 
 
