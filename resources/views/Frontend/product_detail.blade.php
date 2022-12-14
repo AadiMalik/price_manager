@@ -462,10 +462,10 @@
                             overflow-x: hidden;">
                                 <ul class="piclist">
                                     <li><img src="{{ asset($product->image1) ?? 'https://s.fotorama.io/1.jpg' }}"
-                                            alt=""></li>
+                                            alt="" style="height: 100%; width:100%; "></li>
                                     @foreach ($product_image as $item)
                                         <li><img src="{{ asset($item->image) ?? 'https://s.fotorama.io/1.jpg' }}"
-                                                alt=""></li>
+                                                alt="" style="height: 100%; width:100%;"></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -521,11 +521,11 @@
                                         <div class="_p-add-cart">
                                             <div class="_p-qty">
                                                 <b>Quantity</b>
-                                                <div style="background: #efe4de; border:none; color:#000;" class="value-button decrease_" id="" value="Decrease Value">-
+                                                <div style="background: #fff; border:none; color:#000;" class="value-button decrease_" id="" value="Decrease Value">-
                                                 </div>
                                                 <input style="margin-top: 4px; border:none;" type="number" min="1" name="qty" id="number"
                                                     value="1" />
-                                                <div style="background: #efe4de; border:none; color:#000;" class="value-button increase_" id="" value="Increase Value">+
+                                                <div style="background: #fff; border:none; color:#000;" class="value-button increase_" id="" value="Increase Value">+
                                                 </div>
                                             </div>
                                         </div>

@@ -167,8 +167,8 @@
                             <h3 style="text-transform:capitalize;">{{ $user->first_name . ' ' . $user->last_name }}</h3>
                             <table>
                                 <tr>
-                                    <td style="width: 130px;"><span>Phone #:</span></td>
-                                    <td><b>@auth
+                                    <td style="width: 130px;"><b>Phone #:</b></td>
+                                    <td><span>@auth
 
                                                 &nbsp;&nbsp;&nbsp;&nbsp;<button id="butsave" data-toggle="collapse"
                                                     data-target="#collapseExample" aria-expanded="false"
@@ -176,17 +176,17 @@
                                                     style="font-size: 12px; color: #fff; height: 30px; line-height: 10px;">Show</button>
                                             @else
                                             &nbsp;&nbsp;&nbsp;&nbsp;Login First then Show @endauth
-                                        </b>
+                                    </span>
 
                                     </td>
                                 <tr>
-                                    <td style="width: 160px;"><span>Member Status:</span></td>
-                                    <td>&nbsp;&nbsp;&nbsp;<b> {{ $user->userPackage->name ?? '' }}</b></td>
+                                    <td style="width: 160px;"><b>Member Status:</b></td>
+                                    <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->userPackage->name ?? '' }}</span></td>
                                 </tr>
                                 @if(isset($user->open))
                                 <tr>
-                                    <td style="width: 160px;"><span>Working Schedule:</span></td>
-                                    <td>&nbsp;&nbsp;&nbsp;<b> {{ $user->open }} - {{ $user->close }} {{ $user->holiday }} Closed</b></td>
+                                    <td style="width: 160px;"><b>Working Schedule:</b></td>
+                                    <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->open }} - {{ $user->close }} {{ $user->holiday }} Closed</span></td>
                                 </tr>
                                 @endif
                                 <tr colspan="2">
