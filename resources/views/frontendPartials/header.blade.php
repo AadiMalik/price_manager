@@ -15,21 +15,21 @@
                             <!-- <img src="img/logo.jpg" alt="Logo"> -->
                         </a>
                     </div>
-                    <a href="{{route('frontendHome')}}" class="nav-item nav-link {{$segment1 == 'fhome' ? 'active' : ''}}">Home</a>
-                    <a href="{{route('frontendBrand')}}" class="nav-item nav-link {{$segment1 == 'fbrand' ? 'active' : ''}}">Brand</a>
-                    <a href="{{route('frontendConstruction')}}" class="nav-item nav-link {{$segment1 == 'construction' ? 'active' : ''}}">Construction</a>
-                    <a href="{{url('products')}}" class="nav-item nav-link {{$segment1 == 'products' ? 'active' : ''}}">Products</a>
-                    <a href="{{route('frontendRemarks')}}" class="nav-item nav-link {{$segment1 == 'remarks' ? 'active' : ''}}">Remarks</a>
-                    <div class="dropdown">
+                    <a href="{{route('frontendHome')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'fhome' ? 'active' : ''}}">Home</a>
+                    <a href="{{route('frontendBrand')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'fbrand' ? 'active' : ''}}">Brand</a>
+                    <a href="{{route('frontendConstruction')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'construction' ? 'active' : ''}}">Construction</a>
+                    <a href="{{url('products')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'products' ? 'active' : ''}}">Products</a>
+                    <a href="{{route('frontendRemarks')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'remarks' ? 'active' : ''}}">Remarks</a>
+                    {{-- <div class="dropdown">
                     <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-item nav-link dropdown-toggle {{$segment1 == 'fpackage' ? 'active' : ''}}">Packages
                     </a>
                         <div class="dropdown-menu" style="margin: 0px;">
                             <a class="dropdown-item" href="{{route('frontendPackage')}}">For Member</a>
                             <a class="dropdown-item" href="{{url('f_package')}}">For Feature</a>
                           </div>
-                        </div>
-                    <a href="{{route('frontendContact')}}" class="nav-item nav-link {{$segment1 == 'contact-us' ? 'active' : ''}}">Contact</a>
-                    <a href="{{route('frontendAbout')}}" class="nav-item nav-link {{$segment1 == 'about' ? 'active' : ''}}">About</a>
+                        </div> --}}
+                    <a href="{{route('frontendContact')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'contact-us' ? 'active' : ''}}">Contact</a>
+                    <a href="{{route('frontendAbout')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'about' ? 'active' : ''}}">About</a>
                 </div>
                 <div class="ml-auto">
                     @if(auth()->check())

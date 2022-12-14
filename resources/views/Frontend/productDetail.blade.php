@@ -73,6 +73,7 @@
 
 
     <!-- Top Feature Start-->
+    @if($user->verify==1)
     <div class="feature-top">
         <div class="container-fluid">
             <div class="row" style="height:100%;">
@@ -132,6 +133,7 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- Top Feature End-->
 
     <!-- Service Start -->
@@ -178,9 +180,15 @@
 
                                     </td>
                                 <tr>
-                                    <td style="width: 130px;"><span>Member Status:</span></td>
+                                    <td style="width: 160px;"><span>Member Status:</span></td>
                                     <td>&nbsp;&nbsp;&nbsp;<b> {{ $user->userPackage->name ?? '' }}</b></td>
                                 </tr>
+                                @if(isset($user->open))
+                                <tr>
+                                    <td style="width: 160px;"><span>Working Schedule:</span></td>
+                                    <td>&nbsp;&nbsp;&nbsp;<b> {{ $user->open }} - {{ $user->close }} {{ $user->holiday }} Closed</b></td>
+                                </tr>
+                                @endif
                                 <tr colspan="2">
                                     <td>
                                         <br>
@@ -831,8 +839,10 @@
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
                                                     <div class="service-item">
                                                         <div class="service-icon item">
+                                                            @if($user->verify==1)
                                                             <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span>
+                                                                style="color:#fff; text-transform:capitalize;">Verified</span>
+                                                                @endif
                                                             <img
                                                                 src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
                                                         </div>

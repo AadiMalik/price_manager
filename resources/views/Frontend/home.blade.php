@@ -142,15 +142,15 @@
         <div class="row">
             <table style="width:100%;">
                 <tr>
-                    <td>
+                    {{-- <td>
                         <label>Select {{ $siteContents[0]->where('id', 5)->first()->content }}</label>
-                    </td>
+                    </td> --}}
 
                     <td>
-                        <label>Select {{ $siteContents[0]->where('id', 7)->first()->content }}</label>
+                        <label style="font-weight: bold; font-size:18px;">{{ $siteContents[0]->where('id', 7)->first()->content }}</label>
                     </td>
                     <td>
-                        <label>Select {{ $siteContents[0]->where('id', 6)->first()->content }}</label>
+                        <label style="font-weight: bold; font-size:18px;">{{ $siteContents[0]->where('id', 6)->first()->content }}</label>
                     </td>
                 </tr>
                 {{-- <tr>
@@ -158,7 +158,7 @@
                     <input class="form-control" style="width:100%;border-bottom: 2px solid #da5c22; border-top: none; border-left: none; border-right: none; border-radius: 0px;" name="user_type" placeholder="Enter Product Name.." id="user_type">
                         
                     </td> --}}
-                <td style="width:33%;">
+                {{-- <td style="width:33%;">
                     <select class="js-example-basic-single form-control" style="width:100%;" name="user_type"
                         id="user_type" onchange="SearchUser()">
                         <option value="all">All</option>
@@ -166,7 +166,7 @@
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
-                </td>
+                </td> --}}
 
                 <td style="width:33%;">
                     <select class="js-example-basic-single form-control" style="width:100%;" name="industry"
@@ -1459,8 +1459,6 @@
                                     '">\n' +
                                     '                                            <div class="service-item" style="height: 485px;">\n' +
                                     '                                                <div class="service-icon item">\n' +
-                                    '                                                    <span class="notify-badge">' +
-                                    cityName + '</span>\n' +
                                     '                                                    <img src="' +
                                     imageUrl + '" />\n' +
                                     '                                                </div>\n' +

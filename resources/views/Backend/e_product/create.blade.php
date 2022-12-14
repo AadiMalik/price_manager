@@ -82,7 +82,7 @@
 
                                     </div>
                                 </div>
-                                <div class="form-group form-float">
+                                {{-- <div class="form-group form-float">
                                     <div class="form-line">
 
                                         <input type="file" class="form-control" name="image2">
@@ -95,7 +95,7 @@
                                         <input type="file" class="form-control" name="image3">
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             </form>
                         </div>

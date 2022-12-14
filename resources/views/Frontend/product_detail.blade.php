@@ -5,7 +5,7 @@
         .picZoomer {
             position: relative;
             /*margin-left: 40px;
-                                                padding: 15px;*/
+                                                    padding: 15px;*/
         }
 
         .picZoomer-pic-wp {
@@ -26,7 +26,7 @@
 
         .picZoomer-pic {
             /*width: 100%;
-                                             height: 100%;*/
+                                                 height: 100%;*/
         }
 
         .picZoomer-zoom-wp {
@@ -95,8 +95,8 @@
         }
 
         /* section {
-                            padding: 60px 0;
-                        } */
+                                padding: 60px 0;
+                            } */
 
         .row-sm .col-md-6 {
             padding-left: 5px;
@@ -457,22 +457,16 @@
                     <hr>
                     <div class="row row-sm">
                         <div class="col-md-6 _boxzoom">
-                            <div class="zoom-thumb">
+                            <div class="zoom-thumb" style="overflow-y: auto;
+                            height: 460px;
+                            overflow-x: hidden;">
                                 <ul class="piclist">
                                     <li><img src="{{ asset($product->image1) ?? 'https://s.fotorama.io/1.jpg' }}"
                                             alt=""></li>
-                                    @if (isset($product->image2))
-                                        <li><img src="{{ asset($product->image2) ?? 'https://s.fotorama.io/1.jpg' }}"
+                                    @foreach ($product_image as $item)
+                                        <li><img src="{{ asset($item->image) ?? 'https://s.fotorama.io/1.jpg' }}"
                                                 alt=""></li>
-                                    @endif
-                                    @if (isset($product->image3))
-                                        <li><img src="{{ asset($product->image3) ?? 'https://s.fotorama.io/1.jpg' }}"
-                                                alt=""></li>
-                                    @endif
-                                    @if (isset($product->image4))
-                                        <li><img src="{{ asset($product->image4) ?? 'https://s.fotorama.io/1.jpg' }}"
-                                                alt=""></li>
-                                    @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="_product-images">
@@ -527,11 +521,11 @@
                                         <div class="_p-add-cart">
                                             <div class="_p-qty">
                                                 <b>Quantity</b>
-                                                <div class="value-button decrease_" id="" value="Decrease Value">-
+                                                <div style="background: #efe4de; border:none; color:#000;" class="value-button decrease_" id="" value="Decrease Value">-
                                                 </div>
-                                                <input type="number" min="1" name="qty" id="number"
+                                                <input style="margin-top: 4px; border:none;" type="number" min="1" name="qty" id="number"
                                                     value="1" />
-                                                <div class="value-button increase_" id="" value="Increase Value">+
+                                                <div style="background: #efe4de; border:none; color:#000;" class="value-button increase_" id="" value="Increase Value">+
                                                 </div>
                                             </div>
                                         </div>

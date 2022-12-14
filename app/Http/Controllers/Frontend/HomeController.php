@@ -172,27 +172,27 @@ class HomeController extends Controller
         $users = User::with('city', 'userRating', 'userType', 'products', 'userPackage', 'reviews')->where('email', '!=', 'admin@gmail.com')->where('status', '=', 1)->whereHas('products', function ($q) {
             $q->where('price', '>', 1);
         });
-        $product = DB::table('products')->select('user_id')->distinct()->where('category_id', $request->user_type)->get();
-        if(isset($product)){
-        foreach ($product as $item) {
-            if ($request->user_type != 'all') {
-                $users->where('id', $item->user_id);
-            }
-            if ($request->industry != 'all') {
-                $users->where('industry_id', $request->industry);
-            }
-            if ($request->city != 'all') {
-                $users->where('city_id', $request->city);
-            }
-        }
-    }else{
+        // $product = DB::table('products')->select('user_id')->distinct()->where('category_id', $request->user_type)->get();
+        // if(isset($product)){
+        // foreach ($product as $item) {
+        //     if ($request->user_type != 'all') {
+        //         $users->where('id', $item->user_id);
+        //     }
+        //     if ($request->industry != 'all') {
+        //         $users->where('industry_id', $request->industry);
+        //     }
+        //     if ($request->city != 'all') {
+        //         $users->where('city_id', $request->city);
+        //     }
+        // }
+    // }else{
         if ($request->industry != 'all') {
             $users->where('industry_id', $request->industry);
         }
         if ($request->city != 'all') {
             $users->where('city_id', $request->city);
         }
-    }
+    // }
         //  dd($users);
 
 

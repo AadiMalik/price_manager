@@ -304,6 +304,10 @@ Route::group(['prefix' => 'term'], function() {
             Route::get('delete','EProductController@destroy')->name('e_productBrandDelete');
         });
     });
+    Route::get('e_product_image/{id}','EProductImageController@edit')->name('e_product_image');
+    Route::post('e_product_image/store','EProductImageController@store')->name('e_product_imageStore');
+    Route::get('e_product_image_delete/{id}','EProductImageController@destroy')->name('e_product_imageDelete');
+
     Route::group(['prefix' => 'currier'], function() {
         Route::get('/','CurrierController@index')->name('currier');
         Route::get('/create','CurrierController@create')->name('currier.create');

@@ -92,6 +92,9 @@ if($request->hasfile('image')){
             $user->last_name = $request->last_name;
             $user->city_id = $request->city;
             $user->address = $request->address;
+            $user->open = date("g:i A", strtotime($request->open));
+            $user->close = date("g:i A", strtotime($request->close));
+            $user->holiday = $request->holiday;
             //$user->token = md5($request->name);
             $user->description = $request->description;
             \LogActivity::addToLog("Profile Update");
@@ -174,7 +177,10 @@ if($request->hasfile('image')){
                 $user->password =  Hash::make($request->password);
             }
             $user->save();
-            
+            $details=[
+                'Name'=>Auth()->user()->name
+            ];
+            \Mail::to(Auth()->user()->email)->send(new \App\Mail\Password($details));
 
             return redirect()->route('home')->with('success', 'Your Password updated');
 

@@ -81,6 +81,15 @@ class EProductController extends Controller
                 $path    = move_uploaded_file($file->getPathName(), $upload . $filename);
                 $product->image3 =  $upload . $filename;
             }
+            // if ($request->hasfile('image')) {
+
+            //     foreach ($request->file('image') as $image) {
+            //         $name = $image->getClientOriginalName();
+            //         $image->move(public_path() . '/img/', $name);
+            //         $data[] = $name;
+            //     }
+            //     $product->image = json_encode($data);
+            // }
             $product->save();
             return redirect()->route('e_product')->with('success', 'Product added Successfully');
         }
@@ -107,7 +116,7 @@ class EProductController extends Controller
     {
         $category = ProductCategory::orderBy('name', 'ASC')->get();
         $brand = ProductBrand::orderBy('name', 'ASC')->get();
-        return view('Backend.e_product.edit', compact('product', 'category','brand'));
+        return view('Backend.e_product.edit', compact('product', 'category', 'brand'));
     }
 
     /**

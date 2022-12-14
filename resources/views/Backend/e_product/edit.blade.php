@@ -71,7 +71,7 @@
                                         <input type="file" class="form-control" name="image1">
                                     </div>
                                 </div>
-                                @if($product->image2!=null)
+                                {{-- @if($product->image2!=null)
                                 <div class="form-group form-float">
                                     <img class="img-responsive" style="height:100px;width:100px;" src="{{asset($product->image2)}}">
                                     </div>
@@ -92,7 +92,7 @@
                                         <input type="file" class="form-control" name="image3">
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             </form>
                         </div>
