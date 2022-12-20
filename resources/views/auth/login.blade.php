@@ -44,8 +44,8 @@
 						Login
 					</span>
 
-                <div class="wrap-input100 validate-input" data-validate = "Enter Email">
-                    <input class="input100" type="email" name="email" value="{{ old('email') }}" style="color: #FFF;" required placeholder="Email" autocomplete="off">
+                <div class="wrap-input100">
+                    <input class="input100" type="text" name="email" value="{{ old('email') }}" style="color: #FFF;" required placeholder="Enter Email or Phone" autocomplete="off">
                    <!-- <span class="focus-input100" data-placeholder=""></span> -->
                     @error('email')
                     <span class="focus-input100" data-placeholder="" style="position: inherit;color: #FFFFF0;"><strong>{{ $message }}</strong></span>

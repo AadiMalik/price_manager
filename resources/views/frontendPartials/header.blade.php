@@ -28,7 +28,7 @@
                             <a class="dropdown-item" href="{{url('f_package')}}">For Feature</a>
                           </div>
                         </div> --}}
-                    <a href="{{route('frontendContact')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'contact-us' ? 'active' : ''}}">Contact</a>
+                    <a href="{{route('frontendContact')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'contact-us' ? 'active' : ''}}">Contact Us</a>
                     <a href="{{route('frontendAbout')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'about' ? 'active' : ''}}">About</a>
                 </div>
                 <div class="ml-auto">

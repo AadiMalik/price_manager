@@ -186,7 +186,7 @@
                                 @if(isset($user->open))
                                 <tr>
                                     <td style="width: 160px;"><b>Working Schedule:</b></td>
-                                    <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->open }} - {{ $user->close }} {{ $user->holiday }} Closed</span></td>
+                                    <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->open }} - {{ $user->close }} &nbsp;&nbsp; {{ $user->holiday }} &nbsp;Closed</span></td>
                                 </tr>
                                 @endif
                                 <tr colspan="2">

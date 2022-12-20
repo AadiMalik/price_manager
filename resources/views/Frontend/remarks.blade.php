@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('content')
-    <div class="page-header">
+    {{-- <div class="page-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -10,7 +10,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="container" style="margin-top:30px;">
         <div class="section-header">
             <h2>Image Remarks</h2>
