@@ -435,6 +435,17 @@ Route::group(['prefix' => 'term'], function() {
             Route::get('delete','ConstructionVideoController@destroy')->name('constructionVideoDelete');
         });
     });
+    Route::group(['prefix' => 'construction-category'], function() {
+        Route::get('/','ConstructionCategoryController@index')->name('indexConstructionCategory');
+        Route::get('/create','ConstructionCategoryController@create')->name('ConstructionCategoryCreate');
+        Route::post('/store','ConstructionCategoryController@store')->name('ConstructionCategoryStore');
+
+        Route::group(['prefix' => '{ConstructionCategory}'], function (){
+            Route::get('edit','ConstructionCategoryController@edit')->name('ConstructionCategoryEdit');
+            Route::post('update','ConstructionCategoryController@update')->name('ConstructionCategoryUpdate');
+            Route::get('delete','ConstructionCategoryController@destroy')->name('ConstructionCategoryDelete');
+        });
+    });
 
                                                                                                                     // Order Mail
     Route::group(['prefix' => 'order-mail'], function() {
@@ -586,6 +597,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/fbrand','BrandController@showBrand')->name('frontendBrand');
     Route::get('/fbrand/{id}','BrandController@getUserAlongWithBrand')->name('getUserAlongWithBrand');
     Route::get('/construction','ConstructionController@showConstruction')->name('frontendConstruction');
+    Route::get('/construction-category/{id}','ConstructionController@ConstructionCategory');
     Route::get('/remarks','RemarkController@showRemarks')->name('frontendRemarks');
     Route::get('/fpackage','PackageController@showPackage')->name('frontendPackage');
     Route::get('/package/{user}','PackageController@packageDetail')->name('frontendUserPackageDetail');

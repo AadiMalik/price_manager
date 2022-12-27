@@ -302,6 +302,13 @@
                                 <span>Location</span>
                             </a>
                         </li>
+                        <li class="{{ $segment1 == 'construction-category' ? 'active' : '' }}">
+                            <a href="{{ route('indexConstructionCategory') }}">
+
+                                <i class="material-icons">hd</i>
+                                <span>Construction Category</span>
+                            </a>
+                        </li>
                         <li class="{{ $segment1 == 'construction-video' ? 'active' : '' }}">
                             <a href="{{ route('indexConstructionVideo') }}">
 

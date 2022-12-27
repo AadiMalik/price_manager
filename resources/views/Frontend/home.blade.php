@@ -224,8 +224,8 @@
     <!-- Service End -->
     <!-- end Search section-->
     <!-- Service Start -->
-    @if($users->where('verify', 1)->count()>0)
-    <div class="service">
+    @if(count($users->where('verify', 1))>0)
+    <div class="service" id="verfiy_company">
         <div class="container">
             <div class="section-header">
                 <h2>Verified Supplier & Manufacturer</h2>
@@ -1388,6 +1388,7 @@
                     $('#userData').remove();
                     $('#userSearch').empty();
                     $('.remove').remove();
+                    $('#verfiy_company').hide();
                     if (response.status == 1) {
                         var html = '';
                         let notFound = true;

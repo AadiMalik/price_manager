@@ -32,6 +32,17 @@
         .invalid-feedback {
             display: block;
         }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0 !important;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield !important;
+        }
     </style>
 </head>
 
@@ -53,10 +64,10 @@
                             Register
                         </span>
                         <!-- @if ($errors->any())
-                        @foreach ($errors->all() as $error)
+@foreach ($errors->all() as $error)
 <strong class="text-danger">{{ $error }}</strong><br>
 @endforeach
-                    @endif -->
+@endif -->
                         <div class="row">
 
                             <div class="col-lg-12">
@@ -87,7 +98,19 @@
                                         </span>
                                     @enderror
                                 </div>
-
+                                <div class="wrap-input100 validate-input" data-validate="Enter password">
+                                    <input class="input100" type="password" name="password" placeholder="Password"
+                                        autocomplete="off" id="password">
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="wrap-input100 validate-input" data-validate="Enter Confirm password">
+                                    <input class="input100" type="password" name="password_confirmation"
+                                        placeholder="Confirm Password" id="password-confirm">
+                                </div>
                                 <div class="wrap-input100 validate-input" data-validate="Enter password">
                                     <select class="input100" name="type">
                                         <option disabled selected>--Select User Type--</option>
@@ -102,19 +125,6 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                </div>
-                                <div class="wrap-input100 validate-input" data-validate="Enter password">
-                                    <input class="input100" type="password" name="password" placeholder="Password"
-                                        autocomplete="off" id="password">
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="wrap-input100 validate-input" data-validate="Enter Confirm password">
-                                    <input class="input100" type="password" name="password_confirmation"
-                                        placeholder="Confirm Password" id="password-confirm">
                                 </div>
                             </div>
                         </div>

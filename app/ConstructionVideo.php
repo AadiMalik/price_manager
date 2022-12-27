@@ -12,4 +12,7 @@ class ConstructionVideo extends Model
         'video_url',
         'order_by',
     ];
+    public function category_name () {
+        return $this->belongsTo(ConstructionCategory::class,'category_id','id');
+    }
 }

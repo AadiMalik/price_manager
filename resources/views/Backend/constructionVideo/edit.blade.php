@@ -22,6 +22,18 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
+                                        <select name="category" class="form-control" id="">
+                                            <option disabled selected>--Select Category--</option>
+                                            @foreach ($category as $item)
+                                            <option value="{{$item->id}}" {{($item->id==$constructionVideo->category_id)?'selected':''}}>{{$item->name??''}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label class="form-label">Category <span class="text text-danger">*</span></label>
+                                        <span class="text-danger">{{ $errors->first('category') }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
                                         <input type="text" value="{{$constructionVideo->description}}" class="form-control {{ $errors->has('description') ? 'has-error' : '' }}" name="description" required>
                                         <label class="form-label">Video Description <span class="text text-danger">*</span></label>
                                         <span class="text-danger">{{ $errors->first('description') }}</span>

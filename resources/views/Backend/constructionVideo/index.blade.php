@@ -29,6 +29,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Video Name</th>
+                                        <th>Category</th>
                                         <th>Description</th>
                                         <th>Order By</th>
                                         <th>Action</th>
@@ -40,6 +41,7 @@
                                     <tr>
                                         <td>{{$index+1}}</td>
                                         <td>{{$constructionVideo->video_name}}</td>
+                                        <td>{{$constructionVideo->category_name->name??''}}</td>
                                         <td>{{$constructionVideo->description}}</td>
                                         <td>{{$constructionVideo->order_by}}</td>
 

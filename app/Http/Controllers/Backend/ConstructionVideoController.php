@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\ConstructionCategory;
 use App\ConstructionVideo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,7 +29,8 @@ class ConstructionVideoController extends Controller
      */
     public function create()
     {
-        return view('Backend.constructionVideo.create');
+        $category = ConstructionCategory::orderBy('name','asc')->get();
+        return view('Backend.constructionVideo.create',compact('category'));
     }
 
     /**
@@ -42,6 +44,7 @@ class ConstructionVideoController extends Controller
         $validator = Validator::make($request->all(), [
             'video_name' => 'required',
             'description' => 'required',
+            'category' => 'required',
             'video_url' => 'required|url',
             'order_by' => 'required|unique:construction_videos,order_by',
         ]);
@@ -50,6 +53,7 @@ class ConstructionVideoController extends Controller
         } else {
             $constructionVideo = new ConstructionVideo;
             $constructionVideo->video_name = $request->video_name;
+            $constructionVideo->category_id = $request->category;
             $constructionVideo->description = $request->description;
             $constructionVideo->video_url = $request->video_url;
             $constructionVideo->order_by = $request->order_by;
@@ -79,7 +83,8 @@ class ConstructionVideoController extends Controller
      */
     public function edit(ConstructionVideo $constructionVideo)
     {
-        return view('Backend.constructionVideo.edit',compact('constructionVideo'));
+        $category = ConstructionCategory::orderBy('name','asc')->get();
+        return view('Backend.constructionVideo.edit',compact('constructionVideo','category'));
     }
 
     /**
@@ -99,6 +104,7 @@ class ConstructionVideoController extends Controller
         $validator = Validator::make($request->all(), [
             'video_name' => 'required',
             'description' => 'required',
+            'category' => 'required',
             'video_url' => 'required|url',
             'order_by' => $orderByValidation,
         ]);
@@ -106,6 +112,7 @@ class ConstructionVideoController extends Controller
             return back()->withInput()->withErrors($validator);
         } else {
             $constructionVideo->video_name = $request->video_name;
+            $constructionVideo->category_id = $request->category;
             $constructionVideo->description = $request->description;
             $constructionVideo->video_url = $request->video_url;
             $constructionVideo->order_by = $request->order_by;
