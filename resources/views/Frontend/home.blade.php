@@ -995,7 +995,7 @@
         </div>
     </div>
     <!-- Popular Brand Start -->
-    <div class="container" style="margin-top:20px;">
+    {{-- <div class="container" style="margin-top:20px;">
         <div class="row">
             <div class="col-md-12">
                 <div class="section-header">
@@ -1037,7 +1037,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Feature End -->
     @if($user->created_at->addDays(6) >= now())
     <div class="service">
@@ -1417,6 +1417,10 @@
                                 let rating = countReview / totalReview;
                                 console.log(rating)
                                 let RatingDisplay = '';
+                                let verify = '';
+                                if(index.verify==1){
+                                    verify = '<span class="notify-badge">Verified</span>\n';
+                                }
                                 if (isNaN(rating) || rating < 0.5) {
                                     RatingDisplay +=
                                         '<span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>'
@@ -1456,33 +1460,26 @@
                                 let cityName = index.city ? index.city.name : '';
 
                                 html += '<div class="col-lg-3 col-md-6 col-sm-12 remove"> \n' +
-                                    '                                        <a href="' + productURL +
-                                    '">\n' +
+                                    '                                        <a href="' + productURL + '">\n' +
                                     '                                            <div class="service-item" style="height: 485px;">\n' +
-                                    '                                                <div class="service-icon item">\n' +
-                                    '                                                    <img src="' +
-                                    imageUrl + '" />\n' +
+                                    '                                                <div class="service-icon item" style="color:#fff; text-transform:capitalize;">\n' + verify +
+                                    '                                                    <img src="' + imageUrl +'" />\n' +
                                     '                                                </div>\n' +
                                     '                                                <div class="row">\n' +
                                     '                                                    <div class="col-lg-12">\n' +
                                     '                                                        <span class="badge"\n' +
-                                    '                                                              style="background:#da5c22; color:#000; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">' +
-                                    userRating + '</span><br>\n' +
+                                    '                                                              style="background:#da5c22; color:#000; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">' + userRating + '</span><br>\n' +
                                     '                                                        <div class="star-hidden"\n' +
-                                    '                                                             style="float:right; margin-right:10px; font-size:14px;"> ' +
-                                    RatingDisplay + ' (' + totalReview + ')\n' +
+                                    '                                                             style="float:right; margin-right:10px; font-size:14px;"> '+RatingDisplay+' ('+totalReview+')\n' +
                                     '                                                        </div>\n' +
                                     '                                                    </div>\n' +
                                     '                                                </div>\n' +
-                                    '                                                <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">' +
-                                    index.name + '</h3>\n' +
+                                    '                                                <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">' + index.name + '</h3>\n' +
                                     '                                                <span class="fa fa-map-marker-alt"\n' +
-                                    '                                                      style=" float:left; margin-left:15px;"><b>' +
-                                    cityName + ' </b></span><br/>\n' +
+                                    '                                                      style=" float:left; margin-left:15px;"><b>' + cityName + ' </b></span><br/>\n' +
                                     '                                                <div class="row" style="margin:0px;">\n' +
                                     '                                                    <div class="col-md-12 col-sm-12" style="padding:0px;"> \n' +
-                                    '                                                        <table  class="table table-bordered" id="userTable-' +
-                                    index.id + '"\n' +
+                                    '                                                        <table  class="table table-bordered" id="userTable-' + index.id + '"\n' +
                                     '                                                               style="line-height:15px; margin:0px; font-size:14px;">\n' +
                                     '                                                            <thead style="background:#da5c22; color:#fff;">\n' +
                                     '                                                            <tr>\n' +
