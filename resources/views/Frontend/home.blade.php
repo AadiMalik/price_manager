@@ -454,7 +454,7 @@
     <!-- Service End -->
     {{-- featured companies --}}
     @if (count($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))) > 0)
-    <div class="service">
+    <div class="service" id="featured_company">
         <div class="container">
             <div class="section-header">
                 <h2>Featured Supplier & Manufacturer</h2>
@@ -470,7 +470,7 @@
                             </div>
                             <div class="row" id="userData">
                                 @if (count($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))) > 0)
-                                    @foreach ($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))->take(8) as $user)
+                                    @foreach ($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))->take(4) as $user)
                                         @if ($user->products->where('price', '>', 0)->count() > 0)
                                             <div class="col-lg-3 col-md-6 col-sm-12">
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
@@ -669,7 +669,7 @@
                         </div>
 
                     </div>
-                    @if (count($users->where('f_expiry', '>=', Carbon::now())) > 8)
+                    @if (count($users->where('f_expiry', '>=', Carbon::now())) > 4)
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-2 col-lg-offset-5">
@@ -686,7 +686,7 @@
     {{-- End featured company --}}
     {{-- featured companies --}}
     @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
-    <div class="service">
+    <div class="service" id="companies">
         <div class="container">
             <div class="section-header">
                 <h2>Companies</h2>
@@ -702,7 +702,7 @@
                             </div>
                             <div class="row" id="userData">
                                 @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
-                                    @foreach ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->take(8) as $user)
+                                    @foreach ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->take(4) as $user)
                                         @if ($user->products->where('price', '>', 0)->count() > 0)
                                             <div class="col-lg-3 col-md-6 col-sm-12">
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
@@ -904,7 +904,7 @@
                         </div>
 
                     </div>
-                    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 8)
+                    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 4)
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-2 col-lg-offset-5">
@@ -1389,6 +1389,8 @@
                     $('#userSearch').empty();
                     $('.remove').remove();
                     $('#verfiy_company').hide();
+                    $('#featured_company').hide();
+                    $('#companies').hide();
                     if (response.status == 1) {
                         var html = '';
                         let notFound = true;

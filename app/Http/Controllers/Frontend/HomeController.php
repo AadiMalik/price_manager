@@ -57,8 +57,18 @@ class HomeController extends Controller
         }])->get();
 
         $brands = Brand::orderBy('name', 'ASC')->get();
-        $cities = City::orderBy('name', 'ASC')->get();
-        $industries = Industry::orderBy('name', 'ASC')->get();
+        $cities = DB::table('users')
+        ->join('cities','cities.id','users.city_id')
+            ->select('cities.id','cities.name')
+            ->groupBy('users.city_id','cities.id','cities.name')
+            ->get();
+            $industries = DB::table('users')
+            ->join('industries','industries.id','users.industry_id')
+                ->select('industries.id','industries.name')
+                ->groupBy('users.industry_id','industries.id','industries.name')
+                ->get();
+        // $cities = City::orderBy('name', 'ASC')->get();
+        // $industries = Industry::orderBy('name', 'ASC')->get();
         $category = Category::orderBy('name', 'ASC')->get();
         $reviews = ClientReview::all();
         $e_product = EProduct::orderBy('name', 'ASC')->get();
