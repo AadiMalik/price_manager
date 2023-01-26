@@ -60,11 +60,17 @@ class HomeController extends Controller
         $cities = DB::table('users')
         ->join('cities','cities.id','users.city_id')
             ->select('cities.id','cities.name')
+            ->where('users.user_type', '!=', 1)
+            ->where('users.user_type', '!=', 2)
+            ->where('users.status', '=', 1)
             ->groupBy('users.city_id','cities.id','cities.name')
             ->get();
             $industries = DB::table('users')
             ->join('industries','industries.id','users.industry_id')
                 ->select('industries.id','industries.name')
+                ->where('users.user_type', '!=', 1)
+                ->where('users.user_type', '!=', 2)
+                ->where('users.status', '=', 1)
                 ->groupBy('users.industry_id','industries.id','industries.name')
                 ->get();
         // $cities = City::orderBy('name', 'ASC')->get();
