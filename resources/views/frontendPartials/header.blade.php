@@ -16,6 +16,7 @@
                         </a>
                     </div>
                     <a href="{{route('frontendHome')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'fhome' ? 'active' : ''}}">Home</a>
+                    <a href="{{route('frontendBlog')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'blogs' ? 'active' : ''}}">Blogs</a>
                     <a href="{{route('frontendBrand')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'fbrand' ? 'active' : ''}}">Brand</a>
                     <a href="{{route('frontendConstruction')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'construction' ? 'active' : ''}}">Construction</a>
                     <a href="{{url('products')}}" style="font-weight: bold;" class="nav-item nav-link {{$segment1 == 'products' ? 'active' : ''}}">Products</a>

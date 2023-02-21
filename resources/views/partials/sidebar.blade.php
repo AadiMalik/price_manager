@@ -316,6 +316,13 @@
                                 <span>Construction Help Video</span>
                             </a>
                         </li>
+                        <li class="{{ $segment1 == 'admin-blog' ? 'active' : '' }}">
+                            <a href="{{ url('admin-blog') }}">
+
+                                <i class="material-icons">hd</i>
+                                <span>Blogs</span>
+                            </a>
+                        </li>
                         <li class="{{ $segment1 == 'cities' ? 'active' : '' }}">
                             <a href="{{ route('indexCityPackage') }}">
 

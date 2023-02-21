@@ -533,6 +533,9 @@ Route::group(['prefix' => 'term'], function() {
         // Comment
         Route::resource('comment', 'CommentController');
         Route::get('comment-change-status','CommentController@Status_Change')->middleware('auth');
+        
+        // Blog
+        Route::resource('admin-blog', 'BlogController');
     /*Other User*/
 
     Route::group(['prefix' => 'website-image'], function() {
@@ -595,6 +598,9 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/fuser','HomeController@allUser')->name('frontendUser');
     Route::get('/user-search','HomeController@userSearch')->name('frontendUserSearch');
     Route::get('/fbrand','BrandController@showBrand')->name('frontendBrand');
+    Route::get('/blogs','BlogController@index')->name('frontendBlog');
+    Route::get('/blog-search', 'BlogController@search');
+    Route::get('/blog-detail/{id}', 'BlogController@blog_detail');
     Route::get('/fbrand/{id}','BrandController@getUserAlongWithBrand')->name('getUserAlongWithBrand');
     Route::get('/construction','ConstructionController@showConstruction')->name('frontendConstruction');
     Route::get('/construction-category/{id}','ConstructionController@ConstructionCategory');
