@@ -1,3 +1,6 @@
+@php
+    use Carbon\Carbon;
+@endphp
 @extends('layouts.frontend')
 @section('style')
     <style>
@@ -34,6 +37,32 @@
         .link_active {
             background: #da5c22;
             color: #fff;
+        }
+        .social-btn-sp #social-links {
+            margin: 0 auto;
+            max-width: 500px;
+        }
+        .social-btn-sp #social-links ul li {
+            display: inline-block;
+        }          
+        #social-links ul li a {
+            padding: 15px;
+            border: 2px solid #da5c22;
+            margin: 1px;
+            font-size: 30px;
+        }
+        #social-links{
+            display: inline-table;
+        }
+        #social-links ul li{
+            display: inline;
+        }
+        #social-links ul li a{
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 1px;
+            font-size: 16px;
+            background: #e3e3ea;
         }
     </style>
 @endsection
@@ -189,6 +218,7 @@
                                     <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->open }} - {{ $user->close }} &nbsp;&nbsp; {{ $user->holiday }} &nbsp;Closed</span></td>
                                 </tr>
                                 @endif
+                                
                                 <tr colspan="2">
                                     <td>
                                         <br>
@@ -401,6 +431,14 @@
                             </table>
                         </div>
                     </div>
+                    @if($user->verify == 1 ||  $user->f_expiry >= Carbon::now()->format('Y-m-d'))
+                    <div class="row">
+                        <div class="col-md-12 text-center mt-34 mt-sm-34">
+                            <h4>share this post:</h4>
+                            {!!$socialShare!!}
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
