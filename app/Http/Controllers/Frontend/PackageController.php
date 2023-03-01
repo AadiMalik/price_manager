@@ -17,6 +17,7 @@ use Validator;
 use Storage;
 use DB;
 use App\SliderImage;
+use Jorenvh\Share\Share;
 class PackageController extends Controller
 {
     public function showPackage () {
@@ -53,7 +54,17 @@ class PackageController extends Controller
         }])->withCount(['reviews as plus' => function ($query) {
             $query->select(\DB::raw('coalesce(count(rating))'));
         }])->orderByDesc('plus')->orderByDesc('average')->get();
-        return view('Frontend.productDetail',compact('user','users','product','category','productcategory','videoRemarks','imageRemarks','reviews','data','slider_images'));
+        $socialShare = \Share::page(
+            url('package/' . $user->id),
+            'Post by pricemanager.pk'
+        )
+            ->facebook()
+            ->twitter()
+            ->reddit()
+            ->linkedin()
+            ->whatsapp()
+            ->telegram();
+        return view('Frontend.productDetail',compact('socialShare','user','users','product','category','productcategory','videoRemarks','imageRemarks','reviews','data','slider_images'));
     }
         public function getProduct($id,$category){
             $user = User::findOrFail($id);
