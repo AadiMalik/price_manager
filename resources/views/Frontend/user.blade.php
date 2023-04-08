@@ -36,7 +36,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                         <span class="badge"
-                                                              style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{$user->UserType->name}}</span><br>
+                                                              style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{isset($user->UserType->name)?$user->UserType->name:''}}</span><br>
                                                             <br/>
                                                             <div class="star-hidden"
                                                                  style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
@@ -159,7 +159,7 @@
                                                         </div>
                                                     </div>
                                                     <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                          {{$user->name}}</h3>
+                                                          {{$user->name?$user->name:''}}</h3>
                                                     <span class="fa fa-map-marker-alt"
                                                           style=" float:left; margin-left:15px;"><b> {{$user->city ? $user->city->name : ''}}</b></span>
                                                           @if ($user->f_expiry != null && $user->f_expiry >= Carbon::now()->format('Y-m-d'))
@@ -194,10 +194,10 @@
                                                                                     style="text-align:left;"><P class="size">{{$index+1}}</P></td>
                                                                                 <td scope="col"
                                                                                     style="text-align:left; overflow:hidden !important;">
-                                                                                    <p class="cut-text size">{{$product->name}}</p></td>
+                                                                                    <p class="cut-text size">{{$product->name?$product->name:''}}</p></td>
                                                                                 <td scope="col"
                                                                                     style="text-align:left; overflow:hidden !important;">
-                                                                                    <p class="cut-text size">{{$product->quality}}</p></td>
+                                                                                    <p class="cut-text size">{{$product->quality?$product->quality:''}}</p></td>
                                                                                 <td scope="col"
                                                                                     style="text-align:right;"><P class="size">{{number_format($product->price)}}</P></td>
                                                                             </tr>
