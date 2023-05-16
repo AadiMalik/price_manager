@@ -52,6 +52,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::post('remarks', [App\Http\Controllers\api\UserController::class, 'Remarks']);
     Route::post('construction-videos', [App\Http\Controllers\api\UserController::class, 'ConstructionVideo']);
+
+    
+    Route::post('products', [App\Http\Controllers\api\UserController::class, 'products']);
+    Route::post('product-detail', [App\Http\Controllers\api\UserController::class, 'product_detail']);
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

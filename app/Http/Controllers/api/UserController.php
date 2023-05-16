@@ -20,6 +20,8 @@ use App\ContactUs;
 use App\Review;
 use App\UserPhone;
 use App\ClientReview;
+use App\EProduct;
+use App\EProductImage;
 use Storage;
 use File;
 use DB;
@@ -884,5 +886,48 @@ class UserController extends Controller
             "city" => $users->city
         ];
         return response()->json(['data' => $user1, 'message' => null, 'success' => true, 'status' => 200], 200);
+    }
+
+    public function products()
+    {
+        $products = EProduct::with(['category_name','brand_name'])->orderBy('created_at','DESC')->get();
+        $product = array();
+        foreach($products as $item){
+            $product[] = [
+                "id" =>  $item->id,
+                "name" =>  $item->name??'',
+                "old_price" =>  $item->old_price??null,
+                "price" =>  $item->price??0,
+                "description" =>  $item->description??'',
+                "image" =>  isset($item->image1) ? url('/') . '/' . $item->image1 : null,
+                "category"=>$item->category_name??'',
+                "brand"=>$item->brand_name??''
+            ];
+        }
+        return response()->json(['data' => $product, 'message' => null, 'success' => true, 'status' => 200], 200);
+    }
+
+    public function product_detail(Request $request)
+    {
+        $products = EProduct::with(['category_name','brand_name'])->find($request->product_id);
+        $product_images = EProductImage::where('product_id',$request->product_id)->get();
+        $product_image = array();
+        foreach ($product_images as $key => $item) {
+            $product_image[]=[
+                "image"=>isset($item->image) ? url('/') . '/' . $item->image : null,
+            ];
+        }
+            $product = [
+                "id" =>  $products->id,
+                "name" =>  $products->name??'',
+                "old_price" =>  $products->old_price??null,
+                "price" =>  $products->price??0,
+                "description" =>  $products->description??'',
+                "image" =>  isset($products->image1) ? url('/') . '/' . $products->image1 : null,
+                "category"=>$products->category_name??'',
+                "brand"=>$products->brand_name??'',
+                "images"=>$product_image
+            ];
+        return response()->json(['data' => $product, 'message' => null, 'success' => true, 'status' => 200], 200);
     }
 }
