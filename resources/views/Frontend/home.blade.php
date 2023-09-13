@@ -1,11 +1,14 @@
 @php
     use Carbon\Carbon;
 @endphp
-@extends('layouts.frontend')
 
+@extends('layouts.frontend')
+@section('style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+@endsection
 @section('content')
     <!-- Carousel Start -->
-    <div id="carousel" class="carousel slide" data-ride="carousel">
+    {{-- <div id="carousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carousel" data-slide-to="0" class="active"></li>
             <li data-target="#carousel" data-slide-to="1"></li>
@@ -16,9 +19,6 @@
                 <div class="carousel-item {{ $image->id == 35 ? 'active' : '' }}">
                     <img src="{{ asset($image->content) }}" alt="Carousel Image">
                     <div class="carousel-caption">
-                        {{-- <h1 class="animated fadeInLeft">{{$image->heading_name}}</h1>
-                        <p class="animated fadeInRight">{{$image->page}}</p> --}}
-                        {{-- <a class="btn animated fadeInUp" href="#">Get free consultation</a> --}}
                     </div>
                 </div>
             @endforeach
@@ -33,6 +33,39 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
+    </div> --}}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="row">
+                    <div class="section-header" style="margin-bottom:0px;">
+                        <h2>Price Table</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach ($price_category as $item)
+                        <div class="col-md-2 mt-2">
+                            <a href="javascript:void(0)" id="price-category" data-toggle="tooltip"
+                                data-id="{{ $item->id }}" data-original-title="Category">
+                                <div class="card"
+                                    style="border:none; height: 65px; background-image: linear-gradient(rgba(97, 97, 228, 0.352), rgba(240, 138, 6, 0.945)),url({{ $item->image ?? 'asset/img/about_us.jpg' }});background-repeat: no-repeat; background-size: cover;">
+                                    <div class="card-body" style="padding:35px 1.25rem 0px 1.25rem;">
+                                        <b style="color:#000;">{{ $item->name ?? '' }}</b>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="row mt-3">
+                    
+                    <div class="col-md-12" id="price-result">
+
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
     </div>
     <!-- Carousel End -->
 
@@ -147,10 +180,12 @@
                     </td> --}}
 
                     <td>
-                        <label style="font-weight: bold; font-size:18px;">{{ $siteContents[0]->where('id', 7)->first()->content }}</label>
+                        <label
+                            style="font-weight: bold; font-size:18px;">{{ $siteContents[0]->where('id', 7)->first()->content }}</label>
                     </td>
                     <td>
-                        <label style="font-weight: bold; font-size:18px;">{{ $siteContents[0]->where('id', 6)->first()->content }}</label>
+                        <label
+                            style="font-weight: bold; font-size:18px;">{{ $siteContents[0]->where('id', 6)->first()->content }}</label>
                     </td>
                 </tr>
                 {{-- <tr>
@@ -169,8 +204,8 @@
                 </td> --}}
 
                 <td style="width:33%;">
-                    <select class="js-example-basic-single form-control" style="width:100%;" name="industry"
-                        id="industry" onchange="SearchUser()">
+                    <select class="js-example-basic-single form-control" style="width:100%;" name="industry" id="industry"
+                        onchange="SearchUser()">
                         <option value="all">All</option>
                         @foreach ($industries as $index => $industry)
                             <option value="{{ $industry->id }}">{{ $industry->name }}</option>
@@ -178,8 +213,8 @@
                     </select>
                 </td>
                 <td style="width:33%;">
-                    <select class="js-example-basic-single form-control" style="width:100%;" name="city"
-                        id="city" onchange="SearchUser()">
+                    <select class="js-example-basic-single form-control" style="width:100%;" name="city" id="city"
+                        onchange="SearchUser()">
                         <option value="all">All</option>
                         @foreach ($cities as $city)
                             <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -224,854 +259,37 @@
     <!-- Service End -->
     <!-- end Search section-->
     <!-- Service Start -->
-    @if(count($users->where('verify', 1))>0)
-    <div class="service" id="verfiy_company">
-        <div class="container">
-            <div class="section-header">
-                <h2>Verified Supplier & Manufacturer</h2>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-11">
-                            <div class="row" id="userData">
-                                @if ($users->count() > 0)
-                                    @foreach ($users->where('verify', 1)->take(8) as $user)
-                                        @if ($user->products->where('price', '>', 0)->count() > 0)
-                                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                                <a href="{{ route('frontendUserPackageDetail', $user) }}">
-                                                    <div class="service-item">
-                                                        <div class="service-icon item">
-                                                            {{-- <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
-                                                            <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">Verified</span>
-                                                            <img
-                                                                src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <span class="badge"
-                                                                    style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name ?? '' }}</span><br>
-                                                                <br />
-                                                                <div class="star-hidden"
-                                                                    style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
-                                                                    @if ($user->reviews->avg('rating') < 0.5)
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 1)
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 1.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 2)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 2.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 3)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 3.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 4)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 4.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                    @else
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                    @endif
-                                                                    @if (isset($user->reviews))
-                                                                        ({{ count($user->reviews) }})
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <h3
-                                                            style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            {{ $user->name }}
-                                                        </h3>
-                                                        <span class="fa fa-map-marker-alt"
-                                                            style=" float:left; margin-left:15px;"><b>
-                                                                {{ $user->city ? $user->city->name : '' }}</b></span><br />
-                                                        <div class="row" style="margin:0px;">
-                                                            <div class="col-md-12 col-sm-12" style="padding:0px;">
-                                                                <table class="table table-bordered"
-                                                                    style="line-height:15px; margin:0px; font-size:14px;">
-                                                                    <thead style="background:#da5c22; color:#fff;">
-                                                                        <tr>
-                                                                            <th scope="col" style="width:30px;">Sr</th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Name</th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Quality
-                                                                            </th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Price</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody style="color:#000;">
-                                                                        @if ($user->products->count() != 0)
-                                                                            @php
-                                                                                $products = $user->products->where('price', '>', 0);
-                                                                            @endphp
-                                                                            @foreach ($products as $index => $product)
-                                                                                @if ($index < 3)
-                                                                                    {{-- @else --}}
-                                                                                    <tr>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left;">
-                                                                                            <P class="size">
-                                                                                                {{ $index + 1 }}</P>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left; overflow:hidden !important;">
-                                                                                            <p class="cut-text size">
-                                                                                                {{ $product->name }}</p>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left; overflow:hidden !important;">
-                                                                                            <p class="cut-text size">
-                                                                                                {{ $product->quality }}</p>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:right;">
-                                                                                            <P class="size">
-                                                                                                {{ number_format($product->price) }}
-                                                                                            </P>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endif
-                                                                            @endforeach
-                                                                        @endif
-
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <div class="col-md-12">
-                                        <b>No Found!</b>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                    </div>
-                    @if ($users->where('verify', 1)->count() > 8)
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-2 col-lg-offset-5">
-                                    <a class="btn" id="loadcompany" href="{{ route('frontendUser') }}">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    <!-- Service End -->
-    {{-- featured companies --}}
-    @if (count($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))) > 0)
-    <div class="service" id="featured_company">
-        <div class="container">
-            <div class="section-header">
-                <h2>Featured Supplier & Manufacturer</h2>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-11">
-                            <div class="row" id="userSearch">
-
-                            </div>
-                            <div class="row" id="userData">
-                                @if (count($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))) > 0)
-                                    @foreach ($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))->take(4) as $user)
-                                        @if ($user->products->where('price', '>', 0)->count() > 0)
-                                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                                <a href="{{ route('frontendUserPackageDetail', $user) }}">
-                                                    <div class="service-item">
-                                                        <div class="service-icon item">
-                                                            {{-- <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
-                                                            <img
-                                                                src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <span class="badge"
-                                                                    style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name ?? '' }}</span><br>
-                                                                <br />
-                                                                <div class="star-hidden"
-                                                                    style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
-                                                                    @if ($user->reviews->avg('rating') < 0.5)
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 1)
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 1.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 2)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 2.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 3)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 3.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 4)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 4.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                    @else
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                    @endif
-                                                                    @if (isset($user->reviews))
-                                                                        ({{ count($user->reviews) }})
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <h3
-                                                            style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            {{ $user->name }}
-                                                        </h3>
-                                                        <span class="fa fa-map-marker-alt"
-                                                            style=" float:left; margin-left:15px;"><b>
-                                                                {{ $user->city ? $user->city->name : '' }}</b></span>
-                                                        <span class="badge badge-success"
-                                                            style="font-size: 14px; font-wieght:bold; float:right; margin-right:7px; border-radius:0px;">Featured</span><br />
-                                                        <div class="row" style="margin:0px;">
-                                                            <div class="col-md-12 col-sm-12" style="padding:0px;">
-                                                                <table class="table table-bordered"
-                                                                    style="line-height:15px; margin:0px; font-size:14px;">
-                                                                    <thead style="background:#da5c22; color:#fff;">
-                                                                        <tr>
-                                                                            <th scope="col" style="width:30px;">Sr</th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Name</th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Quality
-                                                                            </th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Price</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody style="color:#000;">
-                                                                        @if ($user->products->count() != 0)
-                                                                            @php
-                                                                                $products = $user->products->where('price', '>', 0);
-                                                                            @endphp
-                                                                            @foreach ($products as $index => $product)
-                                                                                @if ($index < 3)
-                                                                                    {{-- @else --}}
-                                                                                    <tr>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left;">
-                                                                                            <P class="size">
-                                                                                                {{ $index + 1 }}</P>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left; overflow:hidden !important;">
-                                                                                            <p class="cut-text size">
-                                                                                                {{ $product->name }}</p>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left; overflow:hidden !important;">
-                                                                                            <p class="cut-text size">
-                                                                                                {{ $product->quality }}</p>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:right;">
-                                                                                            <P class="size">
-                                                                                                {{ number_format($product->price) }}
-                                                                                            </P>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endif
-                                                                            @endforeach
-                                                                        @endif
-
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <div class="col-md-12">
-                                        <b>No Found!</b>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                    </div>
-                    @if (count($users->where('f_expiry', '>=', Carbon::now())) > 4)
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-2 col-lg-offset-5">
-                                    <a class="btn" id="loadcompany" href="{{ route('frontendUser') }}">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    {{-- End featured company --}}
-    {{-- featured companies --}}
-    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
-    <div class="service" id="companies">
-        <div class="container">
-            <div class="section-header">
-                <h2>Companies</h2>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-11">
-                            <div class="row" id="userSearch">
-
-                            </div>
-                            <div class="row" id="userData">
-                                @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
-                                    @foreach ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->take(4) as $user)
-                                        @if ($user->products->where('price', '>', 0)->count() > 0)
-                                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                                <a href="{{ route('frontendUserPackageDetail', $user) }}">
-                                                    <div class="service-item">
-                                                        <div class="service-icon item">
-                                                            {{-- <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
-                                                            <img
-                                                                src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <span class="badge"
-                                                                    style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name ?? '' }}</span><br>
-                                                                <br />
-                                                                <div class="star-hidden"
-                                                                    style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
-                                                                    @if ($user->reviews->avg('rating') < 0.5)
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 1)
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 1.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 2)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 2.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 3)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 3.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 4)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 4.5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"></span>
-                                                                    @elseif($user->reviews->avg('rating') < 5)
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star-half-alt"
-                                                                            style="color:#da5c22;"></span>
-                                                                    @else
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                        <span class="fa fa-star"
-                                                                            style="color:#da5c22;"></span>
-                                                                    @endif
-                                                                    @if (isset($user->reviews))
-                                                                        ({{ count($user->reviews) }})
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <h3
-                                                            style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                            {{ $user->name }}
-                                                        </h3>
-                                                        <span class="fa fa-map-marker-alt"
-                                                            style=" float:left; margin-left:15px;"><b>
-                                                                {{ $user->city ? $user->city->name : '' }}</b></span>
-                                                        @if ($user->f_expiry != null && $user->f_expiry >= Carbon::now()->format('Y-m-d'))
-                                                            <span class="badge badge-success"
-                                                                style="font-size: 14px; font-wieght:bold; float:right; margin-right:7px; border-radius:0px;">Featured</span>
-                                                        @endif
-                                                        <br />
-                                                        <div class="row" style="margin:0px;">
-                                                            <div class="col-md-12 col-sm-12" style="padding:0px;">
-                                                                <table class="table table-bordered"
-                                                                    style="line-height:15px; margin:0px; font-size:14px;">
-                                                                    <thead style="background:#da5c22; color:#fff;">
-                                                                        <tr>
-                                                                            <th scope="col" style="width:30px;">Sr</th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Name</th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Quality
-                                                                            </th>
-                                                                            <th scope="col" style="text-align:left;">
-                                                                                Price</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody style="color:#000;">
-                                                                        @if ($user->products->count() != 0)
-                                                                            @php
-                                                                                $products = $user->products->where('price', '>', 0);
-                                                                            @endphp
-                                                                            @foreach ($products as $index => $product)
-                                                                                @if ($index < 3)
-                                                                                    {{-- @else --}}
-                                                                                    <tr>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left;">
-                                                                                            <P class="size">
-                                                                                                {{ $index + 1 }}</P>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left; overflow:hidden !important;">
-                                                                                            <p class="cut-text size">
-                                                                                                {{ $product->name }}</p>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:left; overflow:hidden !important;">
-                                                                                            <p class="cut-text size">
-                                                                                                {{ $product->quality }}</p>
-                                                                                        </td>
-                                                                                        <td scope="col"
-                                                                                            style="text-align:right;">
-                                                                                            <P class="size">
-                                                                                                {{ number_format($product->price) }}
-                                                                                            </P>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                @endif
-                                                                            @endforeach
-                                                                        @endif
-
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </a>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @else
-                                    <div class="col-md-12">
-                                        <b>No Found!</b>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                    </div>
-                    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 4)
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-2 col-lg-offset-5">
-                                    <a class="btn" id="loadcompany" href="{{ route('frontendUser') }}">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    {{-- End featured company --}}
-    <!-- Popular Brand Start -->
-    <div class="container" style="margin-top:20px;">
-        <div class="row">
-            <div class="col-md-12">
+    @if (count($users->where('verify', 1)) > 0)
+        <div class="service" id="verfiy_company">
+            <div class="container">
                 <div class="section-header">
-                    <h2>Our Products</h2>
-
+                    <h2>Verified Supplier & Manufacturer</h2>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-lg-11">
-                @foreach ($category as $item1)
-                    @if ($e_product->where('category_id', $item1->id)->count() > 0)
-                        <div>
-                            <h4>{{ ucwords($item1->name ?? '') }}</h4>
-                        <a href="{{url('products/'.$item1->id)}}" style="float: right; margin-top:-20px; color:#da5c22; font-weight:bold;">View All</a>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1" id="MultiCarousel"
-                                data-interval="1000">
-                                <div class="MultiCarousel-inner">
-                                    @foreach ($e_product->where('category_id', $item1->id) as $item)
-                                        <div class="item">
-                                            <div class="pad15" style="padding: 0px; background:none;">
-                                                <a href="{{ url('product-detail/' . $item->id) }}">
-                                                    <img src="{{ asset($item->image1 ?? 'asset/img/portfolio-1.jpg') }}"
-                                                        title="" style="width:100%; height:250px;" />
-                                                    <div style="margin-top:10px;text-align: left;">
-                                                        <b
-                                                            style="text-align:center; display: inline-block; font-size:14px;">
-                                                            {{ $item->name ?? '' }}</b><br>
-                                                        <hr style="margin: 0;">
-                                                        <span style="display: inline-block; font-size:14px;">
-                                                            Rs<b style="font-size:14px;"> {{ $item->price ?? '' }}</b>
-                                                            @if (isset($item->old_price))
-                                                                <del
-                                                                    style="font-size:12px;">{{ $item->old_price ?? '' }}</del>
-                                                            @endif
-                                                        </span><br>
-                                                        <span
-                                                            style="text-align:left; display: inline-block; font-size:14px;">
-                                                            <?php $rating = 0; ?>
-                                                            <?php if (count($comment->where('product_id',$item->id)) != 0) {
-                                                                $rating = $comment->where('product_id',$item->id)->sum('rate') / count($comment->where('product_id',$item->id));
-                                                            } ?>
-                                                            @for ($i = 0; $i < round($rating); $i++)
-                                                                <span class="fa fa-star"
-                                                                    style="color:#F79426; margin-right:0px;"></span>
-                                                            @endfor
-                                                            @for ($i = 0; $i < 5 - round($rating); $i++)
-                                                                <span class="fa fa-star"
-                                                                    style="color:#b1a7a7; margin-right:0px;"></span>
-                                                            @endfor
-                                                            ({{ round($rating ?? '0') }})
-                                                        </span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <button class="btn btn-primary leftLst">
-                                    < </button>
-                                        <button class="btn btn-primary rightLst">></button>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <!-- Popular Brand Start -->
-    {{-- <div class="container" style="margin-top:20px;">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-header">
-                    <h2>{{ $siteContents[0]->where('id', 1)->first()->content }}</h2>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-lg-11">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"
-                        data-interval="1000">
-                        <div class="MultiCarousel-inner">
-                            @foreach ($users as $user)
-                                @if ($user->products->where('price', '>', 0)->count() > 0 && $user->brand_id)
-                                    <div class="item">
-                                        <div class="pad15" style="background: none;">
-                                            <a href="{{ route('frontendUserPackageDetail', $user->id) }}">
-                                                <img src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}"
-                                                    title="{{ $user->image_title }}" style="width:100%; height:200px;" />
-                                                <div>
-                                                    <span
-                                                        style="text-align:left; display: inline-block; font-size:14px;">{{ $user->name }}</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-
-                        </div>
-                        <button class="btn btn-primary leftLst">
-                            < </button>
-                                <button class="btn btn-primary rightLst">></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    <!-- Feature End -->
-    @if($user->created_at->addDays(6) >= now())
-    <div class="service">
-        <div class="container">
-            <div class="section-header">
-                <h2>New Companies</h2>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-11">
-                            <div class="row" id="userSearch">
-
-                            </div>
-                            <div class="row" id="userData">
-                                @foreach ($new->take(8) as $user)
-                                    @if ($user->created_at->addDays(6) >= now())
-                                        @if ($user->products->where('price', '>', 0)->count() > 0)
-                                            @if ($user->reviews->avg('rating') < 1)
+                    <div class="col-lg-12">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-11">
+                                <div class="row" id="userData">
+                                    @if ($users->count() > 0)
+                                        @foreach ($users->where('verify', 1)->take(8) as $user)
+                                            @if ($user->products->where('price', '>', 0)->count() > 0)
                                                 <div class="col-lg-3 col-md-6 col-sm-12">
                                                     <a href="{{ route('frontendUserPackageDetail', $user) }}">
                                                         <div class="service-item">
                                                             <div class="service-icon item">
+                                                                {{-- <span class="notify-badge"
+                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
                                                                 <span class="notify-badge"
-                                                                    style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span>
+                                                                    style="color:#fff; text-transform:capitalize;">Verified</span>
                                                                 <img
                                                                     src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <span class="badge"
-                                                                        style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name }}</span><br>
+                                                                        style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name ?? '' }}</span><br>
                                                                     <br />
                                                                     <div class="star-hidden"
                                                                         style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
@@ -1180,7 +398,8 @@
                                                             </div>
                                                             <h3
                                                                 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
-                                                                {{ $user->name }}</h3>
+                                                                {{ $user->name }}
+                                                            </h3>
                                                             <span class="fa fa-map-marker-alt"
                                                                 style=" float:left; margin-left:15px;"><b>
                                                                     {{ $user->city ? $user->city->name : '' }}</b></span><br />
@@ -1193,12 +412,15 @@
                                                                                 <th scope="col" style="width:30px;">Sr
                                                                                 </th>
                                                                                 <th scope="col"
-                                                                                    style="text-align:left;">Name</th>
+                                                                                    style="text-align:left;">
+                                                                                    Name</th>
                                                                                 <th scope="col"
-                                                                                    style="text-align:left;">Quality
+                                                                                    style="text-align:left;">
+                                                                                    Quality
                                                                                 </th>
                                                                                 <th scope="col"
-                                                                                    style="text-align:left;">Price</th>
+                                                                                    style="text-align:left;">
+                                                                                    Price</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody style="color:#000;">
@@ -1246,19 +468,858 @@
                                                     </a>
                                                 </div>
                                             @endif
-                                        @endif
-                                    @elseif($loop->first)
-                                        <div class="col-md-12" style="text-align:center;">
-                                            <span style="font-size:18px;">No New Company</span>
+                                        @endforeach
+                                    @else
+                                        <div class="col-md-12">
+                                            <b>No Found!</b>
                                         </div>
                                     @endif
-                                @endforeach
+                                </div>
+                            </div>
 
+                        </div>
+                        @if ($users->where('verify', 1)->count() > 8)
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-2 col-lg-offset-5">
+                                        <a class="btn" id="loadcompany" href="{{ route('frontendUser') }}">Load
+                                            More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    <!-- Service End -->
+    {{-- featured companies --}}
+    @if (count($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))) > 0)
+        <div class="service" id="featured_company">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Featured Supplier & Manufacturer</h2>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-11">
+                                <div class="row" id="userSearch">
+
+                                </div>
+                                <div class="row" id="userData">
+                                    @if (count($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))) > 0)
+                                        @foreach ($users->where('f_expiry', '>', Carbon::now()->format('Y-m-d'))->take(4) as $user)
+                                            @if ($user->products->where('price', '>', 0)->count() > 0)
+                                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                                    <a href="{{ route('frontendUserPackageDetail', $user) }}">
+                                                        <div class="service-item">
+                                                            <div class="service-icon item">
+                                                                {{-- <span class="notify-badge"
+                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
+                                                                <img
+                                                                    src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <span class="badge"
+                                                                        style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name ?? '' }}</span><br>
+                                                                    <br />
+                                                                    <div class="star-hidden"
+                                                                        style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
+                                                                        @if ($user->reviews->avg('rating') < 0.5)
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 1)
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 1.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 2)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 2.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 3)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 3.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 4)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 4.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                        @else
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                        @endif
+                                                                        @if (isset($user->reviews))
+                                                                            ({{ count($user->reviews) }})
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <h3
+                                                                style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
+                                                                {{ $user->name }}
+                                                            </h3>
+                                                            <span class="fa fa-map-marker-alt"
+                                                                style=" float:left; margin-left:15px;"><b>
+                                                                    {{ $user->city ? $user->city->name : '' }}</b></span>
+                                                            <span class="badge badge-success"
+                                                                style="font-size: 14px; font-wieght:bold; float:right; margin-right:7px; border-radius:0px;">Featured</span><br />
+                                                            <div class="row" style="margin:0px;">
+                                                                <div class="col-md-12 col-sm-12" style="padding:0px;">
+                                                                    <table class="table table-bordered"
+                                                                        style="line-height:15px; margin:0px; font-size:14px;">
+                                                                        <thead style="background:#da5c22; color:#fff;">
+                                                                            <tr>
+                                                                                <th scope="col" style="width:30px;">Sr
+                                                                                </th>
+                                                                                <th scope="col"
+                                                                                    style="text-align:left;">
+                                                                                    Name</th>
+                                                                                <th scope="col"
+                                                                                    style="text-align:left;">
+                                                                                    Quality
+                                                                                </th>
+                                                                                <th scope="col"
+                                                                                    style="text-align:left;">
+                                                                                    Price</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody style="color:#000;">
+                                                                            @if ($user->products->count() != 0)
+                                                                                @php
+                                                                                    $products = $user->products->where('price', '>', 0);
+                                                                                @endphp
+                                                                                @foreach ($products as $index => $product)
+                                                                                    @if ($index < 3)
+                                                                                        {{-- @else --}}
+                                                                                        <tr>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:left;">
+                                                                                                <P class="size">
+                                                                                                    {{ $index + 1 }}</P>
+                                                                                            </td>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:left; overflow:hidden !important;">
+                                                                                                <p class="cut-text size">
+                                                                                                    {{ $product->name }}
+                                                                                                </p>
+                                                                                            </td>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:left; overflow:hidden !important;">
+                                                                                                <p class="cut-text size">
+                                                                                                    {{ $product->quality }}
+                                                                                                </p>
+                                                                                            </td>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:right;">
+                                                                                                <P class="size">
+                                                                                                    {{ number_format($product->price) }}
+                                                                                                </P>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <div class="col-md-12">
+                                            <b>No Found!</b>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                        </div>
+                        @if (count($users->where('f_expiry', '>=', Carbon::now())) > 4)
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-2 col-lg-offset-5">
+                                        <a class="btn" id="loadcompany" href="{{ route('frontendUser') }}">Load
+                                            More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    {{-- End featured company --}}
+    {{-- featured companies --}}
+    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
+        <div class="service" id="companies">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Companies</h2>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-11">
+                                <div class="row" id="userSearch">
+
+                                </div>
+                                <div class="row" id="userData">
+                                    @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 0)
+                                        @foreach ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->take(4) as $user)
+                                            @if ($user->products->where('price', '>', 0)->count() > 0)
+                                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                                    <a href="{{ route('frontendUserPackageDetail', $user) }}">
+                                                        <div class="service-item">
+                                                            <div class="service-icon item">
+                                                                {{-- <span class="notify-badge"
+                                                                style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span> --}}
+                                                                <img
+                                                                    src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <span class="badge"
+                                                                        style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name ?? '' }}</span><br>
+                                                                    <br />
+                                                                    <div class="star-hidden"
+                                                                        style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
+                                                                        @if ($user->reviews->avg('rating') < 0.5)
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 1)
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 1.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 2)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 2.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 3)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 3.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 4)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 4.5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        @elseif($user->reviews->avg('rating') < 5)
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star-half-alt"
+                                                                                style="color:#da5c22;"></span>
+                                                                        @else
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                            <span class="fa fa-star"
+                                                                                style="color:#da5c22;"></span>
+                                                                        @endif
+                                                                        @if (isset($user->reviews))
+                                                                            ({{ count($user->reviews) }})
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <h3
+                                                                style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
+                                                                {{ $user->name }}
+                                                            </h3>
+                                                            <span class="fa fa-map-marker-alt"
+                                                                style=" float:left; margin-left:15px;"><b>
+                                                                    {{ $user->city ? $user->city->name : '' }}</b></span>
+                                                            @if ($user->f_expiry != null && $user->f_expiry >= Carbon::now()->format('Y-m-d'))
+                                                                <span class="badge badge-success"
+                                                                    style="font-size: 14px; font-wieght:bold; float:right; margin-right:7px; border-radius:0px;">Featured</span>
+                                                            @endif
+                                                            <br />
+                                                            <div class="row" style="margin:0px;">
+                                                                <div class="col-md-12 col-sm-12" style="padding:0px;">
+                                                                    <table class="table table-bordered"
+                                                                        style="line-height:15px; margin:0px; font-size:14px;">
+                                                                        <thead style="background:#da5c22; color:#fff;">
+                                                                            <tr>
+                                                                                <th scope="col" style="width:30px;">Sr
+                                                                                </th>
+                                                                                <th scope="col"
+                                                                                    style="text-align:left;">
+                                                                                    Name</th>
+                                                                                <th scope="col"
+                                                                                    style="text-align:left;">
+                                                                                    Quality
+                                                                                </th>
+                                                                                <th scope="col"
+                                                                                    style="text-align:left;">
+                                                                                    Price</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody style="color:#000;">
+                                                                            @if ($user->products->count() != 0)
+                                                                                @php
+                                                                                    $products = $user->products->where('price', '>', 0);
+                                                                                @endphp
+                                                                                @foreach ($products as $index => $product)
+                                                                                    @if ($index < 3)
+                                                                                        {{-- @else --}}
+                                                                                        <tr>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:left;">
+                                                                                                <P class="size">
+                                                                                                    {{ $index + 1 }}</P>
+                                                                                            </td>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:left; overflow:hidden !important;">
+                                                                                                <p class="cut-text size">
+                                                                                                    {{ $product->name }}
+                                                                                                </p>
+                                                                                            </td>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:left; overflow:hidden !important;">
+                                                                                                <p class="cut-text size">
+                                                                                                    {{ $product->quality }}
+                                                                                                </p>
+                                                                                            </td>
+                                                                                            <td scope="col"
+                                                                                                style="text-align:right;">
+                                                                                                <P class="size">
+                                                                                                    {{ number_format($product->price) }}
+                                                                                                </P>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @endif
+
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <div class="col-md-12">
+                                            <b>No Found!</b>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                        </div>
+                        @if ($users->where('verify', 0)->where('f_expiry', '<', Carbon::now()->format('Y-m-d') || 'f_expiry', '=', null)->count() > 4)
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-2 col-lg-offset-5">
+                                        <a class="btn" id="loadcompany" href="{{ route('frontendUser') }}">Load
+                                            More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    {{-- End featured company --}}
+    <!-- Popular Brand Start -->
+    <div class="container" style="margin-top:20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header">
+                    <h2>Our Products</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                @foreach ($category as $item1)
+                    @if ($e_product->where('category_id', $item1->id)->count() > 0)
+                        <div>
+                            <h4>{{ ucwords($item1->name ?? '') }}</h4>
+                            <a href="{{ url('products/' . $item1->id) }}"
+                                style="float: right; margin-top:-20px; color:#da5c22; font-weight:bold;">View All</a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="MultiCarousel" data-items="1,3,5,4" data-slide="1" id="MultiCarousel"
+                                data-interval="1000">
+                                <div class="MultiCarousel-inner">
+                                    @foreach ($e_product->where('category_id', $item1->id) as $item)
+                                        <div class="item">
+                                            <div class="pad15" style="padding: 0px; background:none;">
+                                                <a href="{{ url('product-detail/' . $item->id) }}">
+                                                    <img src="{{ asset($item->image1 ?? 'asset/img/portfolio-1.jpg') }}"
+                                                        title="" style="width:100%; height:250px;" />
+                                                    <div style="margin-top:10px;text-align: left;">
+                                                        <b
+                                                            style="text-align:center; display: inline-block; font-size:14px;">
+                                                            {{ $item->name ?? '' }}</b><br>
+                                                        <hr style="margin: 0;">
+                                                        <span style="display: inline-block; font-size:14px;">
+                                                            Rs<b style="font-size:14px;"> {{ $item->price ?? '' }}</b>
+                                                            @if (isset($item->old_price))
+                                                                <del
+                                                                    style="font-size:12px;">{{ $item->old_price ?? '' }}</del>
+                                                            @endif
+                                                        </span><br>
+                                                        <span
+                                                            style="text-align:left; display: inline-block; font-size:14px;">
+                                                            <?php $rating = 0; ?>
+                                                            <?php if (count($comment->where('product_id', $item->id)) != 0) {
+                                                                $rating = $comment->where('product_id', $item->id)->sum('rate') / count($comment->where('product_id', $item->id));
+                                                            } ?>
+                                                            @for ($i = 0; $i < round($rating); $i++)
+                                                                <span class="fa fa-star"
+                                                                    style="color:#F79426; margin-right:0px;"></span>
+                                                            @endfor
+                                                            @for ($i = 0; $i < 5 - round($rating); $i++)
+                                                                <span class="fa fa-star"
+                                                                    style="color:#b1a7a7; margin-right:0px;"></span>
+                                                            @endfor
+                                                            ({{ round($rating ?? '0') }})
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <button class="btn btn-primary leftLst">
+                                    < </button>
+                                        <button class="btn btn-primary rightLst">></button>
                             </div>
                         </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <!-- Popular Brand Start -->
+    {{-- <div class="container" style="margin-top:20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header">
+                    <h2>{{ $siteContents[0]->where('id', 1)->first()->content }}</h2>
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="row">
+                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"
+                        data-interval="1000">
+                        <div class="MultiCarousel-inner">
+                            @foreach ($users as $user)
+                                @if ($user->products->where('price', '>', 0)->count() > 0 && $user->brand_id)
+                                    <div class="item">
+                                        <div class="pad15" style="background: none;">
+                                            <a href="{{ route('frontendUserPackageDetail', $user->id) }}">
+                                                <img src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}"
+                                                    title="{{ $user->image_title }}" style="width:100%; height:200px;" />
+                                                <div>
+                                                    <span
+                                                        style="text-align:left; display: inline-block; font-size:14px;">{{ $user->name }}</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+
+                        </div>
+                        <button class="btn btn-primary leftLst">
+                            < </button>
+                                <button class="btn btn-primary rightLst">></button>
                     </div>
-                    {{-- @if ($new->count() > 8)
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    <!-- Feature End -->
+    @if ($user->created_at->addDays(6) >= now())
+        <div class="service">
+            <div class="container">
+                <div class="section-header">
+                    <h2>New Companies</h2>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-11">
+                                <div class="row" id="userSearch">
+
+                                </div>
+                                <div class="row" id="userData">
+                                    @foreach ($new->take(8) as $user)
+                                        @if ($user->created_at->addDays(6) >= now())
+                                            @if ($user->products->where('price', '>', 0)->count() > 0)
+                                                @if ($user->reviews->avg('rating') < 1)
+                                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                                        <a href="{{ route('frontendUserPackageDetail', $user) }}">
+                                                            <div class="service-item">
+                                                                <div class="service-icon item">
+                                                                    <span class="notify-badge"
+                                                                        style="color:#fff; text-transform:capitalize;">{{ $user->city ? $user->city->name : '' }}</span>
+                                                                    <img
+                                                                        src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <span class="badge"
+                                                                            style="background:#da5c22; color:#fff; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">{{ $user->UserType->name }}</span><br>
+                                                                        <br />
+                                                                        <div class="star-hidden"
+                                                                            style="float:right; text-align: right; margin-right: 2px; font-size:14px;">
+                                                                            @if ($user->reviews->avg('rating') < 0.5)
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 1)
+                                                                                <span class="fa fa-star-half-alt"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 1.5)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 2)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star-half-alt"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 2.5)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 3)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star-half-alt"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 3.5)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 4)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star-half-alt"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 4.5)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"></span>
+                                                                            @elseif($user->reviews->avg('rating') < 5)
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star-half-alt"
+                                                                                    style="color:#da5c22;"></span>
+                                                                            @else
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                                <span class="fa fa-star"
+                                                                                    style="color:#da5c22;"></span>
+                                                                            @endif
+                                                                            @if (isset($user->reviews))
+                                                                                ({{ count($user->reviews) }})
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <h3
+                                                                    style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">
+                                                                    {{ $user->name }}</h3>
+                                                                <span class="fa fa-map-marker-alt"
+                                                                    style=" float:left; margin-left:15px;"><b>
+                                                                        {{ $user->city ? $user->city->name : '' }}</b></span><br />
+                                                                <div class="row" style="margin:0px;">
+                                                                    <div class="col-md-12 col-sm-12" style="padding:0px;">
+                                                                        <table class="table table-bordered"
+                                                                            style="line-height:15px; margin:0px; font-size:14px;">
+                                                                            <thead style="background:#da5c22; color:#fff;">
+                                                                                <tr>
+                                                                                    <th scope="col"
+                                                                                        style="width:30px;">Sr
+                                                                                    </th>
+                                                                                    <th scope="col"
+                                                                                        style="text-align:left;">Name</th>
+                                                                                    <th scope="col"
+                                                                                        style="text-align:left;">Quality
+                                                                                    </th>
+                                                                                    <th scope="col"
+                                                                                        style="text-align:left;">Price</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody style="color:#000;">
+                                                                                @if ($user->products->count() != 0)
+                                                                                    @php
+                                                                                        $products = $user->products->where('price', '>', 0);
+                                                                                    @endphp
+                                                                                    @foreach ($products as $index => $product)
+                                                                                        @if ($index < 3)
+                                                                                            {{-- @else --}}
+                                                                                            <tr>
+                                                                                                <td scope="col"
+                                                                                                    style="text-align:left;">
+                                                                                                    <P class="size">
+                                                                                                        {{ $index + 1 }}
+                                                                                                    </P>
+                                                                                                </td>
+                                                                                                <td scope="col"
+                                                                                                    style="text-align:left; overflow:hidden !important;">
+                                                                                                    <p
+                                                                                                        class="cut-text size">
+                                                                                                        {{ $product->name }}
+                                                                                                    </p>
+                                                                                                </td>
+                                                                                                <td scope="col"
+                                                                                                    style="text-align:left; overflow:hidden !important;">
+                                                                                                    <p
+                                                                                                        class="cut-text size">
+                                                                                                        {{ $product->quality }}
+                                                                                                    </p>
+                                                                                                </td>
+                                                                                                <td scope="col"
+                                                                                                    style="text-align:right;">
+                                                                                                    <P class="size">
+                                                                                                        {{ number_format($product->price) }}
+                                                                                                    </P>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                @endif
+
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        @elseif($loop->first)
+                                            <div class="col-md-12" style="text-align:center;">
+                                                <span style="font-size:18px;">No New Company</span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+
+                                </div>
+                            </div>
+
+                        </div>
+                        {{-- @if ($new->count() > 8)
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-lg-2 col-lg-offset-5">
@@ -1267,10 +1328,10 @@
                         </div>
                     </div>
                     @endif --}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
     <!-- Service End -->
     <!-- Review Section Start -->
@@ -1360,13 +1421,94 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 
 @section('after-script')
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
+
             $('.js-example-basic-single').select2();
+            new DataTable('#data-table');
+
+        });
+        $("body").on("click", "#price-category", function() {
+            var category_id = $(this).data("id");
+            var column_len = 0;
+            $("#price-result").empty();
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+            $.ajax({
+                url: "{{ url('price-table') }}/" + category_id,
+                type: "GET",
+                dataType: 'json',
+                success: function(result) {
+                    var table = '';
+                    table +='<div style="margin-bottom: 80px;">';
+                        table +='<div style="border:2px solid #da5c22;float:left; padding:10px; border-radius: 10px;"><b style="font-size:20px; color:#da5c22;">'+result.category.name+'</b><br>Rate per QTY:<b>'+result.category.qty+'</b></div>';
+                        table +='<div style="border:2px solid #da5c22;float:right; padding:10px; border-radius: 10px;">Updated Date: <b>'+result.date+'</b></div>';
+                        table +='</div>';
+                    // table += '<table class="table table-bordered" style="margin-bottom:0px;" width="100%">';
+                    // table += '<thead>';
+                    // table += '<tr style="line-height: 10px;">';
+                    // table += '<th>Category:</th>';
+                    // table += '<th>'+result.category.name+'</th>';
+                    // table += '<th>Update Date:</th>';
+                    // table += '<th>'+result.date+'</th>';
+                    // table += '</tr>';
+                    // table += '<tr style="line-height: 10px;">';
+                    // table += '<th>Rate per QTY:</th>';
+                    // table += '<th>'+result.category.qty+'</th>';
+                    // table += '<th></th>';
+                    // table += '<th></th>';
+                    // table += '</tr style="line-height: 10px;">';
+                    // table += '</thead>';
+                    // table += '</table>';
+                    table +='<div style="max-height: 300px;overflow: auto;">'
+                    table +='<table class="table  table-striped table-bordered" style="width: 100%;" id="data-table">';
+                    table += '<thead style="background: #da5c22;color: #fff;position: sticky;top: 0px;">';
+                    table += '<tr style="line-height: 10px;">';
+                    table += '<th>City</th>';
+                    $.each(result.products, function(key, value) {
+                        table += '<th>' + value.name + '</th>';
+                        column_len = result.products.length + 1;
+                    });
+                    table += '</tr>';
+                    table += '</thead>';
+                    table += '<tbody>';
+                    if (result.priceTable.length > 0) {
+                        $.each(result.priceTable, function(key, value) {
+                            table += '<tr style="line-height: 10px;">';
+                            table += '<td>';
+                            table += '<b>' + value.name + '</b>';
+                            table += '</td>';
+                            $.each(value.price, function(key, value) {
+                                table += '<td>';
+                                table += '<b>' + value.price + '</b>';
+                                table += '</td>';
+                            });
+                            table += '</tr>';
+                        });
+                    } else {
+                        table += '<tr style="line-height: 10px;">';
+                        table += '<td style="text-align:center;" colspan="' + column_len +
+                            '">Record Not Found!</td>';
+                        table += '</tr>';
+                    }
+
+                    table += '</tbody>';
+                    table += '</table>';
+                    table += '</div>';
+
+                    $("#price-result").append(table);
+                }
+            });
+
         });
 
         function SearchUser(e) {
@@ -1420,7 +1562,7 @@
                                 console.log(rating)
                                 let RatingDisplay = '';
                                 let verify = '';
-                                if(index.verify==1){
+                                if (index.verify == 1) {
                                     verify = '<span class="notify-badge">Verified</span>\n';
                                 }
                                 if (isNaN(rating) || rating < 0.5) {
@@ -1462,26 +1604,34 @@
                                 let cityName = index.city ? index.city.name : '';
 
                                 html += '<div class="col-lg-3 col-md-6 col-sm-12 remove"> \n' +
-                                    '                                        <a href="' + productURL + '">\n' +
+                                    '                                        <a href="' + productURL +
+                                    '">\n' +
                                     '                                            <div class="service-item" style="height: 485px;">\n' +
-                                    '                                                <div class="service-icon item" style="color:#fff; text-transform:capitalize;">\n' + verify +
-                                    '                                                    <img src="' + imageUrl +'" />\n' +
+                                    '                                                <div class="service-icon item" style="color:#fff; text-transform:capitalize;">\n' +
+                                    verify +
+                                    '                                                    <img src="' +
+                                    imageUrl + '" />\n' +
                                     '                                                </div>\n' +
                                     '                                                <div class="row">\n' +
                                     '                                                    <div class="col-lg-12">\n' +
                                     '                                                        <span class="badge"\n' +
-                                    '                                                              style="background:#da5c22; color:#000; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">' + userRating + '</span><br>\n' +
+                                    '                                                              style="background:#da5c22; color:#000; float:left; margin-left:15px; font-size:14px; border-radius:0px; margin-top:23px;">' +
+                                    userRating + '</span><br>\n' +
                                     '                                                        <div class="star-hidden"\n' +
-                                    '                                                             style="float:right; margin-right:10px; font-size:14px;"> '+RatingDisplay+' ('+totalReview+')\n' +
+                                    '                                                             style="float:right; margin-right:10px; font-size:14px;"> ' +
+                                    RatingDisplay + ' (' + totalReview + ')\n' +
                                     '                                                        </div>\n' +
                                     '                                                    </div>\n' +
                                     '                                                </div>\n' +
-                                    '                                                <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">' + index.name + '</h3>\n' +
+                                    '                                                <h3 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width:100%;text-transform:capitalize;">' +
+                                    index.name + '</h3>\n' +
                                     '                                                <span class="fa fa-map-marker-alt"\n' +
-                                    '                                                      style=" float:left; margin-left:15px;"><b>' + cityName + ' </b></span><br/>\n' +
+                                    '                                                      style=" float:left; margin-left:15px;"><b>' +
+                                    cityName + ' </b></span><br/>\n' +
                                     '                                                <div class="row" style="margin:0px;">\n' +
                                     '                                                    <div class="col-md-12 col-sm-12" style="padding:0px;"> \n' +
-                                    '                                                        <table  class="table table-bordered" id="userTable-' + index.id + '"\n' +
+                                    '                                                        <table  class="table table-bordered" id="userTable-' +
+                                    index.id + '"\n' +
                                     '                                                               style="line-height:15px; margin:0px; font-size:14px;">\n' +
                                     '                                                            <thead style="background:#da5c22; color:#fff;">\n' +
                                     '                                                            <tr>\n' +

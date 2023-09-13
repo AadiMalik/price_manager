@@ -17,10 +17,14 @@ use Illuminate\Http\Request;
 use App\Conversation;
 use App\EProduct;
 use App\Message;
+use App\PriceCategory;
+use App\PriceProduct;
+use App\PriceTable;
 use App\Subscribe;
 use App\Product;
 use App\ProductCategory;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Kreait\Firebase;
 use Kreait\Firebase\Factory;
@@ -58,36 +62,78 @@ class HomeController extends Controller
 
         $brands = Brand::orderBy('name', 'ASC')->get();
         $cities = DB::table('users')
-        ->join('cities','cities.id','users.city_id')
-            ->select('cities.id','cities.name')
+            ->join('cities', 'cities.id', 'users.city_id')
+            ->select('cities.id', 'cities.name')
             ->where('users.user_type', '!=', 1)
             ->where('users.user_type', '!=', 2)
             ->where('users.status', '=', 1)
-            ->groupBy('users.city_id','cities.id','cities.name')
+            ->groupBy('users.city_id', 'cities.id', 'cities.name')
             ->get();
-            $industries = DB::table('users')
-            ->join('industries','industries.id','users.industry_id')
-                ->select('industries.id','industries.name')
-                ->where('users.user_type', '!=', 1)
-                ->where('users.user_type', '!=', 2)
-                ->where('users.status', '=', 1)
-                ->groupBy('users.industry_id','industries.id','industries.name')
-                ->get();
+        $industries = DB::table('users')
+            ->join('industries', 'industries.id', 'users.industry_id')
+            ->select('industries.id', 'industries.name')
+            ->where('users.user_type', '!=', 1)
+            ->where('users.user_type', '!=', 2)
+            ->where('users.status', '=', 1)
+            ->groupBy('users.industry_id', 'industries.id', 'industries.name')
+            ->get();
         // $cities = City::orderBy('name', 'ASC')->get();
         // $industries = Industry::orderBy('name', 'ASC')->get();
         $category = Category::orderBy('name', 'ASC')->get();
         $reviews = ClientReview::all();
         $e_product = EProduct::orderBy('name', 'ASC')->get();
-        $comment = Comment::orderBy('created_at','DESC')->where('status',0)->get();
+        $comment = Comment::orderBy('created_at', 'DESC')->where('status', 0)->get();
         $category = ProductCategory::orderBy('name', 'ASC')->get();
         $constructorVideos = ConstructionVideo::orderBy('order_by', 'ASC')->take(3)->get();
-        return view('Frontend.home', compact('users', 'new', 'brands', 'constructorVideos', 'cities', 'category', 'industries', 'reviews', 'e_product','category','comment'));
+        $price_category = PriceCategory::orderBy('created_at', 'ASC')->get();
+        return view('Frontend.home', compact(
+            'users',
+            'new',
+            'brands',
+            'constructorVideos',
+            'cities',
+            'category',
+            'industries',
+            'reviews',
+            'e_product',
+            'category',
+            'comment',
+            'price_category'
+        ));
     }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function PriceTable($category_id)
+    {
+        $product = PriceProduct::where('category_id',$category_id)->get();
+        $category = PriceCategory::find($category_id);
+        $city = PriceTable::select('city_id')->where('category_id',$category_id)->groupBy('city_id')->get();
+        $priceTable=[];
+        $products=[];
+        foreach ($product as $key => $item) {
+            $products[]=[
+                "name"=>$item->name
+            ];
+
+        }
+        foreach ($city as $key => $item) {
+            $city_name= City::find($item->city_id);
+            $priceTable[]=[
+                "name"=>$city_name->name,
+                "price"=>PriceTable::where('category_id',$category_id)->where('city_id',$item->city_id)->get()
+            ];
+        }
+        $data=[
+            "date"=>Carbon::now()->format('d M Y'),
+            "category"=>$category,
+            "products"=>$products,
+            "priceTable"=>$priceTable
+        ];
+        return response()->json($data);
+    }
     public function Cart(Request $request)
     {
         $check = Cart::where('user_id', Auth()->user()->id)->where('product_id', $request->product_id)->first();
@@ -201,14 +247,14 @@ class HomeController extends Controller
         //         $users->where('city_id', $request->city);
         //     }
         // }
-    // }else{
+        // }else{
         if ($request->industry != 'all') {
             $users->where('industry_id', $request->industry);
         }
         if ($request->city != 'all') {
             $users->where('city_id', $request->city);
         }
-    // }
+        // }
         //  dd($users);
 
 

@@ -438,6 +438,28 @@
                                 <span>Currier</span>
                             </a>
                         </li>
+                        <li class="header">Price Table</li>
+                        <li class="{{ $segment1 == 'price-category' ? 'active' : '' }}">
+                            <a href="{{ url('price-category') }}">
+
+                                <i class="material-icons">iso</i>
+                                <span>Price Category</span>
+                            </a>
+                        </li>
+                        <li class="{{ $segment1 == 'price-product' ? 'active' : '' }}">
+                            <a href="{{ url('price-product') }}">
+
+                                <i class="material-icons">iso</i>
+                                <span>Price Products</span>
+                            </a>
+                        </li>
+                        <li class="{{ $segment1 == 'price-table' ? 'active' : '' }}">
+                            <a href="{{ url('price-table') }}">
+
+                                <i class="material-icons">iso</i>
+                                <span>Price Table</span>
+                            </a>
+                        </li>
                     @endif
                 </ul>
                 </li>

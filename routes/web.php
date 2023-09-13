@@ -330,6 +330,42 @@ Route::group(['prefix' => 'term'], function() {
 //            Route::get('delete','IndustryController@destroy')->name('industryDelete');
         });
     });
+
+    Route::group(['prefix' => 'price-category'], function() {
+        Route::get('/','PriceCategoryController@index')->name('price-category');
+        Route::get('/create','PriceCategoryController@create')->name('price-category-create');
+        Route::post('/store','PriceCategoryController@store')->name('price-category-store');
+
+        Route::group(['prefix' => '{category}'], function (){
+            Route::get('edit','PriceCategoryController@edit')->name('price-category-edit');
+            Route::post('update','PriceCategoryController@update')->name('price-category-update');
+//            Route::get('delete','PriceCategoryController@destroy')->name('price-category-delete');
+        });
+    });
+
+    Route::group(['prefix' => 'price-product'], function() {
+        Route::get('/','PriceProductController@index')->name('price-product');
+        Route::get('/create','PriceProductController@create')->name('price-product-create');
+        Route::post('/store','PriceProductController@store')->name('price-product-store');
+
+        Route::group(['prefix' => '{product}'], function (){
+            Route::get('edit','PriceProductController@edit')->name('price-product-edit');
+            Route::post('update','PriceProductController@update')->name('price-product-update');
+//            Route::get('delete','PriceProductController@destroy')->name('price-product-delete');
+        });
+    });
+
+    Route::group(['prefix' => 'price-table'], function() {
+        Route::get('/','PriceTableController@index')->name('price-table');
+        Route::get('/create','PriceTableController@create')->name('price-table-create');
+        Route::post('/store','PriceTableController@store')->name('price-table-store');
+
+        Route::group(['prefix' => '{table}'], function (){
+            Route::get('edit','PriceTableController@edit')->name('price-table-edit');
+            Route::post('update','PriceTableController@update')->name('price-table-update');
+//            Route::get('delete','PriceTableController@destroy')->name('price-table-delete');
+        });
+    });
     
         Route::get('checkphone/','TransactionTypeController@index');
 
@@ -595,6 +631,7 @@ Route::get('user/chat/{id}','Frontend\HomeController@userchatView')->name('user.
 Route::post('submit-chat','Frontend\HomeController@submitChat')->name('submit-chat');
 Route::group(['namespace' => 'Frontend'], function () {
     Route::get('/fhome','HomeController@index')->name('frontendHome');
+    Route::get('/price-table/{id}','HomeController@PriceTable')->name('frontendTable');
     Route::get('/fuser','HomeController@allUser')->name('frontendUser');
     Route::get('/user-search','HomeController@userSearch')->name('frontendUserSearch');
     Route::get('/fbrand','BrandController@showBrand')->name('frontendBrand');
