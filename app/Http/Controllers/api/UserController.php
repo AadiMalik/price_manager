@@ -20,8 +20,13 @@ use App\ContactUs;
 use App\Review;
 use App\UserPhone;
 use App\ClientReview;
+use App\Comment;
 use App\EProduct;
 use App\EProductImage;
+use App\PriceCategory;
+use App\PriceProduct;
+use App\PriceTable;
+use Carbon\Carbon;
 use Storage;
 use File;
 use DB;
@@ -929,5 +934,64 @@ class UserController extends Controller
                 "images"=>$product_image
             ];
         return response()->json(['data' => $product, 'message' => null, 'success' => true, 'status' => 200], 200);
+    }
+    public function CommentSave(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+                "product_id"    => 'required',
+                "rate" => 'required',
+                "description" => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                $errors = "";
+
+                foreach ($validator->errors()->all() as $message) {
+                    $errors .= $message;
+                }
+
+                return response()->json(['data' => [], 'message' => $errors, 'success' => false, 'status' => 402], 200);
+            }
+
+        $comment = new Comment;
+        $comment->product_id = $request->product_id;
+        $comment->user_id = Auth()->user()->id;
+        $comment->rate = $request->rate;
+        $comment->description = $request->description;
+        $comment->status = 0;
+        $comment->save();
+        return response()->json(['data' => [], 'message' => 'Comment Saved!', 'success' => true, 'status' => 200], 200);
+    }
+    public function priceCategory(){
+        $price_category = PriceCategory::orderBy('created_at', 'ASC')->get();
+        return response()->json(['data' => $price_category, 'message' => null, 'success' => true, 'status' => 200], 200);
+    }
+    public function PriceTable($category_id)
+    {
+        $product = PriceProduct::where('category_id',$category_id)->get();
+        $category = PriceCategory::find($category_id);
+        $city = PriceTable::select('city_id')->where('category_id',$category_id)->groupBy('city_id')->get();
+        $priceTable=[];
+        $products=[];
+        foreach ($product as $key => $item) {
+            $products[]=[
+                "name"=>$item->name
+            ];
+
+        }
+        foreach ($city as $key => $item) {
+            $city_name= City::find($item->city_id);
+            $priceTable[]=[
+                "name"=>$city_name->name,
+                "price"=>PriceTable::where('category_id',$category_id)->where('city_id',$item->city_id)->get()
+            ];
+        }
+        $data=[
+            "date"=>Carbon::now()->format('d M Y'),
+            "category"=>$category,
+            "products"=>$products,
+            "priceTable"=>$priceTable
+        ];
+        return response()->json(['data' => $data, 'message' => null, 'success' => true, 'status' => 200], 200);
     }
 }

@@ -56,6 +56,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     
     Route::post('products', [App\Http\Controllers\api\UserController::class, 'products']);
     Route::post('product-detail', [App\Http\Controllers\api\UserController::class, 'product_detail']);
+    Route::post('comment-save', [App\Http\Controllers\api\UserController::class, 'CommentSave']);
+
+    // Price Table
+    Route::post('price-table-category', [App\Http\Controllers\api\UserController::class, 'priceCategory']);
+    Route::post('price-table/{category_id}', [App\Http\Controllers\api\UserController::class, 'PriceTable']);
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
