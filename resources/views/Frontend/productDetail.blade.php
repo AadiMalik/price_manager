@@ -38,26 +38,32 @@
             background: #da5c22;
             color: #fff;
         }
+
         .social-btn-sp #social-links {
             margin: 0 auto;
             max-width: 500px;
         }
+
         .social-btn-sp #social-links ul li {
             display: inline-block;
-        }          
+        }
+
         #social-links ul li a {
             padding: 15px;
             border: 2px solid #da5c22;
             margin: 1px;
             font-size: 30px;
         }
-        #social-links{
+
+        #social-links {
             display: inline-table;
         }
-        #social-links ul li{
+
+        #social-links ul li {
             display: inline;
         }
-        #social-links ul li a{
+
+        #social-links ul li a {
             padding: 10px;
             border: 1px solid #ccc;
             margin: 1px;
@@ -102,66 +108,67 @@
 
 
     <!-- Top Feature Start-->
-    @if($user->verify==1)
-    <div class="feature-top">
-        <div class="container-fluid">
-            <div class="row" style="height:100%;">
-                <div class="col-md-2 col-sm-6">
-                    <div class="feature-item" style="padding:0px;">
-                        <img src="{{ asset('asset/img/legel.png') }}" style="width: 70px; height: 70px;border-radius: 50%;">
-                        <!--<i class="far fa-check-circle"></i>-->
-                        <h3 style="font-size:20px;">Legal</h3>
-                        <p style="font-size:16px;">Approved</p>
+    @if ($user->verify == 1)
+        <div class="feature-top">
+            <div class="container-fluid">
+                <div class="row" style="height:100%;">
+                    <div class="col-md-2 col-sm-6">
+                        <div class="feature-item" style="padding:0px;">
+                            <img src="{{ asset('asset/img/legel.png') }}"
+                                style="width: 70px; height: 70px;border-radius: 50%;">
+                            <!--<i class="far fa-check-circle"></i>-->
+                            <h3 style="font-size:20px;">Legal</h3>
+                            <p style="font-size:16px;">Approved</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="feature-item" style="padding:0px;">
-                        <img src="{{ asset('asset/img/reliability.png') }}"
-                            style="width: 70px; height: 70px;border-radius: 50%;">
-                        <!--<i class="fa fa-user-tie"></i>-->
-                        <h3 style="font-size:20px;">Reliability</h3>
-                        <p style="font-size:16px;">99.99%</p>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="feature-item" style="padding:0px;">
+                            <img src="{{ asset('asset/img/reliability.png') }}"
+                                style="width: 70px; height: 70px;border-radius: 50%;">
+                            <!--<i class="fa fa-user-tie"></i>-->
+                            <h3 style="font-size:20px;">Reliability</h3>
+                            <p style="font-size:16px;">99.99%</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="feature-item" style="padding:0px;">
-                        <img src="{{ asset('asset/img/accessibility.png') }}"
-                            style="width: 70px; height: 70px;border-radius: 50%;">
-                        <!--<i class="far fa-thumbs-up"></i>-->
-                        <h3 style="font-size:20px;">Accessibility</h3>
-                        <p style="font-size:16px;">100% Easy</p>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="feature-item" style="padding:0px;">
+                            <img src="{{ asset('asset/img/accessibility.png') }}"
+                                style="width: 70px; height: 70px;border-radius: 50%;">
+                            <!--<i class="far fa-thumbs-up"></i>-->
+                            <h3 style="font-size:20px;">Accessibility</h3>
+                            <p style="font-size:16px;">100% Easy</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="feature-item" style="padding:0px;">
-                        <img src="{{ asset('asset/img/support.png') }}"
-                            style="width: 70px; height: 70px;border-radius: 50%;">
-                        <!--<i class="fa fa-handshake"></i>-->
-                        <h3 style="font-size:20px;">Support</h3>
-                        <p style="font-size:16px;">24/7</p>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="feature-item" style="padding:0px;">
+                            <img src="{{ asset('asset/img/support.png') }}"
+                                style="width: 70px; height: 70px;border-radius: 50%;">
+                            <!--<i class="fa fa-handshake"></i>-->
+                            <h3 style="font-size:20px;">Support</h3>
+                            <p style="font-size:16px;">24/7</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="feature-item" style="padding:0px;">
-                        <img src="{{ asset('asset/img/honesty.png') }}"
-                            style="width: 70px; height: 70px;border-radius: 50%;">
-                        <!--<i class="fa fa-leaf"></i>-->
-                        <h3 style="font-size:20px;">Honesty</h3>
-                        <p style="font-size:16px;">100% </p>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="feature-item" style="padding:0px;">
+                            <img src="{{ asset('asset/img/honesty.png') }}"
+                                style="width: 70px; height: 70px;border-radius: 50%;">
+                            <!--<i class="fa fa-leaf"></i>-->
+                            <h3 style="font-size:20px;">Honesty</h3>
+                            <p style="font-size:16px;">100% </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="feature-item" style="padding:0px;">
-                        <img src="{{ asset('asset/img/quality.png') }}"
-                            style="width: 70px; height: 70px;border-radius: 50%;">
-                        <!--<i class="fa fa-heartbeat"></i>-->
-                        <h3 style="font-size:20px;">Quality</h3>
-                        <p style="font-size:16px;">On your demand</p>
+                    <div class="col-md-2 col-sm-6">
+                        <div class="feature-item" style="padding:0px;">
+                            <img src="{{ asset('asset/img/quality.png') }}"
+                                style="width: 70px; height: 70px;border-radius: 50%;">
+                            <!--<i class="fa fa-heartbeat"></i>-->
+                            <h3 style="font-size:20px;">Quality</h3>
+                            <p style="font-size:16px;">On your demand</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
     <!-- Top Feature End-->
 
@@ -205,20 +212,21 @@
                                                     style="font-size: 12px; color: #fff; height: 30px; line-height: 10px;">Show</button>
                                             @else
                                             &nbsp;&nbsp;&nbsp;&nbsp;Login First then Show @endauth
-                                    </span>
+                                        </span>
 
                                     </td>
                                 <tr>
                                     <td style="width: 160px;"><b>Member Status:</b></td>
                                     <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->userPackage->name ?? '' }}</span></td>
                                 </tr>
-                                @if(isset($user->open))
-                                <tr>
-                                    <td style="width: 160px;"><b>Working Schedule:</b></td>
-                                    <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->open }} - {{ $user->close }} &nbsp;&nbsp; {{ $user->holiday }} &nbsp;Closed</span></td>
-                                </tr>
+                                @if (isset($user->open))
+                                    <tr>
+                                        <td style="width: 160px;"><b>Working Schedule:</b></td>
+                                        <td>&nbsp;&nbsp;&nbsp;<span> {{ $user->open }} - {{ $user->close }}
+                                                &nbsp;&nbsp; {{ $user->holiday }} &nbsp;Closed</span></td>
+                                    </tr>
                                 @endif
-                                
+
                                 <tr colspan="2">
                                     <td>
                                         <br>
@@ -431,13 +439,13 @@
                             </table>
                         </div>
                     </div>
-                    @if($user->verify == 1 ||  $user->f_expiry >= Carbon::now()->format('Y-m-d'))
-                    <div class="row">
-                        <div class="col-md-12 text-center mt-34 mt-sm-34">
-                            <h4>share this post:</h4>
-                            {!!$socialShare!!}
+                    @if ($user->verify == 1 || $user->f_expiry >= Carbon::now()->format('Y-m-d'))
+                        <div class="row">
+                            <div class="col-md-12 text-center mt-34 mt-sm-34">
+                                <h4>share this post:</h4>
+                                {!! $socialShare !!}
+                            </div>
                         </div>
-                    </div>
                     @endif
                 </div>
             </div>
@@ -810,29 +818,27 @@
                     <hr />
                     @if ($reviews->count() != null)
                         @foreach ($reviews as $review)
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="media">
-                                        @if ($review->reviewUser->image_url != null)
-                                            <img class="mr-3" src="{{ asset($review->reviewUser->image_url) }}"
-                                                style="width:70px; height:70px;" alt="Generic placeholder image">
-                                        @else
-                                            <i class="fa fa-user" style="font-size:20px; margin-right:15px;"></i>
-                                        @endif
-                                        <div class="media-body">
-                                            <h5 class="mt-0">{{ $review->reviewUser->name }} <span
-                                                    style="font-size:14px; float:right;">{{ date('d-M-y', strtotime($review->created_at)) }}</span>
-                                            </h5>
-                                            @if ($review->message != null)
-                                                {{ $review->message }}
+                            @if ($review->message != null)
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="media">
+                                            @if ($review->reviewUser->image_url != null)
+                                                <img class="mr-3" src="{{ asset($review->reviewUser->image_url) }}"
+                                                    style="width:70px; height:70px;" alt="Generic placeholder image">
                                             @else
-                                                <span style="color:red;">No Message</span>
+                                                <i class="fa fa-user" style="font-size:20px; margin-right:15px;"></i>
                                             @endif
+                                            <div class="media-body">
+                                                <h5 class="mt-0">{{ $review->reviewUser->name }} <span
+                                                        style="font-size:14px; float:right;">{{ date('d-M-y', strtotime($review->created_at)) }}</span>
+                                                </h5>
+                                                {{ $review->message }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr />
+                                <hr />
+                            @endif
                         @endforeach
                         <div class="container">
                             <div class="row justify-content-center">
@@ -877,10 +883,10 @@
                                                 <a href="{{ route('frontendUserPackageDetail', $user) }}">
                                                     <div class="service-item">
                                                         <div class="service-icon item">
-                                                            @if($user->verify==1)
-                                                            <span class="notify-badge"
-                                                                style="color:#fff; text-transform:capitalize;">Verified</span>
-                                                                @endif
+                                                            @if ($user->verify == 1)
+                                                                <span class="notify-badge"
+                                                                    style="color:#fff; text-transform:capitalize;">Verified</span>
+                                                            @endif
                                                             <img
                                                                 src="{{ $user->image_url ? asset($user->image_url) : asset('asset/img/portfolio-1.jpg') }}" />
                                                         </div>

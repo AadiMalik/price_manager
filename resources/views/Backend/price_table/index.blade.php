@@ -31,7 +31,8 @@
                                         <th>City Name</th>
                                         <th>Category</th>
                                         <th>Product Name</th>
-                                        <th>Price</th>
+                                        <th>Min Price</th>
+                                        <th>Max Price</th>
                                         {{-- <th>Action</th> --}}
                                     </tr>
                                     </thead>
@@ -44,6 +45,7 @@
                                         <td>{{$item->category_name->name??''}}</td>
                                         <td>{{$item->product_name->name??''}}</td>
                                         <td>{{$item->price??''}}</td>
+                                        <td>{{$item->max_price??''}}</td>
                                         {{-- <td>
                                             <a href="{{route('price-table-edit',$item->id)}}" class="btn btn-warning" style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span class="fa fa-edit"> Edit</span></a>
                                            

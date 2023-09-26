@@ -536,10 +536,10 @@
                                         <ul class="spe_ul"></ul>
                                         <div class="_p-qty-and-cart">
                                             <div class="_p-add-cart">
-                                                <button type="submit" name="add" value="buy"
+                                                {{-- <button type="submit" name="add" value="buy"
                                                     class="btn-theme btn buy-btn" tabindex="0">
                                                     <i class="fa fa-shopping-cart"></i> Buy Now
-                                                </button>
+                                                </button> --}}
                                                 <button type="submit" name="add" value="add"
                                                     class="btn-theme btn btn-success" tabindex="0">
                                                     <i class="fa fa-shopping-cart"></i> Add to Cart

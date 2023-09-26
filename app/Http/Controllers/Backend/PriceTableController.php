@@ -67,7 +67,8 @@ class PriceTableController extends Controller
             'category_id' => 'required',
             'city_id' => 'required',
             'product_id'=>'required',
-            'price'=>'required'
+            'price'=>'required',
+            'max_price'=>'required',
         ]);
         if ($validator->fails()) {
             return back()->withInput()->withErrors($validator);
@@ -77,6 +78,7 @@ class PriceTableController extends Controller
                 $priceTable = new PriceTable;
                 $priceTable->product_id = $item;
                 $priceTable->price = $request->price[$index];
+                $priceTable->max_price = $request->max_price[$index];
                 $priceTable->category_id = $request->category_id;
                 $priceTable->city_id = $request->city_id;
                 $priceTable->user_id = Auth()->user()->id;

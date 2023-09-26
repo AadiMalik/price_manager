@@ -52,7 +52,7 @@
                                     </div>
                                     @if (isset($products))
                                         @foreach ($products as $item)
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
                                                         <input type="hidden" value="{{ $item['id'] ?? 0 }}"
@@ -64,14 +64,25 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group form-float">
                                                     <div class="form-line">
-                                                        <input type="text" value="{{$item['price']??old('price')}}" min="0" name="price[]"
+                                                        <input type="number" min="0" value="{{$item['price']??old('price')}}" name="price[]"
                                                             class="form-control">
-                                                        <label class="form-label">Price <span
+                                                        <label class="form-label">Min Price <span
                                                                 class="text text-danger">*</span></label>
                                                         <span class="text-danger">{{ $errors->first('price') }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group form-float">
+                                                    <div class="form-line">
+                                                        <input type="number" min="0" value="{{$item['max_price']??old('max_price')}}" name="max_price[]"
+                                                            class="form-control">
+                                                        <label class="form-label">Max Price <span
+                                                                class="text text-danger">*</span></label>
+                                                        <span class="text-danger">{{ $errors->first('max_price') }}</span>
                                                     </div>
                                                 </div>
                                             </div>

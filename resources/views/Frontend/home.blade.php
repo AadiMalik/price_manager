@@ -5,6 +5,11 @@
 @extends('layouts.frontend')
 @section('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    <style>
+        .active {
+            pointer-events: none;
+        }
+    </style>
 @endsection
 @section('content')
     <!-- Carousel Start -->
@@ -58,12 +63,11 @@
                     @endforeach
                 </div>
                 <div class="row mt-3">
-                    
+
                     <div class="col-md-12" id="price-result">
 
                     </div>
                 </div>
-                <hr>
             </div>
         </div>
     </div>
@@ -1431,11 +1435,13 @@
         $(document).ready(function() {
 
             $('.js-example-basic-single').select2();
-            new DataTable('#data-table');
+            categoryBricks();
 
         });
         $("body").on("click", "#price-category", function() {
             var category_id = $(this).data("id");
+            $(".mt-2 a").removeClass("active");
+            $(this).addClass("active");
             var column_len = 0;
             $("#price-result").empty();
             $.ajaxSetup({
@@ -1449,10 +1455,15 @@
                 dataType: 'json',
                 success: function(result) {
                     var table = '';
-                    table +='<div style="margin-bottom: 80px;">';
-                        table +='<div style="border:2px solid #da5c22;float:left; padding:10px; border-radius: 10px;"><b style="font-size:20px; color:#da5c22;">'+result.category.name+'</b><br>Rate per QTY:<b>'+result.category.qty+'</b></div>';
-                        table +='<div style="border:2px solid #da5c22;float:right; padding:10px; border-radius: 10px;">Updated Date: <b>'+result.date+'</b></div>';
-                        table +='</div>';
+                    table += '<div style="margin-bottom: 80px;">';
+                    table +=
+                        '<div style="border:2px solid #da5c22;float:left; padding:10px; border-radius: 10px;"><b style="font-size:20px; color:#da5c22;">' +
+                        result.category.name + '</b><br>Rate per QTY:<b>' + result.category.qty +
+                        '</b></div>';
+                    table +=
+                        '<div style="border:2px solid #da5c22;float:right; padding:10px; border-radius: 10px;">Updated Date: <b>' +
+                        result.date + '</b></div>';
+                    table += '</div>';
                     // table += '<table class="table table-bordered" style="margin-bottom:0px;" width="100%">';
                     // table += '<thead>';
                     // table += '<tr style="line-height: 10px;">';
@@ -1469,9 +1480,11 @@
                     // table += '</tr style="line-height: 10px;">';
                     // table += '</thead>';
                     // table += '</table>';
-                    table +='<div style="max-height: 300px;overflow: auto;">'
-                    table +='<table class="table  table-striped table-bordered" style="width: 100%;" id="data-table">';
-                    table += '<thead style="background: #da5c22;color: #fff;position: sticky;top: 0px;">';
+                    table += '<div style="max-height: 315px;overflow: auto;">'
+                    table +=
+                        '<table class="table  table-striped table-bordered" style="width: 100%;" id="data-table">';
+                    table +=
+                        '<thead style="background: #da5c22;color: #fff;position: sticky;top: 0px;">';
                     table += '<tr style="line-height: 10px;">';
                     table += '<th>City</th>';
                     $.each(result.products, function(key, value) {
@@ -1489,8 +1502,10 @@
                             table += '</td>';
                             $.each(value.price, function(key, value) {
                                 table += '<td>';
-                                table += '<b>' + value.price + '</b>';
+                                table += '<div style="width:100%;display: inline-flex;">';
+                                table += '<b style="width:45%; padding:3px;">' + value.price + '</b><b style="width:5%; text-align:center;">-</b><b style="width:45%; padding:3px; text-align:right;">' + value.max_price + '</b>';
                                 table += '</td>';
+                            table += '</div>';
                             });
                             table += '</tr>';
                         });
@@ -1510,6 +1525,90 @@
             });
 
         });
+        function categoryBricks(){
+            var category_id = 1;
+            var column_len = 0;
+            $("#price-result").empty();
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+            $.ajax({
+                url: "{{ url('price-table') }}/" + category_id,
+                type: "GET",
+                dataType: 'json',
+                success: function(result) {
+                    var table = '';
+                    table += '<div style="margin-bottom: 80px;">';
+                    table +=
+                        '<div style="border:2px solid #da5c22;float:left; padding:10px; border-radius: 10px;"><b style="font-size:20px; color:#da5c22;">' +
+                        result.category.name + '</b><br>Rate per QTY:<b>' + result.category.qty +
+                        '</b></div>';
+                    table +=
+                        '<div style="border:2px solid #da5c22;float:right; padding:10px; border-radius: 10px;">Updated Date: <b>' +
+                        result.date + '</b></div>';
+                    table += '</div>';
+                    // table += '<table class="table table-bordered" style="margin-bottom:0px;" width="100%">';
+                    // table += '<thead>';
+                    // table += '<tr style="line-height: 10px;">';
+                    // table += '<th>Category:</th>';
+                    // table += '<th>'+result.category.name+'</th>';
+                    // table += '<th>Update Date:</th>';
+                    // table += '<th>'+result.date+'</th>';
+                    // table += '</tr>';
+                    // table += '<tr style="line-height: 10px;">';
+                    // table += '<th>Rate per QTY:</th>';
+                    // table += '<th>'+result.category.qty+'</th>';
+                    // table += '<th></th>';
+                    // table += '<th></th>';
+                    // table += '</tr style="line-height: 10px;">';
+                    // table += '</thead>';
+                    // table += '</table>';
+                    table += '<div style="max-height: 315px;overflow: auto;">'
+                    table +=
+                        '<table class="table  table-striped table-bordered" style="width: 100%;" id="data-table">';
+                    table +=
+                        '<thead style="background: #da5c22;color: #fff;position: sticky;top: 0px;">';
+                    table += '<tr style="line-height: 10px;">';
+                    table += '<th>City</th>';
+                    $.each(result.products, function(key, value) {
+                        table += '<th>' + value.name + '</th>';
+                        column_len = result.products.length + 1;
+                    });
+                    table += '</tr>';
+                    table += '</thead>';
+                    table += '<tbody>';
+                    if (result.priceTable.length > 0) {
+                        $.each(result.priceTable, function(key, value) {
+                            table += '<tr style="line-height: 10px;">';
+                            table += '<td>';
+                            table += '<b>' + value.name + '</b>';
+                            table += '</td>';
+                            $.each(value.price, function(key, value) {
+                                table += '<td>';
+                                table += '<div style="width:100%;display: inline-flex;">';
+                                table += '<b style="width:45%; padding:3px;">' + value.price + '</b><b style="width:5%; text-align:center;">-</b><b style="width:45%; padding:3px; text-align:right;">' + value.max_price + '</b>';
+                                table += '</td>';
+                            table += '</div>';
+                            });
+                            table += '</tr>';
+                        });
+                    } else {
+                        table += '<tr style="line-height: 10px;">';
+                        table += '<td style="text-align:center;" colspan="' + column_len +
+                            '">Record Not Found!</td>';
+                        table += '</tr>';
+                    }
+
+                    table += '</tbody>';
+                    table += '</table>';
+                    table += '</div>';
+
+                    $("#price-result").append(table);
+                }
+            });
+        }
 
         function SearchUser(e) {
             document.getElementById("users_search").style.display = "block";

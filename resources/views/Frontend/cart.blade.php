@@ -162,6 +162,21 @@
             background-color: #494;
         }
 
+        .shopping {
+            float: left;
+            border: 0;
+            margin-top: 20px;
+            padding: 6px 25px;
+            background-color: #da5c22;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 3px;
+        }
+
+        .shopping:hover {
+            background-color: #da5c22;
+        }
+
         /* Make adjustments for tablet */
         @media screen and (max-width: 650px) {
             .shopping-cart {
@@ -308,6 +323,7 @@
                                         
                                     @endphp
                                 @endforeach
+                                
                                 <div class="totals">
                                     <div class="totals-item">
                                         <label>Subtotal</label>
@@ -336,8 +352,8 @@
                                             </div>
                                     </div>
                                 </div>
-
                                 <button class="checkout" type="submit">Checkout</button>
+                                <a href="{{url('products')}}" class="shopping">Continue Shopping</a>
                             </div>
                         </div>
                     </div>
