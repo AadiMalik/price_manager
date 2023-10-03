@@ -359,11 +359,12 @@ Route::group(['prefix' => 'term'], function() {
         Route::get('/','PriceTableController@index')->name('price-table');
         Route::get('/create','PriceTableController@create')->name('price-table-create');
         Route::post('/store','PriceTableController@store')->name('price-table-store');
+        Route::get('delete','PriceTableController@delete')->name('price-table-delete');
+        Route::post('confirm-delete','PriceTableController@confirm_delete')->name('confirm-price-table-delete');
 
         Route::group(['prefix' => '{table}'], function (){
             Route::get('edit','PriceTableController@edit')->name('price-table-edit');
             Route::post('update','PriceTableController@update')->name('price-table-update');
-//            Route::get('delete','PriceTableController@destroy')->name('price-table-delete');
         });
     });
     

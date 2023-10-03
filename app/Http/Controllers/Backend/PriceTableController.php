@@ -95,20 +95,44 @@ class PriceTableController extends Controller
      * @param  \App\PriceTable  $priceTable
      * @return \Illuminate\Http\Response
      */
-    public function show(PriceTable $priceTable)
+    public function delete()
     {
-        //
+        $city = City::orderBy('name','ASC')->get();
+        $category = PriceCategory::orderBy('name', 'ASC')->get();
+        return view('Backend.price_table.delete',compact('city','category'));
     }
 
+    public function confirm_delete(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(), [
+            'city_id'=>'required',
+            'category_id'=>'required',
+        ]);
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        } else {
+            $priceTable = PriceTable::where('city_id',$request->city_id)->where('category_id',$request->category_id)->count();
+            if($priceTable>0){
+
+                PriceTable::where('city_id',$request->city_id)->where('category_id',$request->category_id)->delete();
+
+            return redirect()->route('price-table')->with('success', 'Price Table delete successfully');
+            }else{
+                return redirect()->back()->with('error', 'Data Not Found!'); 
+            }
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\PriceTable  $priceTable
      * @return \Illuminate\Http\Response
      */
-    public function edit(PriceTable $priceTable)
+    public function edit($id)
     {
-        //
+        $price_table = PriceTable::with(['city_name','product_name','category_name'])->find($id);
+        return view('Backend.price_table.edit',compact('price_table'));
     }
 
     /**
@@ -118,9 +142,24 @@ class PriceTableController extends Controller
      * @param  \App\PriceTable  $priceTable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PriceTable $priceTable)
+    public function update(Request $request, $id)
     {
-        //
+        
+        $validator = Validator::make($request->all(), [
+            'price'=>'required',
+            'max_price'=>'required',
+        ]);
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        } else {
+            
+                $priceTable = PriceTable::find($id);
+                $priceTable->price = $request->price;
+                $priceTable->max_price = $request->max_price;
+                $priceTable->update();
+
+            return redirect()->route('price-table')->with('success', 'Price Table update successfully');
+        }
     }
 
     /**

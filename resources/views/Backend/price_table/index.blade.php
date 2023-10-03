@@ -20,6 +20,7 @@
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <a href="{{route('price-table-create')}}" class="btn btn-primary fa fa-plus"> Add Product</a>
+                                 <a href="{{route('price-table-delete')}}" class="btn btn-danger fa fa-trash"> Delete</a>
                             </ul>
                         </div>
                         <div class="body">
@@ -33,7 +34,7 @@
                                         <th>Product Name</th>
                                         <th>Min Price</th>
                                         <th>Max Price</th>
-                                        {{-- <th>Action</th> --}}
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -46,10 +47,10 @@
                                         <td>{{$item->product_name->name??''}}</td>
                                         <td>{{$item->price??''}}</td>
                                         <td>{{$item->max_price??''}}</td>
-                                        {{-- <td>
+                                        <td>
                                             <a href="{{route('price-table-edit',$item->id)}}" class="btn btn-warning" style="font-weight:bold; width:75px; margin-right:5px; margin-bottom:5px;"><span class="fa fa-edit"> Edit</span></a>
                                            
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                     @endforeach
                                     </tbody>
